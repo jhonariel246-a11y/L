@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Insight Restaurantes — POS, WhatsApp e inventario para restaurantes y cafeterías</title>
+  <meta name="description" content="Sistema de facturación completo e integrado para restaurantes y cafeterías: pedidos en mesa, órdenes por WhatsApp automáticas, inventario y facturación SRI. Prueba el demo en vivo." />
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="stylesheet" href="assets/restaurant.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2317b890'/><text x='50' y='74' font-size='58' text-anchor='middle'>🍽️</text></svg>" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="brand"><span class="brand-mark">i</span> Insight <span style="font-weight:600; color:var(--ink-400); font-size:.9rem;">· Restaurantes</span></a>
+      <button class="nav-toggle" aria-label="Menú" onclick="document.getElementById('navlinks').classList.toggle('open')">☰</button>
+      <nav class="nav-links" id="navlinks">
+        <a href="index.html">← Ecosistema</a>
+        <a href="#funciones">Funciones</a>
+        <a href="#demo">Demo en vivo</a>
+        <a href="#precios">Precios</a>
+        <a href="#demo" class="btn btn-accent btn-sm nav-cta">Probar ahora</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero hero-rest">
+    <div class="container hero-inner">
+      <div>
+        <span class="eyebrow">Nuevo en el ecosistema Insight</span>
+        <h1>El sistema completo para tu restaurante o cafetería.</h1>
+        <p class="lead">Toma pedidos en la mesa, recibe órdenes para llevar por WhatsApp con respuesta automática, controla tu inventario y factura al SRI. Todo cae en la computadora del local, en tiempo real.</p>
+        <div class="cta-row">
+          <a href="#demo" class="btn btn-accent btn-lg">▶ Probar el demo en vivo</a>
+          <a href="#precios" class="btn btn-ghost btn-lg">Ver planes</a>
+        </div>
+        <div class="trust">
+          <div><b>Mesa</b> Toma de pedidos táctil</div>
+          <div><b>WhatsApp</b> Bot que atiende solo</div>
+          <div><b>SRI</b> Facturación con IVA 15%</div>
+        </div>
+      </div>
+      <div class="hero-art">
+        <div class="money-card">
+          <h4>Todo en la compu del local</h4>
+          <div class="flow">
+            <div class="flow-item"><div class="flow-ico">🍽️</div><div><b>Mesa 4</b><span>2 platos en cocina</span></div><div class="flow-amt">$23.00</div></div>
+            <div class="flow-item" style="border:1px solid rgba(37,211,102,.4)"><div class="flow-ico">💬</div><div><b>WhatsApp</b><span>Pedido para llevar confirmado</span></div><div class="flow-amt">$14.50</div></div>
+            <div class="flow-item"><div class="flow-ico">📦</div><div><b>Inventario</b><span>Pollo bajo stock</span></div><div class="flow-amt" style="color:var(--warn-500)">4 u.</div></div>
+            <div class="flow-item"><div class="flow-ico">🧾</div><div><b>Factura SRI</b><span>#001-000142 emitida</span></div><div class="flow-amt">$31.05</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FUNCIONES -->
+  <section id="funciones">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Todo integrado, un solo sistema</span>
+        <h2>Lo que hace por tu local</h2>
+        <p>Desde que el cliente pide hasta que emites la factura y descuentas el inventario. Sin cuadernos, sin Excel, sin perder pedidos.</p>
+      </div>
+      <div class="feat-grid">
+        <div class="feat reveal"><div class="ico ico-orange">🍽️</div><h4>Pedidos en mesa</h4><p>El mesero toma la orden desde una tablet o el celular. Va directo a cocina y se suma a la cuenta de la mesa.</p></div>
+        <div class="feat reveal"><div class="ico ico-green">💬</div><h4>Órdenes por WhatsApp</h4><p>Un bot atiende el WhatsApp del local: saluda, envía el menú, toma el pedido y lo deja listo en tu computadora.</p></div>
+        <div class="feat reveal"><div class="ico ico-blue">📦</div><h4>Inventario en vivo</h4><p>Cada plato vendido descuenta ingredientes. Te avisa cuando algo está por agotarse antes de quedar mal con el cliente.</p></div>
+        <div class="feat reveal"><div class="ico ico-purple">🧾</div><h4>Facturación SRI</h4><p>Emite factura con IVA 15%, a consumidor final o con RUC/cédula. Comprobantes listos para el SRI.</p></div>
+        <div class="feat reveal"><div class="ico ico-orange">📊</div><h4>Reportes del día</h4><p>Ventas por mesa, por WhatsApp, platos más pedidos y total del día. Sabes cómo va el negocio sin sacar cuentas.</p></div>
+        <div class="feat reveal"><div class="ico ico-green">💳</div><h4>Cobro integrado</h4><p>Usa el mismo motor de pagos de Insight. Cobra en efectivo, tarjeta o transferencia y concilia automático.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMO -->
+  <section id="demo" class="bg-soft">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Demo funcional · corre en tu navegador</span>
+        <h2>Pruébalo tú mismo, ahora</h2>
+        <p>Es una demostración real: toma un pedido en una mesa, simula una orden entrante por WhatsApp, revisa el inventario y emite una factura. Los datos se guardan en tu navegador.</p>
+      </div>
+
+      <div class="app" id="app">
+        <div class="app-bar">
+          <div class="brand-mini"><span class="brand-mark">i</span> POS Restaurante</div>
+          <div class="store"><span class="live"><span class="blink"></span> EN VIVO</span> · Cafetería La Esquina · Guayaquil</div>
+        </div>
+
+        <div class="tabs" id="tabs">
+          <button class="tab active" data-tab="mesas">🍽️ Mesas</button>
+          <button class="tab" data-tab="whatsapp">💬 WhatsApp <span class="badge" id="waBadge" style="display:none">0</span></button>
+          <button class="tab" data-tab="inventario">📦 Inventario</button>
+          <button class="tab" data-tab="facturacion">🧾 Facturación</button>
+          <button class="tab" data-tab="reportes">📊 Reportes</button>
+        </div>
+
+        <!-- MESAS -->
+        <div class="panel active" data-panel="mesas">
+          <div class="panel-head">
+            <h3 id="mesasTitle">Mesas del local</h3>
+            <div class="spacer"></div>
+            <button class="btn btn-outline btn-sm" id="btnResetDemo">↺ Reiniciar demo</button>
+          </div>
+          <div id="tablesView">
+            <div class="tables-grid" id="tablesGrid"></div>
+          </div>
+          <div id="orderView" style="display:none;">
+            <div class="panel-head">
+              <button class="btn btn-outline btn-sm" id="btnBackTables">← Mesas</button>
+              <h3 id="orderTitle" style="margin-left:6px;">Mesa 1</h3>
+            </div>
+            <div class="order-layout">
+              <div>
+                <div class="menu-cats" id="menuCats"></div>
+                <div class="menu-items" id="menuItems"></div>
+              </div>
+              <div class="ticket">
+                <h4 id="ticketTitle">Cuenta</h4>
+                <div class="ticket-sub" id="ticketSub">Toca un plato para agregarlo</div>
+                <div class="ticket-lines" id="ticketLines"></div>
+                <div class="ticket-totals">
+                  <div class="row"><span>Subtotal</span><span id="tSub">$0.00</span></div>
+                  <div class="row"><span>IVA 15%</span><span id="tIva">$0.00</span></div>
+                  <div class="row grand"><span>Total</span><span id="tTotal">$0.00</span></div>
+                </div>
+                <div class="ticket-actions">
+                  <button class="btn btn-outline" id="btnKitchen">👨‍🍳 A cocina</button>
+                  <button class="btn btn-accent" id="btnBill">🧾 Cobrar y facturar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WHATSAPP -->
+        <div class="panel" data-panel="whatsapp">
+          <div class="panel-head">
+            <h3>Pedidos por WhatsApp</h3>
+            <div class="spacer"></div>
+            <button class="btn btn-accent btn-sm" id="btnSimWa">▶ Simular cliente entrante</button>
+          </div>
+          <div class="wa-layout">
+            <div>
+              <div class="phone">
+                <div class="wa-top">
+                  <div class="av">🍽️</div>
+                  <div><b>Cafetería La Esquina</b><span id="waStatus">en línea · bot activo</span></div>
+                </div>
+                <div class="wa-body" id="waBody"></div>
+              </div>
+            </div>
+            <div class="wa-side">
+              <h4>Órdenes que llegan al local</h4>
+              <p class="muted" style="font-size:.9rem; margin-top:-4px;">Cada pedido confirmado por el bot aparece aquí y se convierte en una mesa "Para llevar".</p>
+              <div class="wa-queue" id="waQueue">
+                <p class="ticket-empty">Aún no hay órdenes. Pulsa "Simular cliente entrante".</p>
+              </div>
+            </div>
+          </div>
+          <div class="note" style="margin-top:22px;">
+            <b>Cómo se conecta de verdad:</b> esta es una simulación del flujo. En producción, el bot se conecta con la <b>API de WhatsApp Business (Cloud API de Meta o Twilio)</b> usando el número verificado del local. Requiere una cuenta de WhatsApp Business y aprobación de las plantillas de mensaje. La lógica de menú, toma de orden y envío a la computadora del local es exactamente la que ves aquí.
+          </div>
+        </div>
+
+        <!-- INVENTARIO -->
+        <div class="panel" data-panel="inventario">
+          <div class="panel-head">
+            <h3>Inventario y menú</h3>
+            <div class="spacer"></div>
+            <button class="btn btn-primary btn-sm" id="btnAddItem">+ Agregar producto</button>
+          </div>
+          <div class="stat-row" id="invStats"></div>
+          <div class="table-wrap">
+            <table class="data">
+              <thead>
+                <tr><th>Producto</th><th>Categoría</th><th class="num">Precio</th><th class="num">Stock</th><th>Ajustar</th></tr>
+              </thead>
+              <tbody id="invBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- FACTURACIÓN -->
+        <div class="panel" data-panel="facturacion">
+          <div class="panel-head">
+            <h3>Facturación</h3>
+            <div class="spacer"></div>
+            <span class="muted" style="font-size:.88rem;">Facturas emitidas: <b id="invCount">0</b></span>
+          </div>
+          <div class="grid-2">
+            <div class="table-wrap">
+              <table class="data">
+                <thead><tr><th>N° Factura</th><th>Origen</th><th>Cliente</th><th class="num">Total</th></tr></thead>
+                <tbody id="billBody"><tr><td colspan="4" class="muted center" style="padding:30px;">Aún no hay facturas. Cobra una mesa para emitir la primera.</td></tr></tbody>
+              </table>
+            </div>
+            <div id="invoicePreview">
+              <div class="invoice-view">
+                <div class="iv-head">
+                  <div><div class="brand-mark" style="margin-bottom:8px;">i</div><h4>Cafetería La Esquina</h4><div class="iv-meta" style="text-align:left">RUC 099XXXXXXXXX001<br>Guayaquil, Ecuador</div></div>
+                  <div class="iv-meta">FACTURA<br><b>—</b><br>Selecciona una factura</div>
+                </div>
+                <p class="muted center" style="padding:30px 0;">Aquí verás el detalle de la factura seleccionada.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- REPORTES -->
+        <div class="panel" data-panel="reportes">
+          <div class="panel-head"><h3>Reportes del día</h3></div>
+          <div class="stat-row" id="repStats"></div>
+          <div class="grid-2">
+            <div>
+              <h4>Platos más vendidos</h4>
+              <div class="table-wrap">
+                <table class="data"><thead><tr><th>Plato</th><th class="num">Vendidos</th><th class="num">Ingreso</th></tr></thead><tbody id="repTop"></tbody></table>
+              </div>
+            </div>
+            <div>
+              <h4>Ventas por canal</h4>
+              <div class="table-wrap">
+                <table class="data"><thead><tr><th>Canal</th><th class="num">Órdenes</th><th class="num">Total</th></tr></thead><tbody id="repChannel"></tbody></table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <p class="muted center" style="margin-top:14px; font-size:.85rem;">Demo educativa. Los datos se guardan solo en tu navegador (puedes reiniciarla cuando quieras).</p>
+    </div>
+  </section>
+
+  <!-- PRECIOS -->
+  <section id="precios">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Suscripción mensual o anual</span>
+        <h2>Planes para tu local</h2>
+        <p>Igual que el resto de Insight: suscripción fija + comisión mínima por transacción procesada. Ahorra 2 meses pagando anual.</p>
+      </div>
+      <div class="plans">
+        <div class="plan reveal">
+          <h3>Cafetería</h3>
+          <p class="muted" style="font-size:.9rem;">Locales pequeños, hasta 6 mesas.</p>
+          <div class="amount">$29<small>/mes</small></div>
+          <div class="muted" style="font-size:.85rem;">o $290/año (2 meses gratis)</div>
+          <ul>
+            <li>Pedidos en mesa</li>
+            <li>Facturación SRI con IVA 15%</li>
+            <li>Inventario básico</li>
+            <li>Reportes del día</li>
+            <li>1 usuario</li>
+          </ul>
+          <a href="#" class="btn btn-outline" style="justify-content:center;">Empezar</a>
+        </div>
+        <div class="plan featured reveal">
+          <h3>Restaurante</h3>
+          <p class="muted" style="font-size:.9rem;">Lo más pedido. Incluye WhatsApp.</p>
+          <div class="amount">$59<small>/mes</small></div>
+          <div class="muted" style="font-size:.85rem;">o $590/año (2 meses gratis)</div>
+          <ul>
+            <li>Todo lo de Cafetería</li>
+            <li><b>Órdenes por WhatsApp (bot)</b></li>
+            <li>Mesas ilimitadas</li>
+            <li>Inventario con alertas de stock</li>
+            <li>Hasta 5 usuarios</li>
+            <li>Cobro con tarjeta y transferencia</li>
+          </ul>
+          <a href="#" class="btn btn-accent" style="justify-content:center;">Contratar</a>
+        </div>
+        <div class="plan reveal">
+          <h3>Cadena</h3>
+          <p class="muted" style="font-size:.9rem;">Varios locales, un solo panel.</p>
+          <div class="amount">$99<small>/mes</small></div>
+          <div class="muted" style="font-size:.85rem;">por local · precio por volumen</div>
+          <ul>
+            <li>Todo lo de Restaurante</li>
+            <li>Multi-local en un panel</li>
+            <li>WhatsApp por cada sucursal</li>
+            <li>Reportes consolidados</li>
+            <li>Usuarios ilimitados</li>
+            <li>Soporte prioritario</li>
+          </ul>
+          <a href="#" class="btn btn-outline" style="justify-content:center;">Hablar con ventas</a>
+        </div>
+      </div>
+      <div class="note center" style="max-width:760px; margin:28px auto 0;">
+        <b>Comisión por transacción:</b> 2–3% por cobro procesado (adicional a la tasa de la pasarela), igual que el módulo Cobros del ecosistema. La suscripción cubre el sistema; la comisión acompaña el dinero que mueve el local.
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-ink center">
+    <div class="container">
+      <div class="section-head" style="margin-bottom:24px;">
+        <h2 style="color:#fff">¿Listo para llevarlo a tu local?</h2>
+        <p>Este demo es el mismo sistema que instalamos en producción, conectado a tu WhatsApp Business y a tu facturación SRI. Empecemos con tu primer local.</p>
+      </div>
+      <a href="index.html" class="btn btn-ghost btn-lg">← Volver al ecosistema</a>
+      <a href="#precios" class="btn btn-accent btn-lg">Ver planes</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom" style="border:none; margin:0; padding:0;">
+        <span>© 2026 Insight — Restaurantes y Cafeterías · Guayaquil, Ecuador.</span>
+        <span><a href="index.html" style="display:inline; color:#fff;">Ver ecosistema completo →</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal agregar producto -->
+  <div class="modal-back" id="modalBack">
+    <div class="modal">
+      <h3>Agregar producto al menú</h3>
+      <div class="field"><label>Nombre del plato</label><input id="fName" placeholder="Ej. Bolón mixto" /></div>
+      <div class="field"><label>Categoría</label>
+        <select id="fCat"><option>Desayunos</option><option>Platos fuertes</option><option>Bebidas</option><option>Postres</option><option>Snacks</option></select>
+      </div>
+      <div class="field"><label>Precio (USD)</label><input id="fPrice" type="number" step="0.25" min="0" placeholder="3.50" /></div>
+      <div class="field"><label>Stock inicial</label><input id="fStock" type="number" min="0" placeholder="20" /></div>
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:8px;">
+        <button class="btn btn-outline" id="btnCancelItem">Cancelar</button>
+        <button class="btn btn-primary" id="btnSaveItem">Guardar producto</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal facturar -->
+  <div class="modal-back" id="billBack">
+    <div class="modal">
+      <h3>Emitir factura</h3>
+      <div class="field"><label>Tipo de cliente</label>
+        <select id="bType"><option value="final">Consumidor final</option><option value="ruc">Con RUC / Cédula</option></select>
+      </div>
+      <div class="field" id="bIdField" style="display:none;"><label>RUC / Cédula</label><input id="bId" placeholder="099XXXXXXXXX" /></div>
+      <div class="field" id="bNameField" style="display:none;"><label>Nombre / Razón social</label><input id="bName" placeholder="Nombre del cliente" /></div>
+      <div class="field"><label>Forma de pago</label>
+        <select id="bPay"><option>Efectivo</option><option>Tarjeta</option><option>Transferencia</option></select>
+      </div>
+      <div class="ticket-totals" style="background:var(--bg-soft); padding:14px; border-radius:12px;">
+        <div class="row"><span>Subtotal</span><span id="bSub">$0.00</span></div>
+        <div class="row"><span>IVA 15%</span><span id="bIva">$0.00</span></div>
+        <div class="row grand"><span>Total a cobrar</span><span id="bTotal">$0.00</span></div>
+      </div>
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:16px;">
+        <button class="btn btn-outline" id="btnCancelBill">Cancelar</button>
+        <button class="btn btn-accent" id="btnConfirmBill">Emitir y cobrar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="assets/app.js"></script>
+  <script src="assets/restaurant.js"></script>
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Insight — Cobra, paga y declara por tu negocio</title>
+  <meta name="description" content="Insight es la plataforma financiera para pymes de Ecuador: cobros recurrentes, nómina, impuestos SRI y un sistema completo para restaurantes y cafeterías. Un solo motor, ingreso recurrente." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%231c5299'/><text x='50' y='72' font-size='64' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>i</text></svg>" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="brand"><span class="brand-mark">i</span> Insight</a>
+      <button class="nav-toggle" aria-label="Menú" onclick="document.getElementById('navlinks').classList.toggle('open')">☰</button>
+      <nav class="nav-links" id="navlinks">
+        <a href="#modulos">Módulos</a>
+        <a href="#arquitectura">Cómo funciona</a>
+        <a href="#proyeccion">Proyección</a>
+        <a href="#hoja-ruta">Lanzamiento</a>
+        <a href="restaurantes.html">🍽️ Restaurantes</a>
+        <a href="restaurantes.html#demo" class="btn btn-primary btn-sm nav-cta">Ver demo en vivo</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div>
+        <span class="eyebrow">Plataforma financiera web · Guayaquil, Ecuador</span>
+        <h1>Cobra, paga y declara por tu negocio.</h1>
+        <p class="lead">Insight administra el ciclo completo del dinero de tu empresa: cobra tus mensualidades, paga tu nómina y declara al SRI. Un solo motor, ingreso recurrente todos los meses.</p>
+        <div class="cta-row">
+          <a href="#modulos" class="btn btn-accent btn-lg">Conocer los módulos</a>
+          <a href="restaurantes.html" class="btn btn-ghost btn-lg">🍽️ Restaurantes y Cafeterías</a>
+        </div>
+        <div class="trust">
+          <div><b>3+1</b> módulos en un mismo login</div>
+          <div><b>Suscripción</b> + comisión por transacción</div>
+          <div><b>Hecho para</b> la pyme ecuatoriana</div>
+        </div>
+      </div>
+      <div class="hero-art">
+        <div class="money-card">
+          <h4>El dinero de tu pyme, en un circuito</h4>
+          <div class="flow">
+            <div class="flow-item">
+              <div class="flow-ico">💳</div>
+              <div><b>Entra</b><span>Cobros — mensualidades automáticas</span></div>
+              <div class="flow-amt">+ $175</div>
+            </div>
+            <div class="flow-item">
+              <div class="flow-ico">👥</div>
+              <div><b>Se reparte</b><span>Nómina — roles de pago e IESS</span></div>
+              <div class="flow-amt">$1.5/emp</div>
+            </div>
+            <div class="flow-item">
+              <div class="flow-ico">🧾</div>
+              <div><b>Se declara</b><span>Tributario — declaraciones SRI</span></div>
+              <div class="flow-amt">$9.99</div>
+            </div>
+            <div class="flow-item" style="border:1px solid rgba(42,208,165,.4)">
+              <div class="flow-ico">🍽️</div>
+              <div><b>Se factura</b><span>Restaurantes — POS + WhatsApp</span></div>
+              <div class="flow-amt">Nuevo</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MÓDULOS -->
+  <section id="modulos">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Un producto con varias caras</span>
+        <h2>Elige por dónde empieza tu negocio</h2>
+        <p>Los tres módulos del ecosistema comparten el mismo motor de cobros y pagos. Y ahora se suma un cuarto: un sistema completo para restaurantes y cafeterías.</p>
+      </div>
+
+      <div class="modules">
+
+        <!-- 1. Cobros -->
+        <article class="mod reveal">
+          <span class="mod-num">1</span>
+          <div class="mod-ico ico-blue">💳</div>
+          <div class="mod-tag">INSIGHT COBROS</div>
+          <h3>Cobros recurrentes</h3>
+          <p>Gimnasios, academias, canchas, clubes y todo negocio de mensualidad.</p>
+          <ul>
+            <li>Cobro automático con tarjeta o débito</li>
+            <li>Reintento cuando el cobro falla</li>
+            <li>Panel de morosos en tiempo real</li>
+            <li>Recordatorios por WhatsApp</li>
+          </ul>
+          <div class="mod-foot">
+            <div class="price">$20–35<small>/mes</small> + 2–3% <small>por cobro</small></div>
+          </div>
+        </article>
+
+        <!-- 2. Nómina -->
+        <article class="mod reveal">
+          <span class="mod-num">2</span>
+          <div class="mod-ico ico-green">👥</div>
+          <div class="mod-tag">INSIGHT NÓMINA</div>
+          <h3>Roles de pago</h3>
+          <p>Microempresas de 3 a 30 empleados. La obligación que nadie deja de pagar.</p>
+          <ul>
+            <li>Décimo tercero, cuarto y vacaciones</li>
+            <li>Fondos de reserva y aportes al IESS</li>
+            <li>Valores listos para pagar</li>
+            <li>Archivos listos para declarar</li>
+          </ul>
+          <div class="mod-foot">
+            <div class="price">$1.50–2.00<small>/empleado/mes</small></div>
+          </div>
+        </article>
+
+        <!-- 3. Tributario -->
+        <article class="mod reveal">
+          <span class="mod-num">3</span>
+          <div class="mod-ico ico-purple">🧾</div>
+          <div class="mod-tag">INSIGHT TRIBUTARIO</div>
+          <h3>Declaraciones SRI</h3>
+          <p>Freelancers y negocios RIMPE. El módulo de mayor volumen potencial.</p>
+          <ul>
+            <li>Lee tus facturas emitidas y recibidas</li>
+            <li>Arma la declaración mensual/semestral</li>
+            <li>Lista para presentar al SRI</li>
+            <li>Recordatorios para no caer en multas</li>
+          </ul>
+          <div class="mod-foot">
+            <div class="price">$9.99<small>/mes por contribuyente</small></div>
+          </div>
+        </article>
+
+        <!-- 4. Restaurantes (destacado, mismo grid) -->
+        <article class="mod reveal" style="border-color: var(--accent-500);">
+          <span class="mod-num">4</span>
+          <div class="mod-ico ico-orange">🍽️</div>
+          <div class="mod-tag" style="color: var(--accent-600)">INSIGHT RESTAURANTES</div>
+          <h3>Restaurantes y cafeterías</h3>
+          <p>Sistema de facturación completo e integrado. Nuevo en el ecosistema.</p>
+          <ul>
+            <li>Pedidos en mesa y para llevar</li>
+            <li>Órdenes por WhatsApp automáticas</li>
+            <li>Inventario y facturación SRI</li>
+            <li>Todo llega a la compu del local</li>
+          </ul>
+          <div class="mod-foot">
+            <a href="restaurantes.html" class="btn btn-accent" style="width:100%; justify-content:center;">Abrir sistema →</a>
+          </div>
+        </article>
+
+        <!-- Banner destacado restaurantes ocupa toda la fila -->
+        <article class="mod mod-feature reveal">
+          <span class="new-badge">Nuevo</span>
+          <div>
+            <div class="mod-ico">🍽️</div>
+            <h3>Un sistema completo para tu restaurante o cafetería</h3>
+            <p>La misma tesis de Insight aplicada al local: cobra, controla e integra. Toma pedidos en la mesa, recibe órdenes para llevar por WhatsApp con respuesta automática, controla tu inventario y factura al SRI. Todo cae en la computadora del local en tiempo real.</p>
+            <div class="feat-list">
+              <div>Toma de pedidos en mesa</div>
+              <div>Órdenes por WhatsApp (bot automático)</div>
+              <div>Menú digital enviado al cliente</div>
+              <div>Gestión de inventario en vivo</div>
+              <div>Facturación con IVA 15% / SRI</div>
+              <div>Reportes de ventas del día</div>
+            </div>
+            <a href="restaurantes.html#demo" class="btn btn-accent btn-lg">Probar el demo en vivo</a>
+          </div>
+          <div class="device">
+            <div class="device-row wa"><span class="dot"></span> WhatsApp · Nuevo pedido para llevar <span class="amt">$14.50</span></div>
+            <div class="device-row"><span class="dot"></span> Mesa 4 · 2 platos enviados a cocina <span class="amt">$23.00</span></div>
+            <div class="device-row"><span class="dot"></span> Inventario · Pollo bajo stock (4 u.) </div>
+            <div class="device-row"><span class="dot"></span> Factura #001-000142 emitida <span class="amt">$31.05</span></div>
+            <div class="device-row wa"><span class="dot"></span> Bot envió el menú a +593 99··· </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ARQUITECTURA -->
+  <section id="arquitectura" class="bg-soft">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Un motor, varios productos</span>
+        <h2>No son cuatro productos: es uno con cuatro caras</h2>
+        <p>El corazón técnico se construye una sola vez y alimenta a todo el ecosistema. Por eso cada módulo nuevo cuesta una fracción del primero.</p>
+      </div>
+      <div class="arch">
+        <div class="core">
+          <h4>⚙️ Capa común — el motor (se construye una vez)</h4>
+          <p>Motor de cobros y pagos (débitos recurrentes, tarjeta, enlaces de pago, reintentos y conciliación) · Facturación electrónica SRI integrada · Panel financiero unificado · Notificaciones automáticas por WhatsApp y correo.</p>
+        </div>
+        <div class="layer">
+          <h4>💳 Cobrar</h4>
+          <p>Cobros dispara mensualidades. Restaurantes cobra cada mesa y pedido. Mismo motor de pagos.</p>
+        </div>
+        <div class="layer">
+          <h4>👥 Repartir</h4>
+          <p>Nómina dispersa los pagos a la gente. Reutiliza el motor y la facturación.</p>
+        </div>
+        <div class="layer">
+          <h4>🧾 Declarar</h4>
+          <p>Tributario lee y arma las declaraciones. Reutiliza la facturación SRI ya construida.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROYECCIÓN -->
+  <section id="proyeccion">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Escenario conservador</span>
+        <h2>Proyección de flujo de caja a 12 meses</h2>
+        <p>Las comisiones por transacción son la línea que más crece: escala con el dinero de los clientes, no con las ventas nuevas.</p>
+      </div>
+      <div class="table-wrap">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>Fuente de ingreso</th>
+              <th class="num">Mes 4</th>
+              <th class="num">Mes 8</th>
+              <th class="num">Mes 12</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Cobros — planes base</td><td class="num">$250</td><td class="num">$750</td><td class="num">$1.500</td></tr>
+            <tr><td>Cobros — comisiones por transacción</td><td class="num">$300</td><td class="num">$1.200</td><td class="num">$3.000</td></tr>
+            <tr><td>Tributario — suscripciones</td><td class="num">—</td><td class="num">$600</td><td class="num">$2.000</td></tr>
+            <tr><td>Nómina — por empleado</td><td class="num">—</td><td class="num">—</td><td class="num">$500</td></tr>
+            <tr class="total-row"><td>Ingreso mensual total</td><td class="num">$550</td><td class="num">$2.550</td><td class="num">$7.000</td></tr>
+            <tr><td class="muted">Costos fijos (nube, pasarela, marketing)</td><td class="num muted">$250</td><td class="num muted">$500</td><td class="num muted">$1.000</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted center" style="margin-top:16px; font-size:.86rem;">Cifras referenciales para planificación interna. No constituyen asesoría financiera, legal ni tributaria.</p>
+    </div>
+  </section>
+
+  <!-- HOJA DE RUTA -->
+  <section id="hoja-ruta" class="bg-soft">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">La ejecución es un módulo a la vez</span>
+        <h2>Lanzamiento secuencial</h2>
+        <p>La web muestra el ecosistema entero desde el día uno; el desarrollo y la venta se concentran en un módulo a la vez. Regla de oro: ningún módulo nuevo se empieza hasta que el anterior tenga 25 clientes pagando.</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal"><div class="n">1</div><h4>Meses 1–4 · Cobros</h4><p>Construye el motor de pagos y genera comisiones desde el primer cliente. Venta directa a gimnasios y academias de Guayaquil.</p></div>
+        <div class="step reveal"><div class="n">2</div><h4>Meses 4–8 · Tributario</h4><p>Reutiliza la facturación SRI. Precio bajo y venta masiva por redes: llena la plataforma de usuarios y datos.</p></div>
+        <div class="step reveal"><div class="n">3</div><h4>Meses 8–12 · Nómina</h4><p>Venta cruzada a la base existente. Los clientes de Cobros y Tributario ya confían. Cierra el circuito del dinero.</p></div>
+        <div class="step reveal" style="border-color: var(--accent-500)"><div class="n" style="background: var(--accent-600)">4</div><h4>En paralelo · Restaurantes</h4><p>Reutiliza motor de cobros, facturación y WhatsApp. Venta directa a locales con cliente piloto listo para comprar.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA final -->
+  <section class="bg-ink center">
+    <div class="container">
+      <div class="section-head" style="margin-bottom:24px;">
+        <h2 style="color:#fff">¿Tienes un restaurante o cafetería?</h2>
+        <p>Prueba ahora mismo el sistema completo: toma un pedido en mesa, recibe una orden por WhatsApp y emite una factura. Funciona en tu navegador, sin instalar nada.</p>
+      </div>
+      <a href="restaurantes.html#demo" class="btn btn-accent btn-lg">Abrir el sistema de restaurantes →</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand"><span class="brand-mark">i</span> Insight</div>
+          <p style="font-size:.9rem; max-width:34ch;">La plataforma que cobra, paga y declara por tu negocio. Guayaquil, Ecuador.</p>
+        </div>
+        <div>
+          <h5>Ecosistema</h5>
+          <a href="#modulos">Insight Cobros</a>
+          <a href="#modulos">Insight Nómina</a>
+          <a href="#modulos">Insight Tributario</a>
+          <a href="restaurantes.html">Insight Restaurantes</a>
+        </div>
+        <div>
+          <h5>Plataforma</h5>
+          <a href="#arquitectura">Cómo funciona</a>
+          <a href="#proyeccion">Proyección</a>
+          <a href="#hoja-ruta">Lanzamiento</a>
+        </div>
+        <div>
+          <h5>Contacto</h5>
+          <a href="#">Guayaquil, Ecuador</a>
+          <a href="#">Documento estratégico · 2026</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Insight — Ecosistema Financiero. Todos los derechos reservados.</span>
+        <span>Cifras referenciales. Validar aspectos regulatorios con profesionales acreditados.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
