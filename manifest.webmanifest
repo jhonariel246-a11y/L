@@ -1,0 +1,16 @@
+{
+  "name": "Insight POS — Restaurantes",
+  "short_name": "Insight POS",
+  "description": "Sistema de restaurantes: pedidos, menú, inventario, WhatsApp y facturación. Funciona sin internet.",
+  "start_url": "app.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0a1f3c",
+  "theme_color": "#0a1f3c",
+  "lang": "es",
+  "icons": [
+    { "src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "assets/icon-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}
