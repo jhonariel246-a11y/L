@@ -20,6 +20,21 @@
     $("#hubScreen").style.display = "none";
   }
   var currentTenant = null;
+  var currentRestaurant = null;
+
+  function mensajeFirma() {
+    var r = currentRestaurant || {};
+    var msg = "Hola InsightPay 👋, quiero conseguir mi *firma electrónica* para activar la facturación.";
+    if (r.name) msg += "\nNegocio: " + r.name;
+    if (r.ruc) msg += "\nRUC: " + r.ruc;
+    return msg;
+  }
+  function actualizarLinksWA() {
+    var link = INSIGHTPAY.wa(mensajeFirma());
+    ["#btnConseguirFE", "#btnConseguirFE2"].forEach(function (sel) {
+      var a = $(sel); if (a) a.setAttribute("href", link);
+    });
+  }
 
   function refreshFEStatus() {
     var el = $("#feStatus");
@@ -73,6 +88,8 @@
     $("#storeName").textContent = cur.restaurant.name;
     $("#hubName").textContent = cur.restaurant.name;
     if (cur.tenant) currentTenant = cur.tenant;
+    currentRestaurant = cur.restaurant || null;
+    actualizarLinksWA();
     refreshFEStatus();
     Store.onSyncChange(function (st) {
       var el = $("#syncState"); if (!el) return;

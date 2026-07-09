@@ -115,7 +115,10 @@
           <h3>🔐 Facturación electrónica (SRI)</h3>
           <p id="feStatus" class="muted">Verificando estado…</p>
         </div>
-        <button class="btn btn-primary" id="btnActivarFE">Activar / actualizar certificado</button>
+        <div class="fe-actions">
+          <a class="btn btn-accent" id="btnConseguirFE" target="_blank" rel="noopener">💬 Conseguir firma electrónica</a>
+          <button class="btn btn-outline" id="btnActivarFE">Ya tengo mi firma (.p12)</button>
+        </div>
       </div>
 
       <div class="note" style="max-width:820px; margin:18px auto 0;">
@@ -128,7 +131,13 @@
   <div class="modal-back" id="feModal">
     <div class="modal">
       <h3>Activar facturación electrónica</h3>
-      <p class="muted" style="font-size:.9rem; margin-top:-6px;">Sube tu certificado de firma electrónica (archivo <b>.p12</b>) y la clave con la que lo protegiste.</p>
+      <div class="fe-help">
+        <b>¿No tienes tu firma electrónica todavía?</b>
+        <p>Nosotros te la conseguimos. Escríbenos por WhatsApp y gestionamos la compra por ti.</p>
+        <a class="btn btn-accent btn-sm" id="btnConseguirFE2" target="_blank" rel="noopener">💬 Conseguir firma por WhatsApp</a>
+      </div>
+      <div class="fe-sep"><span>o si ya la tienes</span></div>
+      <p class="muted" style="font-size:.9rem;">Sube tu certificado de firma electrónica (archivo <b>.p12</b>) y la clave con la que lo protegiste.</p>
       <div class="field"><label>Archivo .p12</label><input id="feP12" type="file" accept=".p12,.pfx" /></div>
       <div class="field"><label>Clave del certificado</label><input id="fePass" type="password" placeholder="clave de tu firma electrónica" /></div>
       <div class="field"><label>Ambiente</label><select id="feAmb"><option value="1">Pruebas (certificación)</option><option value="2">Producción</option></select></div>
