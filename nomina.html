@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Insight · Nómina</title>
+  <meta name="theme-color" content="#0a1f3c" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="stylesheet" href="assets/restaurant.css" />
+  <link rel="stylesheet" href="assets/app-pos.css" />
+  <link rel="icon" href="assets/icon.svg" />
+</head>
+<body class="pos-body">
+  <div class="app">
+    <div class="app-bar">
+      <a href="app.html" class="btn btn-ghost btn-sm">← Módulos</a>
+      <div class="brand-mini" style="margin-left:8px;"><span class="brand-mark">i</span> Nómina</div>
+      <div class="store">
+        <span id="syncState" class="sync online"><span class="sdot"></span> En línea</span>
+        · <b id="storeName">Mi negocio</b>
+        <button id="btnLogout" class="btn btn-ghost btn-sm" style="margin-left:10px;">Salir</button>
+      </div>
+    </div>
+
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-tab="rol">🧾 Rol de pagos</button>
+      <button class="tab" data-tab="empleados">👥 Empleados</button>
+    </div>
+
+    <!-- ROL DE PAGOS -->
+    <div class="panel active" data-panel="rol">
+      <div class="panel-head"><h3 id="rolTitle">Rol de pagos</h3><div class="spacer"></div>
+        <span class="muted" style="font-size:.85rem;">SBU <b id="sbuLabel">$470</b> · IESS 9.45% / 11.15%</span>
+      </div>
+      <div class="stat-row" id="nomStats"></div>
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr>
+            <th>Empleado</th><th class="num">Salario</th><th class="num">IESS 9.45%</th>
+            <th class="num">Líquido</th><th class="num">13°</th><th class="num">14°</th>
+            <th class="num">F. reserva</th><th class="num">Vac.</th><th class="num">Patronal</th><th class="num">Costo total</th>
+          </tr></thead>
+          <tbody id="rolBody"></tbody>
+          <tfoot id="rolFoot"></tfoot>
+        </table>
+      </div>
+      <div class="note" style="margin-top:18px;">
+        <b>Cómo se calcula:</b> Aporte personal IESS 9.45% y patronal 11.15%. Décimo tercero = salario/12, décimo cuarto = SBU/12, fondos de reserva = 8.33%, vacaciones = salario/24 (provisiones mensuales). Valores referenciales — validar con tu contador.
+      </div>
+    </div>
+
+    <!-- EMPLEADOS -->
+    <div class="panel" data-panel="empleados">
+      <div class="panel-head"><h3>Empleados</h3><div class="spacer"></div>
+        <button class="btn btn-primary btn-sm" id="btnAddEmp">+ Agregar empleado</button>
+      </div>
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>Nombre</th><th>Cargo</th><th class="num">Salario</th><th>Ingreso</th><th>Acciones</th></tr></thead>
+          <tbody id="empBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-back" id="empModal">
+    <div class="modal">
+      <h3 id="empModalTitle">Agregar empleado</h3>
+      <input type="hidden" id="eId" />
+      <div class="field"><label>Nombre completo</label><input id="eName" placeholder="Ej. María López" /></div>
+      <div class="grid-2c">
+        <div class="field"><label>Cargo</label><input id="eRole" placeholder="Ej. Mesero" /></div>
+        <div class="field"><label>Salario mensual (USD)</label><input id="eSalary" type="number" step="1" min="0" placeholder="470" /></div>
+      </div>
+      <div class="field"><label>Fecha de ingreso</label><input id="eStart" type="date" /></div>
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:8px;">
+        <button class="btn btn-outline" id="btnCancelEmp">Cancelar</button>
+        <button class="btn btn-primary" id="btnSaveEmp">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="assets/store.js"></script>
+  <script src="assets/gate.js"></script>
+  <script src="assets/nomina.js"></script>
+</body>
+</html>

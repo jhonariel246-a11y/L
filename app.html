@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Insight POS — Sistema para tu restaurante</title>
-  <meta name="description" content="Registra tu restaurante y gestiona pedidos, menú, inventario y facturación. Funciona sin internet en la computadora del local." />
+  <title>Insight — Tu plataforma financiera</title>
+  <meta name="description" content="Registra tu negocio y accede a los módulos de Insight: Restaurantes, Cobros, Tributario y Nómina. Funciona sin internet." />
   <meta name="theme-color" content="#0a1f3c" />
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="stylesheet" href="assets/styles.css" />
@@ -15,17 +15,17 @@
 </head>
 <body class="pos-body">
 
-  <!-- ===================== PANTALLA DE AUTENTICACIÓN ===================== -->
+  <!-- ===================== AUTENTICACIÓN ===================== -->
   <div id="authScreen" class="auth-screen">
     <div class="auth-brand">
       <a href="index.html" class="brand" style="color:#fff"><span class="brand-mark">i</span> Insight</a>
-      <h1>El sistema de tu restaurante,<br>funcionando aunque se caiga el internet.</h1>
-      <p>Registra tu local en un minuto. Maneja tu menú, tus mesas, tu inventario y tu facturación. Recibe pedidos por WhatsApp. Todo se guarda en tu computadora.</p>
+      <h1>Cobra, paga y declara por tu negocio.<br>Y sigue funcionando aunque se caiga el internet.</h1>
+      <p>Registra tu negocio una sola vez y accede a todos los módulos: Restaurantes, Cobros, Tributario y Nómina. Los datos se guardan en tu computadora.</p>
       <ul class="auth-points">
-        <li>✓ Tú administras tu propio menú e inventario</li>
+        <li>✓ Un solo registro para todos los módulos</li>
         <li>✓ Funciona sin internet (local-first)</li>
-        <li>✓ Se instala en la computadora del local</li>
-        <li>✓ Pedidos por WhatsApp + facturación</li>
+        <li>✓ Se instala en la computadora del negocio</li>
+        <li>✓ Tú administras todo tú mismo</li>
       </ul>
     </div>
 
@@ -36,16 +36,16 @@
       </div>
 
       <div id="formRegister" class="auth-form">
-        <div class="field"><label>Nombre del local *</label><input id="rgName" placeholder="Ej. Cafetería La Esquina" /></div>
+        <div class="field"><label>Nombre del negocio *</label><input id="rgName" placeholder="Ej. Cafetería La Esquina" /></div>
         <div class="grid-2c">
-          <div class="field"><label>Tipo</label><select id="rgType"><option>Restaurante</option><option>Cafetería</option><option>Bar</option><option>Comida rápida</option></select></div>
+          <div class="field"><label>Tipo</label><select id="rgType"><option>Restaurante</option><option>Cafetería</option><option>Bar</option><option>Gimnasio</option><option>Academia</option><option>Otro</option></select></div>
           <div class="field"><label>RUC (opcional)</label><input id="rgRuc" placeholder="099XXXXXXXXX001" /></div>
         </div>
-        <div class="field"><label>WhatsApp del local (opcional)</label><input id="rgPhone" placeholder="+593 9XXXXXXXX" /></div>
+        <div class="field"><label>WhatsApp (opcional)</label><input id="rgPhone" placeholder="+593 9XXXXXXXX" /></div>
         <div class="field"><label>Correo *</label><input id="rgEmail" type="email" placeholder="tucorreo@ejemplo.com" /></div>
         <div class="field"><label>Contraseña *</label><input id="rgPass" type="password" placeholder="mínimo 4 caracteres" /></div>
-        <button id="doRegister" class="btn btn-accent btn-lg" style="width:100%; justify-content:center;">Crear mi restaurante →</button>
-        <p class="auth-mini">Al crear la cuenta, los datos se guardan en esta computadora. Podrás sincronizar a la nube cuando conectemos ese módulo.</p>
+        <button id="doRegister" class="btn btn-accent btn-lg" style="width:100%; justify-content:center;">Crear mi cuenta →</button>
+        <p class="auth-mini">Los datos se guardan en esta computadora. Podrás sincronizar a la nube cuando conectemos ese módulo.</p>
       </div>
 
       <div id="formLogin" class="auth-form" style="display:none;">
@@ -57,164 +57,60 @@
     </div>
   </div>
 
-  <!-- ===================== APLICACIÓN (POS) ===================== -->
-  <div id="appScreen" style="display:none;">
-    <div class="app" id="app">
-      <div class="app-bar">
-        <div class="brand-mini"><span class="brand-mark">i</span> Insight POS</div>
-        <div class="store">
-          <span id="syncState" class="sync online"><span class="sdot"></span> En línea</span>
-          · <b id="storeName">Mi restaurante</b>
-          <button id="btnLogout" class="btn btn-ghost btn-sm" style="margin-left:10px;">Salir</button>
-        </div>
-      </div>
-
-      <div class="tabs" id="tabs">
-        <button class="tab active" data-tab="mesas">🍽️ Mesas</button>
-        <button class="tab" data-tab="whatsapp">💬 WhatsApp <span class="badge" id="waBadge" style="display:none">0</span></button>
-        <button class="tab" data-tab="inventario">📦 Menú e inventario</button>
-        <button class="tab" data-tab="facturacion">🧾 Facturación</button>
-        <button class="tab" data-tab="reportes">📊 Reportes</button>
-      </div>
-
-      <!-- MESAS -->
-      <div class="panel active" data-panel="mesas">
-        <div class="panel-head">
-          <h3 id="mesasTitle">Mesas del local</h3>
-          <div class="spacer"></div>
-          <button class="btn btn-outline btn-sm" id="btnResetDemo">↺ Reiniciar datos</button>
-        </div>
-        <div id="tablesView"><div class="tables-grid" id="tablesGrid"></div></div>
-        <div id="orderView" style="display:none;">
-          <div class="panel-head">
-            <button class="btn btn-outline btn-sm" id="btnBackTables">← Mesas</button>
-            <h3 id="orderTitle" style="margin-left:6px;">Mesa 1</h3>
-          </div>
-          <div class="order-layout">
-            <div>
-              <div class="menu-cats" id="menuCats"></div>
-              <div class="menu-items" id="menuItems"></div>
-            </div>
-            <div class="ticket">
-              <h4 id="ticketTitle">Cuenta</h4>
-              <div class="ticket-sub" id="ticketSub">Toca un plato para agregarlo</div>
-              <div class="ticket-lines" id="ticketLines"></div>
-              <div class="ticket-totals">
-                <div class="row"><span>Subtotal</span><span id="tSub">$0.00</span></div>
-                <div class="row"><span>IVA 15%</span><span id="tIva">$0.00</span></div>
-                <div class="row grand"><span>Total</span><span id="tTotal">$0.00</span></div>
-              </div>
-              <div class="ticket-actions">
-                <button class="btn btn-outline" id="btnKitchen">👨‍🍳 A cocina</button>
-                <button class="btn btn-accent" id="btnBill">🧾 Cobrar y facturar</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- WHATSAPP -->
-      <div class="panel" data-panel="whatsapp">
-        <div class="panel-head">
-          <h3>Pedidos por WhatsApp</h3>
-          <div class="spacer"></div>
-          <button class="btn btn-accent btn-sm" id="btnSimWa">▶ Simular cliente entrante</button>
-        </div>
-        <div class="wa-layout">
-          <div>
-            <div class="phone">
-              <div class="wa-top"><div class="av">🍽️</div><div><b>Tu local</b><span id="waStatus">en línea · bot activo</span></div></div>
-              <div class="wa-body" id="waBody"></div>
-            </div>
-          </div>
-          <div class="wa-side">
-            <h4>Órdenes que llegan al local</h4>
-            <p class="muted" style="font-size:.9rem; margin-top:-4px;">Cada pedido confirmado por el bot aparece aquí y se convierte en una mesa "Para llevar".</p>
-            <div class="wa-queue" id="waQueue"><p class="ticket-empty">Aún no hay órdenes.</p></div>
-          </div>
-        </div>
-        <div class="note" style="margin-top:22px;">
-          <b>Nota (Fase B):</b> el bot de WhatsApp real corre en la nube 24/7 con la <b>API de WhatsApp Business (Meta/Twilio)</b>, para que conteste incluso con la computadora del local apagada. Aquí ves el flujo simulado; la lógica de menú, orden y ruteo al local ya está construida.
-        </div>
-      </div>
-
-      <!-- INVENTARIO -->
-      <div class="panel" data-panel="inventario">
-        <div class="panel-head">
-          <h3>Menú e inventario</h3>
-          <div class="spacer"></div>
-          <button class="btn btn-primary btn-sm" id="btnAddItem">+ Agregar producto</button>
-        </div>
-        <div class="stat-row" id="invStats"></div>
-        <div class="table-wrap">
-          <table class="data">
-            <thead><tr><th>Producto</th><th>Categoría</th><th class="num">Precio</th><th class="num">Stock</th><th>Acciones</th></tr></thead>
-            <tbody id="invBody"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- FACTURACIÓN -->
-      <div class="panel" data-panel="facturacion">
-        <div class="panel-head">
-          <h3>Facturación</h3>
-          <div class="spacer"></div>
-          <span class="muted" style="font-size:.88rem;">Facturas: <b id="invCount">0</b></span>
-        </div>
-        <div class="grid-2">
-          <div class="table-wrap">
-            <table class="data"><thead><tr><th>N° Factura</th><th>Origen</th><th>Cliente</th><th class="num">Total</th></tr></thead><tbody id="billBody"></tbody></table>
-          </div>
-          <div id="invoicePreview"><div class="invoice-view"><p class="muted center" style="padding:30px 0;">Aquí verás el detalle de la factura seleccionada.</p></div></div>
-        </div>
-      </div>
-
-      <!-- REPORTES -->
-      <div class="panel" data-panel="reportes">
-        <div class="panel-head"><h3>Reportes</h3></div>
-        <div class="stat-row" id="repStats"></div>
-        <div class="grid-2">
-          <div><h4>Platos más vendidos</h4><div class="table-wrap"><table class="data"><thead><tr><th>Plato</th><th class="num">Vendidos</th><th class="num">Ingreso</th></tr></thead><tbody id="repTop"></tbody></table></div></div>
-          <div><h4>Ventas por canal</h4><div class="table-wrap"><table class="data"><thead><tr><th>Canal</th><th class="num">Órdenes</th><th class="num">Total</th></tr></thead><tbody id="repChannel"></tbody></table></div></div>
-        </div>
+  <!-- ===================== HUB DE MÓDULOS ===================== -->
+  <div id="hubScreen" style="display:none;">
+    <div class="app-bar">
+      <div class="brand-mini"><span class="brand-mark">i</span> Insight</div>
+      <div class="store">
+        <span id="syncState" class="sync online"><span class="sdot"></span> En línea</span>
+        · <b id="storeName">Mi negocio</b>
+        <button id="btnLogout" class="btn btn-ghost btn-sm" style="margin-left:10px;">Salir</button>
       </div>
     </div>
-  </div>
 
-  <!-- Modal producto -->
-  <div class="modal-back" id="modalBack">
-    <div class="modal">
-      <h3 id="itemModalTitle">Agregar producto al menú</h3>
-      <input type="hidden" id="fId" />
-      <div class="field"><label>Nombre del plato</label><input id="fName" placeholder="Ej. Bolón mixto" /></div>
-      <div class="field"><label>Categoría</label><select id="fCat"><option>Desayunos</option><option>Platos fuertes</option><option>Bebidas</option><option>Postres</option><option>Snacks</option></select></div>
-      <div class="grid-2c">
-        <div class="field"><label>Precio (USD)</label><input id="fPrice" type="number" step="0.25" min="0" placeholder="3.50" /></div>
-        <div class="field"><label>Stock</label><input id="fStock" type="number" min="0" placeholder="20" /></div>
+    <div class="hub">
+      <div class="hub-head">
+        <span class="eyebrow">Tus módulos</span>
+        <h2>Hola, <span id="hubName">tu negocio</span> 👋</h2>
+        <p class="muted">Elige el módulo que quieres usar. Todos comparten tu mismo login y tus datos.</p>
       </div>
-      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:8px;">
-        <button class="btn btn-outline" id="btnCancelItem">Cancelar</button>
-        <button class="btn btn-primary" id="btnSaveItem">Guardar</button>
-      </div>
-    </div>
-  </div>
 
-  <!-- Modal facturar -->
-  <div class="modal-back" id="billBack">
-    <div class="modal">
-      <h3>Emitir factura</h3>
-      <div class="field"><label>Tipo de cliente</label><select id="bType"><option value="final">Consumidor final</option><option value="ruc">Con RUC / Cédula</option></select></div>
-      <div class="field" id="bIdField" style="display:none;"><label>RUC / Cédula</label><input id="bId" placeholder="099XXXXXXXXX" /></div>
-      <div class="field" id="bNameField" style="display:none;"><label>Nombre / Razón social</label><input id="bName" placeholder="Nombre del cliente" /></div>
-      <div class="field"><label>Forma de pago</label><select id="bPay"><option>Efectivo</option><option>Tarjeta</option><option>Transferencia</option></select></div>
-      <div class="ticket-totals" style="background:var(--bg-soft); padding:14px; border-radius:12px;">
-        <div class="row"><span>Subtotal</span><span id="bSub">$0.00</span></div>
-        <div class="row"><span>IVA 15%</span><span id="bIva">$0.00</span></div>
-        <div class="row grand"><span>Total a cobrar</span><span id="bTotal">$0.00</span></div>
+      <div class="hub-grid">
+        <a href="pos.html" class="hub-card ready">
+          <div class="mod-ico ico-orange">🍽️</div>
+          <div class="hub-tag">Disponible</div>
+          <h3>Restaurantes y Cafeterías</h3>
+          <p>Pedidos en mesa, WhatsApp, inventario y facturación.</p>
+          <span class="hub-go">Abrir →</span>
+        </a>
+
+        <a href="cobros.html" class="hub-card ready">
+          <div class="mod-ico ico-blue">💳</div>
+          <div class="hub-tag">Disponible</div>
+          <h3>Cobros</h3>
+          <p>Mensualidades de socios/alumnos, quién pagó y quién debe.</p>
+          <span class="hub-go">Abrir →</span>
+        </a>
+
+        <a href="tributario.html" class="hub-card ready">
+          <div class="mod-ico ico-purple">🧾</div>
+          <div class="hub-tag">Disponible</div>
+          <h3>Tributario (SRI)</h3>
+          <p>Registra ventas y compras y calcula tu IVA a pagar.</p>
+          <span class="hub-go">Abrir →</span>
+        </a>
+
+        <a href="nomina.html" class="hub-card ready">
+          <div class="mod-ico ico-green">👥</div>
+          <div class="hub-tag">Disponible</div>
+          <h3>Nómina</h3>
+          <p>Rol de pagos con IESS, décimos, vacaciones y fondos.</p>
+          <span class="hub-go">Abrir →</span>
+        </a>
       </div>
-      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:16px;">
-        <button class="btn btn-outline" id="btnCancelBill">Cancelar</button>
-        <button class="btn btn-accent" id="btnConfirmBill">Emitir y cobrar</button>
+
+      <div class="note" style="max-width:820px; margin:26px auto 0;">
+        <b>Sobre la facturación electrónica del SRI:</b> los módulos calculan y arman tus comprobantes, pero la <b>autorización oficial del SRI</b> (número de autorización) requiere firma electrónica del negocio + conexión al SRI desde el servidor (Fase C). Hasta entonces, las facturas se marcan como <i>no autorizadas</i>.
       </div>
     </div>
   </div>
@@ -222,6 +118,6 @@
   <div class="toast" id="toast"></div>
 
   <script src="assets/store.js"></script>
-  <script src="assets/pos-app.js"></script>
+  <script src="assets/hub.js"></script>
 </body>
 </html>

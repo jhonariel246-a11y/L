@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Insight · Tributario (SRI)</title>
+  <meta name="theme-color" content="#0a1f3c" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="stylesheet" href="assets/restaurant.css" />
+  <link rel="stylesheet" href="assets/app-pos.css" />
+  <link rel="icon" href="assets/icon.svg" />
+</head>
+<body class="pos-body">
+  <div class="app">
+    <div class="app-bar">
+      <a href="app.html" class="btn btn-ghost btn-sm">← Módulos</a>
+      <div class="brand-mini" style="margin-left:8px;"><span class="brand-mark">i</span> Tributario</div>
+      <div class="store">
+        <span id="syncState" class="sync online"><span class="sdot"></span> En línea</span>
+        · <b id="storeName">Mi negocio</b>
+        <button id="btnLogout" class="btn btn-ghost btn-sm" style="margin-left:10px;">Salir</button>
+      </div>
+    </div>
+
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-tab="resumen">📊 Resumen IVA</button>
+      <button class="tab" data-tab="ventas">📤 Ventas</button>
+      <button class="tab" data-tab="compras">📥 Compras</button>
+    </div>
+
+    <!-- RESUMEN -->
+    <div class="panel active" data-panel="resumen">
+      <div class="panel-head"><h3 id="resTitle">Resumen del mes</h3></div>
+      <div class="stat-row" id="taxStats"></div>
+      <div class="grid-2">
+        <div class="invoice-view" style="max-width:none;">
+          <h4 style="margin-top:0;">Declaración de IVA (borrador)</h4>
+          <table class="data" style="min-width:0"><tbody id="ivaSummary"></tbody></table>
+          <button class="btn btn-accent" id="btnDeclarar" style="margin-top:16px; width:100%; justify-content:center;">Marcar como declarado</button>
+          <p class="muted" style="font-size:.78rem; margin-top:10px;">Borrador referencial. La presentación oficial al SRI (formulario 104 / RIMPE) y su autorización se realizan con firma electrónica desde el servidor (Fase C).</p>
+        </div>
+        <div>
+          <h4>¿Cómo funciona?</h4>
+          <p class="muted" style="font-size:.92rem;">Registra tus <b>ventas</b> (lo que facturas) y tus <b>compras</b> (facturas que recibes). El sistema calcula el IVA cobrado menos el IVA pagado:</p>
+          <ul style="font-size:.92rem; color:var(--ink-700); line-height:1.9;">
+            <li><b>IVA en ventas</b> − <b>IVA en compras</b> = <b>IVA a pagar</b></li>
+            <li>Si el resultado es negativo, queda como <b>crédito tributario</b> para el próximo mes.</li>
+          </ul>
+          <p class="muted" style="font-size:.85rem;">Las ventas emitidas en el módulo de Restaurantes también pueden alimentar aquí en el futuro.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- VENTAS -->
+    <div class="panel" data-panel="ventas">
+      <div class="panel-head"><h3>Ventas (facturas emitidas)</h3><div class="spacer"></div>
+        <button class="btn btn-primary btn-sm" id="btnAddVenta">+ Registrar venta</button>
+      </div>
+      <div class="table-wrap"><table class="data">
+        <thead><tr><th>Fecha</th><th>Detalle</th><th class="num">Base</th><th class="num">IVA 15%</th><th class="num">Total</th><th></th></tr></thead>
+        <tbody id="ventasBody"></tbody>
+      </table></div>
+    </div>
+
+    <!-- COMPRAS -->
+    <div class="panel" data-panel="compras">
+      <div class="panel-head"><h3>Compras (facturas recibidas)</h3><div class="spacer"></div>
+        <button class="btn btn-primary btn-sm" id="btnAddCompra">+ Registrar compra</button>
+      </div>
+      <div class="table-wrap"><table class="data">
+        <thead><tr><th>Fecha</th><th>Proveedor / detalle</th><th class="num">Base</th><th class="num">IVA 15%</th><th class="num">Total</th><th></th></tr></thead>
+        <tbody id="comprasBody"></tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="modal-back" id="docModal">
+    <div class="modal">
+      <h3 id="docModalTitle">Registrar</h3>
+      <input type="hidden" id="dType" />
+      <div class="field"><label id="dLabel">Detalle</label><input id="dDesc" placeholder="Ej. Venta del día / Proveedor X" /></div>
+      <div class="grid-2c">
+        <div class="field"><label>Base imponible (USD)</label><input id="dBase" type="number" step="0.01" min="0" placeholder="100.00" /></div>
+        <div class="field"><label>Fecha</label><input id="dDate" type="date" /></div>
+      </div>
+      <div class="ticket-totals" style="background:var(--bg-soft); padding:12px; border-radius:12px;">
+        <div class="row"><span>IVA 15%</span><span id="dIva">$0.00</span></div>
+        <div class="row grand"><span>Total</span><span id="dTotal">$0.00</span></div>
+      </div>
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:14px;">
+        <button class="btn btn-outline" id="btnCancelDoc">Cancelar</button>
+        <button class="btn btn-primary" id="btnSaveDoc">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="assets/store.js"></script>
+  <script src="assets/gate.js"></script>
+  <script src="assets/tributario.js"></script>
+</body>
+</html>

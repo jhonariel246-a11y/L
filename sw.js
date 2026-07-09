@@ -1,14 +1,19 @@
 /* Insight POS — Service Worker (offline / local-first)
    Cachea el "app shell" para que el sistema funcione sin internet. */
-var CACHE = "insight-pos-v1";
+var CACHE = "insight-pos-v2";
 var ASSETS = [
-  "app.html",
+  "app.html", "pos.html", "cobros.html", "nomina.html", "tributario.html",
   "manifest.webmanifest",
   "assets/styles.css",
   "assets/restaurant.css",
   "assets/app-pos.css",
   "assets/store.js",
+  "assets/gate.js",
+  "assets/hub.js",
   "assets/pos-app.js",
+  "assets/cobros.js",
+  "assets/nomina.js",
+  "assets/tributario.js",
   "assets/icon.svg",
   "assets/icon-maskable.svg"
 ];

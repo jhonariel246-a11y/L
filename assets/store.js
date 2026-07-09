@@ -8,7 +8,7 @@
   "use strict";
 
   var DB_NAME = "insight_pos";
-  var DB_VERSION = 1;
+  var DB_VERSION = 2;
   var dbp = null;
 
   /* ---------- IndexedDB helpers ---------- */
@@ -24,7 +24,7 @@
         if (!db.objectStoreNames.contains("session")) {
           db.createObjectStore("session", { keyPath: "k" });
         }
-        ["menu", "tables", "invoices", "waOrders"].forEach(function (name) {
+        ["menu", "tables", "invoices", "waOrders", "members", "payments", "employees", "taxDocs"].forEach(function (name) {
           if (!db.objectStoreNames.contains(name)) {
             var st = db.createObjectStore(name, { keyPath: "id" });
             st.createIndex("tenant", "tenant", { unique: false });
@@ -246,13 +246,69 @@
     })).then(function () { return seedTenant(tenant); });
   }
 
+  /* ---------- Helper de sesión para todos los módulos ---------- */
+  function getCurrent() {
+    return currentSession().then(function (sess) {
+      if (!sess || !sess.email) return null;
+      return account(sess.email).then(function (acc) {
+        if (!acc) return null;
+        return { email: acc.email, tenant: acc.tenantId, restaurant: acc.restaurant, plan: acc.plan };
+      });
+    });
+  }
+
+  /* ---------- COBROS: miembros y pagos ---------- */
+  function listMembers(tenant) {
+    return allByTenant("members", tenant).then(function (m) {
+      return m.sort(function (a, b) { return (a.name || "").localeCompare(b.name || ""); });
+    });
+  }
+  function saveMember(tenant, m) {
+    m.tenant = tenant;
+    if (!m.id) m.id = "mem_" + randomHex(6);
+    return put("members", m).then(function () { return queueChange(tenant, "member", "put", m).then(function () { return m; }); });
+  }
+  function deleteMember(tenant, id) { return del("members", id).then(function () { return queueChange(tenant, "member", "delete", { id: id }); }); }
+  function listPayments(tenant) { return allByTenant("payments", tenant).then(function (p) { return p.sort(function (a, b) { return b.ts - a.ts; }); }); }
+  function savePayment(tenant, p) {
+    p.tenant = tenant;
+    if (!p.id) p.id = "pay_" + randomHex(8);
+    return put("payments", p).then(function () { return queueChange(tenant, "payment", "create", p).then(function () { return p; }); });
+  }
+
+  /* ---------- NÓMINA: empleados ---------- */
+  function listEmployees(tenant) {
+    return allByTenant("employees", tenant).then(function (e) {
+      return e.sort(function (a, b) { return (a.name || "").localeCompare(b.name || ""); });
+    });
+  }
+  function saveEmployee(tenant, e) {
+    e.tenant = tenant;
+    if (!e.id) e.id = "emp_" + randomHex(6);
+    return put("employees", e).then(function () { return queueChange(tenant, "employee", "put", e).then(function () { return e; }); });
+  }
+  function deleteEmployee(tenant, id) { return del("employees", id).then(function () { return queueChange(tenant, "employee", "delete", { id: id }); }); }
+
+  /* ---------- TRIBUTARIO: comprobantes (ventas/compras) ---------- */
+  function listTaxDocs(tenant) { return allByTenant("taxDocs", tenant).then(function (d) { return d.sort(function (a, b) { return b.ts - a.ts; }); }); }
+  function saveTaxDoc(tenant, d) {
+    d.tenant = tenant;
+    if (!d.id) d.id = "tax_" + randomHex(8);
+    return put("taxDocs", d).then(function () { return queueChange(tenant, "taxDoc", "put", d).then(function () { return d; }); });
+  }
+  function deleteTaxDoc(tenant, id) { return del("taxDocs", id).then(function () { return queueChange(tenant, "taxDoc", "delete", { id: id }); }); }
+
   global.Store = {
     register: register, login: login, logout: logout,
-    currentSession: currentSession, account: account, updateRestaurant: updateRestaurant,
+    currentSession: currentSession, account: account, updateRestaurant: updateRestaurant, getCurrent: getCurrent,
     listMenu: listMenu, saveMenuItem: saveMenuItem, deleteMenuItem: deleteMenuItem,
     listTables: listTables, saveTable: saveTable, deleteTable: deleteTable,
     listInvoices: listInvoices, saveInvoice: saveInvoice, nextInvoiceNumber: nextInvoiceNumber,
     listWaOrders: listWaOrders, saveWaOrder: saveWaOrder,
+    listMembers: listMembers, saveMember: saveMember, deleteMember: deleteMember,
+    listPayments: listPayments, savePayment: savePayment,
+    listEmployees: listEmployees, saveEmployee: saveEmployee, deleteEmployee: deleteEmployee,
+    listTaxDocs: listTaxDocs, saveTaxDoc: saveTaxDoc, deleteTaxDoc: deleteTaxDoc,
     resetTenant: resetTenant,
     onSyncChange: onSyncChange, updateSyncBadge: updateSyncBadge, pendingSyncCount: pendingSyncCount
   };

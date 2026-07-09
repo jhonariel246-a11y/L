@@ -21,20 +21,14 @@
     toastT = setTimeout(function () { toastEl.className = "toast"; }, 2400);
   }
 
-  /* ===================== AUTENTICACIÓN ===================== */
-  function showAuth() {
-    $("#authScreen").style.display = "flex";
-    $("#appScreen").style.display = "none";
-  }
+  /* ===================== ARRANQUE (sesión vía Gate) ===================== */
   function showApp() {
-    $("#authScreen").style.display = "none";
-    $("#appScreen").style.display = "block";
-    $("#storeName").textContent = S.restaurant.name;
+    var n = $("#storeName"); if (n) n.textContent = S.restaurant.name;
     goTab("mesas");
     refreshAll();
   }
 
-  function bindAuth() {
+  function bindAuthUnused() {
     $$(".auth-switch").forEach(function (b) {
       b.addEventListener("click", function () {
         $$(".auth-switch").forEach(function (x) { x.classList.remove("active"); });
@@ -378,18 +372,29 @@
   function emptyInvoiceCard() {
     return '<div class="invoice-view"><p class="muted center" style="padding:30px 0;">Aquí verás el detalle de la factura seleccionada.</p></div>';
   }
+  function claveAcceso(inv) {
+    // Estructura de 49 dígitos estilo SRI (referencial para el borrador).
+    if (inv.clave) return inv.clave;
+    var base = (String(inv.ts || Date.now()) + (S.restaurant.ruc || "0000000000000") + String(inv.num || "").replace(/\D/g, ""));
+    var s = ""; for (var i = 0; i < 49; i++) s += base.charCodeAt(i % base.length) % 10;
+    inv.clave = s;
+    return s;
+  }
   function showInvoice(inv) {
     var rows = inv.lines.map(function (l) { return "<tr><td>" + l.qty + "× " + esc(l.name) + '</td><td class="num">' + money(l.price * l.qty) + "</td></tr>"; }).join("");
+    var clave = claveAcceso(inv);
     $("#invoicePreview").innerHTML =
       '<div class="invoice-view"><div class="iv-head"><div><div class="brand-mark" style="margin-bottom:8px;">i</div><h4>' + esc(S.restaurant.name) + "</h4>" +
       '<div class="iv-meta" style="text-align:left">RUC ' + esc(S.restaurant.ruc || "—") + "<br>" + esc(S.restaurant.address || "Ecuador") + "</div></div>" +
       '<div class="iv-meta">FACTURA<br><b>' + esc(inv.num) + "</b><br>" + esc(inv.time) + "<br>" + esc(inv.pay) + "</div></div>" +
-      '<div style="font-size:.85rem; margin-bottom:10px;"><b>Cliente:</b> ' + esc(inv.client.name) + " · " + esc(inv.client.id) + "<br><b>Origen:</b> " + esc(inv.origin) + "</div>" +
+      '<div class="iv-status">⚠ NO AUTORIZADA POR EL SRI — borrador (Fase C)</div>' +
+      '<div style="font-size:.85rem; margin:10px 0;"><b>Cliente:</b> ' + esc(inv.client.name) + " · " + esc(inv.client.id) + "<br><b>Origen:</b> " + esc(inv.origin) + "</div>" +
       '<table class="data" style="min-width:0"><tbody>' + rows +
       '<tr><td>Subtotal</td><td class="num">' + money(inv.sub) + "</td></tr>" +
       '<tr><td>IVA 15%</td><td class="num">' + money(inv.iva) + "</td></tr>" +
       '<tr class="total-row"><td>TOTAL</td><td class="num">' + money(inv.total) + "</td></tr></tbody></table>" +
-      '<p class="muted center" style="font-size:.75rem; margin-top:14px;">Comprobante generado por Insight · Autorización SRI pendiente de integración (Fase C)</p></div>';
+      '<div class="iv-clave"><span>Clave de acceso</span><code>' + clave + "</code></div>" +
+      '<p class="muted" style="font-size:.72rem; margin-top:10px;">Nº de autorización: <b>pendiente</b>. La autorización oficial del SRI requiere firma electrónica del negocio + envío a los web services del SRI desde el servidor.</p></div>';
   }
 
   /* ===================== REPORTES ===================== */
@@ -518,39 +523,19 @@
       if (!confirm("¿Reiniciar los datos de este restaurante? Se borran menú, mesas y facturas y vuelve al ejemplo inicial.")) return;
       Store.resetTenant(S.tenant).then(refreshAll).then(function () { toast("Datos reiniciados", true); });
     });
-    Store.onSyncChange(function (st) {
-      var el = $("#syncState");
-      if (!el) return;
-      if (st.online) {
-        el.className = "sync online";
-        el.innerHTML = '<span class="sdot"></span> En línea' + (st.pending ? " · " + st.pending + " por sincronizar" : " · sincronizado");
-      } else {
-        el.className = "sync offline";
-        el.innerHTML = '<span class="sdot"></span> Sin internet · guardando local' + (st.pending ? " (" + st.pending + " en cola)" : "");
-      }
-    });
+    // El estado de sincronización lo pinta Gate (barra compartida).
   }
 
   /* ===================== INIT ===================== */
   document.addEventListener("DOMContentLoaded", function () {
     toastEl = $("#toast");
     waBody = $("#waBody");
-    bindAuth(); bindTabs(); bindOrder(); bindInventory(); bindWa(); bindMisc();
+    bindTabs(); bindOrder(); bindInventory(); bindWa(); bindMisc();
 
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("sw.js").catch(function () {});
-    }
-
-    Store.currentSession().then(function (sess) {
-      if (sess && sess.email) {
-        return Store.account(sess.email).then(function (acc) {
-          if (acc) { S.email = acc.email; S.tenant = acc.tenantId; S.restaurant = acc.restaurant; showApp(); }
-          else showAuth();
-        });
-      }
-      showAuth();
-    }).catch(showAuth);
-
-    Store.updateSyncBadge();
+    Gate.init().then(function (cur) {
+      if (!cur) return; // Gate ya redirige a app.html si no hay sesión
+      S.email = cur.email; S.tenant = cur.tenant; S.restaurant = cur.restaurant;
+      showApp();
+    });
   });
 })();
