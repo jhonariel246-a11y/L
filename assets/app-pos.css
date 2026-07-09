@@ -60,6 +60,10 @@
 .hub-tag { position: absolute; top: 20px; right: 22px; font-size: .72rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--accent-600); background: rgba(23,184,144,.12); padding: .3em .7em; border-radius: 999px; }
 .hub-go { margin-top: auto; font-weight: 800; color: var(--brand-600); }
 
+.fe-box { display:flex; align-items:center; gap:18px; background:#fff; border:1px solid var(--line); border-radius: var(--radius); padding: 20px 24px; margin-top: 22px; box-shadow: var(--shadow-sm); }
+.fe-box .fe-info { flex:1; } .fe-box h3 { margin:0 0 4px; font-size:1.1rem; } .fe-box p { margin:0; font-size:.9rem; }
+@media (max-width:620px){ .fe-box { flex-direction:column; align-items:stretch; } }
+
 @media (max-width: 860px) {
   .auth-screen { grid-template-columns: 1fr; }
   .auth-brand { padding: 40px 24px; }

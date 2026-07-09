@@ -109,14 +109,41 @@
         </a>
       </div>
 
-      <div class="note" style="max-width:820px; margin:26px auto 0;">
-        <b>Sobre la facturación electrónica del SRI:</b> los módulos calculan y arman tus comprobantes, pero la <b>autorización oficial del SRI</b> (número de autorización) requiere firma electrónica del negocio + conexión al SRI desde el servidor (Fase C). Hasta entonces, las facturas se marcan como <i>no autorizadas</i>.
+      <!-- Facturación electrónica: subir certificado -->
+      <div class="fe-box" id="feBox">
+        <div class="fe-info">
+          <h3>🔐 Facturación electrónica (SRI)</h3>
+          <p id="feStatus" class="muted">Verificando estado…</p>
+        </div>
+        <button class="btn btn-primary" id="btnActivarFE">Activar / actualizar certificado</button>
       </div>
+
+      <div class="note" style="max-width:820px; margin:18px auto 0;">
+        <b>Cómo funciona:</b> para emitir facturas autorizadas por el SRI, sube una sola vez tu <b>firma electrónica (.p12)</b> y su clave. La guardamos <b>cifrada</b> en el servidor y con ella firmamos automáticamente todas tus facturas. Tu clave nunca se muestra ni se comparte.
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal activar facturación electrónica -->
+  <div class="modal-back" id="feModal">
+    <div class="modal">
+      <h3>Activar facturación electrónica</h3>
+      <p class="muted" style="font-size:.9rem; margin-top:-6px;">Sube tu certificado de firma electrónica (archivo <b>.p12</b>) y la clave con la que lo protegiste.</p>
+      <div class="field"><label>Archivo .p12</label><input id="feP12" type="file" accept=".p12,.pfx" /></div>
+      <div class="field"><label>Clave del certificado</label><input id="fePass" type="password" placeholder="clave de tu firma electrónica" /></div>
+      <div class="field"><label>Ambiente</label><select id="feAmb"><option value="1">Pruebas (certificación)</option><option value="2">Producción</option></select></div>
+      <p id="feResult" class="auth-mini"></p>
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:8px;">
+        <button class="btn btn-outline" id="feCancel">Cancelar</button>
+        <button class="btn btn-accent" id="feSave">Guardar certificado</button>
+      </div>
+      <p class="auth-mini">🔒 El archivo viaja cifrado por HTTPS y se guarda cifrado (AES-256) en el servidor. Solo se usa para firmar tus comprobantes.</p>
     </div>
   </div>
 
   <div class="toast" id="toast"></div>
 
+  <script src="assets/config.js"></script>
   <script src="assets/store.js"></script>
   <script src="assets/hub.js"></script>
 </body>

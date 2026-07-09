@@ -1,12 +1,13 @@
 /* Insight POS — Service Worker (offline / local-first)
    Cachea el "app shell" para que el sistema funcione sin internet. */
-var CACHE = "insight-pos-v2";
+var CACHE = "insight-pos-v3";
 var ASSETS = [
   "app.html", "pos.html", "cobros.html", "nomina.html", "tributario.html",
   "manifest.webmanifest",
   "assets/styles.css",
   "assets/restaurant.css",
   "assets/app-pos.css",
+  "assets/config.js",
   "assets/store.js",
   "assets/gate.js",
   "assets/hub.js",
@@ -44,6 +45,7 @@ self.addEventListener("fetch", function (e) {
   if (req.method !== "GET") return;
   var url = new URL(req.url);
   if (url.origin !== self.location.origin) return; // solo mismo origen
+  if (url.pathname.indexOf("/api/") === 0) return;  // nunca cachear la API
 
   e.respondWith(
     caches.match(req).then(function (cached) {

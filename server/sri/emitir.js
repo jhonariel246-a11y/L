@@ -45,8 +45,19 @@ async function emitirFactura(opts) {
   }
   var firmado = firmarFactura(built.xml, opts.certificado.p12, opts.certificado.password);
 
-  // 4) Recepción
-  var recepcion = await enviarRecepcion(firmado.xml, ambiente);
+  // Modo prueba local: detenerse tras firmar (sin llamar al SRI)
+  if (opts.soloFirmar) {
+    return { claveAcceso: claveAcceso, estado: "FIRMADO", totales: built.totales, xmlFirmado: firmado.xml };
+  }
+
+  // 4) Recepción (con manejo de error de conexión)
+  var recepcion;
+  try {
+    recepcion = await enviarRecepcion(firmado.xml, ambiente);
+  } catch (e) {
+    return { claveAcceso: claveAcceso, estado: "ERROR_CONEXION_SRI", mensajes: [String(e.message || e)], xmlFirmado: firmado.xml,
+      nota: "No se pudo contactar los web services del SRI (revisa la red del servidor / que el ambiente sea el correcto)." };
+  }
   if (recepcion.estado !== "RECIBIDA") {
     return { claveAcceso: claveAcceso, estado: "DEVUELTA", estadoRecepcion: recepcion.estado, mensajes: recepcion.mensajes, xmlFirmado: firmado.xml };
   }
