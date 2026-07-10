@@ -4,6 +4,10 @@
 window.INSIGHTPAY = {
   API_BASE: "",
 
+  // Supabase (valores PÚBLICOS: la publishable/anon key va en el navegador).
+  SUPABASE_URL: "https://niecvhyfplqzusitxjvk.supabase.co",
+  SUPABASE_ANON_KEY: "sb_publishable_djRJEXPbBamqtLpzlyeQfw_r71puaWq",
+
   // Número de WhatsApp de InsightPay para gestionar la compra de firmas
   // electrónicas (solo dígitos, con código de país). CAMBIAR por el real.
   WHATSAPP: "593999999999",

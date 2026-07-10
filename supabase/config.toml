@@ -1,0 +1,5 @@
+# InsightPay — configuración de Supabase (CLI)
+project_id = "niecvhyfplqzusitxjvk"
+
+[db]
+major_version = 15
