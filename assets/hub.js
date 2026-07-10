@@ -68,7 +68,7 @@
         }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
           .then(function (res) {
             if (res.ok && res.j.ok) {
-              $("#feResult").innerHTML = "✅ Activada · RUC " + (res.j.ruc || "") + " · " + (res.j.razonSocial || "");
+              $("#feResult").textContent = "✅ Activada · RUC " + (res.j.ruc || "") + " · " + (res.j.razonSocial || "");
               toast("Facturación electrónica activada", true);
               refreshFEStatus();
               setTimeout(function () { modal.classList.remove("open"); }, 1400);

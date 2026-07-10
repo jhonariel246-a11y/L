@@ -20,7 +20,11 @@ var DATA_DIR = path.join(__dirname, "data", "certs");
 function masterKey() {
   var hex = process.env.INSIGHTPAY_MASTER_KEY;
   if (hex && /^[0-9a-fA-F]{64}$/.test(hex)) return Buffer.from(hex, "hex");
-  // Clave de DESARROLLO derivada (no usar en producción).
+  // En producción NO se permite arrancar sin clave maestra real.
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("INSIGHTPAY_MASTER_KEY no configurada (32 bytes hex). El servidor no cifra certificados con una clave por defecto en producción.");
+  }
+  console.warn("[InsightPay] ADVERTENCIA: usando clave maestra de DESARROLLO. Configura INSIGHTPAY_MASTER_KEY (openssl rand -hex 32) en producción.");
   return crypto.createHash("sha256").update("insightpay-dev-key-cambiar-en-produccion").digest();
 }
 
