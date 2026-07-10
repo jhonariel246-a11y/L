@@ -88,7 +88,6 @@
     if (name === "facturacion") renderInvoices();
     if (name === "reportes") renderReports();
     if (name === "mesas") renderTables();
-    if (name === "whatsapp") renderWaQueue();
   }
   function bindTabs() {
     $$("#tabs .tab").forEach(function (t) { t.addEventListener("click", function () { goTab(t.dataset.tab); }); });
@@ -138,7 +137,7 @@
     var t = findTable(id);
     $("#tablesView").style.display = "none";
     $("#orderView").style.display = "block";
-    $("#orderTitle").textContent = t.name + (t.type === "togo" ? " · Para llevar" : "");
+    $("#orderTitle").textContent = t.name;
     $("#ticketTitle").textContent = "Cuenta · " + t.name;
     S.cat = "Todos";
     renderMenuCats(); renderMenuItems(); renderTicket();
@@ -266,7 +265,7 @@
         if (m) { m.stock = Math.max(0, m.stock - l.qty); stockOps.push(Store.saveMenuItem(S.tenant, m)); }
       });
       var inv = {
-        num: num, origin: t.type === "togo" ? "WhatsApp" : t.name, client: client,
+        num: num, origin: t.type === "togo" ? "Para llevar" : t.name, client: client,
         pay: $("#bPay").value, lines: t.lines.slice(),
         sub: tot.sub, iva: tot.iva, total: tot.total, ts: Date.now(),
         time: new Date().toLocaleString("es-EC", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })
@@ -419,7 +418,7 @@
 
       var chan = {};
       invoices.forEach(function (inv) {
-        var key = inv.origin === "WhatsApp" ? "WhatsApp (para llevar)" : "Mesa (salón)";
+        var key = (inv.origin && inv.origin.indexOf("llevar") !== -1) ? "Para llevar" : "Mesa (salón)";
         chan[key] = chan[key] || { n: 0, t: 0 }; chan[key].n++; chan[key].t += inv.total;
       });
       var keys = Object.keys(chan);
@@ -429,92 +428,10 @@
     });
   }
 
-  /* ===================== WHATSAPP (bot simulado) ===================== */
-  var waBody, waBusy = false, custNum = 0;
-  function waPush(text, who) {
-    var m = document.createElement("div");
-    m.className = "wa-msg " + who;
-    var time = new Date().toLocaleTimeString("es-EC", { hour: "2-digit", minute: "2-digit" });
-    m.innerHTML = esc(text) + '<span class="t">' + time + "</span>";
-    waBody.appendChild(m); waBody.scrollTop = waBody.scrollHeight;
-  }
-  function typing(cb, d) { $("#waStatus").textContent = "escribiendo…"; setTimeout(function () { $("#waStatus").textContent = "en línea · bot activo"; cb(); }, d || 900); }
-  function menuText() {
-    var byCat = {};
-    S.menu.forEach(function (m) { if (m.stock > 0) { (byCat[m.cat] = byCat[m.cat] || []).push(m); } });
-    var lines = ["📋 Menú del día"];
-    Object.keys(byCat).forEach(function (c) { lines.push("\n" + c); byCat[c].forEach(function (m) { lines.push("• " + m.name + " — " + money(m.price)); }); });
-    lines.push("\nEscríbeme lo que deseas 😊");
-    return lines.join("\n");
-  }
-  function bindWa() {
-    $("#btnSimWa").addEventListener("click", function () {
-      if (waBusy) return;
-      if (!S.menu.length) return toast("Agrega platos al menú primero (pestaña Inventario)");
-      waBusy = true; custNum++;
-      var phone = "+593 99" + String(1000000 + Math.floor(Math.random() * 8999999));
-      var avail = S.menu.filter(function (m) { return m.stock > 0; });
-      var pick = [];
-      pick.push({ m: avail[0], qty: 2 });
-      if (avail[1]) pick.push({ m: avail[1], qty: 1 });
-      waBody.innerHTML = "";
-      waPush("Buenas, ¿tienen para llevar?", "user");
-      typing(function () {
-        waPush("¡Hola! 👋 Bienvenido a " + S.restaurant.name + ". Claro que sí. Te comparto el menú:", "bot");
-        typing(function () {
-          waPush(menuText(), "bot");
-          typing(function () {
-            var req = pick.map(function (p) { return p.qty + " " + p.m.name; }).join(", ");
-            waPush("Quiero " + req + " porfa", "user");
-            typing(function () {
-              var lines = pick.map(function (p) { return { id: p.m.id, name: p.m.name, price: p.m.price, qty: p.qty }; });
-              var tot = totalsOf(lines);
-              var resumen = lines.map(function (l) { return "• " + l.qty + "× " + l.name + " — " + money(l.price * l.qty); }).join("\n");
-              waPush("Perfecto ✅ Tu pedido:\n" + resumen + "\n\nSubtotal: " + money(tot.sub) + "\nIVA 15%: " + money(tot.iva) + "\nTotal: " + money(tot.total) + "\n\n¿Confirmo? (sí/no)", "bot");
-              typing(function () {
-                waPush("Sí, confirmado 🙌", "user");
-                typing(function () {
-                  waPush("¡Listo! 🎉 Tu pedido entró a cocina (15–20 min). Ya avisé a la computadora del local. ¡Gracias!", "bot");
-                  Store.saveWaOrder(S.tenant, { phone: phone, lines: lines, total: tot.total, ts: Date.now(), time: new Date().toLocaleTimeString("es-EC", { hour: "2-digit", minute: "2-digit" }), accepted: false })
-                    .then(function () { renderWaQueue(); toast("💬 Nuevo pedido por WhatsApp · " + money(tot.total), true); });
-                  waBusy = false;
-                }, 800);
-              }, 700);
-            }, 1000);
-          }, 1000);
-        }, 800);
-      }, 600);
-    });
-  }
-  function renderWaQueue() {
-    Store.listWaOrders(S.tenant).then(function (orders) {
-      var pending = orders.filter(function (o) { return !o.accepted; });
-      var q = $("#waQueue");
-      var badge = $("#waBadge");
-      if (pending.length) { badge.style.display = ""; badge.textContent = pending.length; } else { badge.style.display = "none"; }
-      if (!pending.length) { q.innerHTML = '<p class="ticket-empty">No hay órdenes pendientes.<br>Pulsa "Simular cliente entrante".</p>'; return; }
-      q.innerHTML = "";
-      pending.forEach(function (o) {
-        var items = o.lines.map(function (l) { return l.qty + "× " + l.name; }).join(", ");
-        var d = document.createElement("div");
-        d.className = "wa-order";
-        d.innerHTML = '<div class="wo-head">💬 ' + esc(o.phone) + ' <span class="amt">' + money(o.total) + "</span></div>" +
-          '<div class="wo-items">' + esc(items) + " · " + esc(o.time) + "</div>" +
-          '<div class="wo-actions"><button class="btn btn-accent btn-sm">✓ Aceptar y crear pedido</button></div>';
-        d.querySelector("button").addEventListener("click", function () { acceptWa(o); });
-        q.appendChild(d);
-      });
-    });
-  }
-  function acceptWa(o) {
-    o.accepted = true;
-    Store.saveWaOrder(S.tenant, o).then(function () {
-      var newTable = { id: "tb_togo_" + Date.now(), tenant: S.tenant, num: 900, name: "Llevar " + o.phone.slice(-4), type: "togo", lines: o.lines.slice(), status: "busy" };
-      return Store.saveTable(S.tenant, newTable);
-    }).then(refreshAll).then(function () {
-      renderWaQueue();
-      toast("🛍️ Pedido enviado a la compu del local (Para llevar)", true);
-    });
+  /* ===================== PARA LLEVAR (manual) ===================== */
+  function nuevoParaLlevar() {
+    var newTable = { id: "tb_togo_" + Date.now(), tenant: S.tenant, num: 900, name: "Para llevar", type: "togo", lines: [], status: "busy" };
+    Store.saveTable(S.tenant, newTable).then(refreshAll).then(function () { openOrder(newTable.id); });
   }
 
   /* ===================== VARIOS ===================== */
@@ -529,8 +446,9 @@
   /* ===================== INIT ===================== */
   document.addEventListener("DOMContentLoaded", function () {
     toastEl = $("#toast");
-    waBody = $("#waBody");
-    bindTabs(); bindOrder(); bindInventory(); bindWa(); bindMisc();
+    var btnTogo = $("#btnParaLlevar");
+    if (btnTogo) btnTogo.addEventListener("click", nuevoParaLlevar);
+    bindTabs(); bindOrder(); bindInventory(); bindMisc();
 
     Gate.init().then(function (cur) {
       if (!cur) return; // Gate ya redirige a app.html si no hay sesión

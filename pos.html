@@ -26,7 +26,6 @@
 
       <div class="tabs" id="tabs">
         <button class="tab active" data-tab="mesas">🍽️ Mesas</button>
-        <button class="tab" data-tab="whatsapp">💬 WhatsApp <span class="badge" id="waBadge" style="display:none">0</span></button>
         <button class="tab" data-tab="inventario">📦 Menú e inventario</button>
         <button class="tab" data-tab="facturacion">🧾 Facturación</button>
         <button class="tab" data-tab="reportes">📊 Reportes</button>
@@ -36,6 +35,7 @@
         <div class="panel-head">
           <h3 id="mesasTitle">Mesas del local</h3>
           <div class="spacer"></div>
+          <button class="btn btn-accent btn-sm" id="btnParaLlevar">🛍️ Para llevar</button>
           <button class="btn btn-outline btn-sm" id="btnResetDemo">↺ Reiniciar datos</button>
         </div>
         <div id="tablesView"><div class="tables-grid" id="tablesGrid"></div></div>
@@ -64,30 +64,6 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div class="panel" data-panel="whatsapp">
-        <div class="panel-head">
-          <h3>Pedidos por WhatsApp</h3>
-          <div class="spacer"></div>
-          <button class="btn btn-accent btn-sm" id="btnSimWa">▶ Simular cliente entrante</button>
-        </div>
-        <div class="wa-layout">
-          <div>
-            <div class="phone">
-              <div class="wa-top"><div class="av">🍽️</div><div><b>Tu local</b><span id="waStatus">en línea · bot activo</span></div></div>
-              <div class="wa-body" id="waBody"></div>
-            </div>
-          </div>
-          <div class="wa-side">
-            <h4>Órdenes que llegan al local</h4>
-            <p class="muted" style="font-size:.9rem; margin-top:-4px;">Cada pedido confirmado por el bot aparece aquí y se convierte en una mesa "Para llevar".</p>
-            <div class="wa-queue" id="waQueue"><p class="ticket-empty">Aún no hay órdenes.</p></div>
-          </div>
-        </div>
-        <div class="note" style="margin-top:22px;">
-          <b>Nota (Fase B):</b> el bot de WhatsApp real corre en la nube 24/7 con la <b>API de WhatsApp Business (Meta/Twilio)</b>, para que conteste incluso con la computadora del local apagada. Aquí ves el flujo simulado.
         </div>
       </div>
 

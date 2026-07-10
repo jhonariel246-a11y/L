@@ -10,7 +10,6 @@ var express = require("express");
 var path = require("path");
 var certStore = require("./cert-store");
 var { emitirFactura } = require("./sri/emitir");
-var wa = require("./whatsapp/handler");
 
 var app = express();
 app.use(express.json({ limit: "8mb" })); // el .p12 en base64 puede pesar
@@ -78,28 +77,6 @@ app.post("/api/facturas", async function (req, res) {
   } catch (e) {
     res.status(500).json({ error: "Error al emitir: " + (e.message || e) });
   }
-});
-
-/* ---- WhatsApp: verificación del webhook (Meta hace un GET al configurarlo) ---- */
-app.get("/webhook/whatsapp", function (req, res) {
-  var verifyToken = process.env.WHATSAPP_VERIFY_TOKEN || "insightpay-verify";
-  if (req.query["hub.mode"] === "subscribe" && req.query["hub.verify_token"] === verifyToken) {
-    return res.status(200).send(req.query["hub.challenge"]);
-  }
-  res.sendStatus(403);
-});
-
-/* ---- WhatsApp: recepción de mensajes entrantes ---- */
-app.post("/webhook/whatsapp", async function (req, res) {
-  res.sendStatus(200); // responder rápido a Meta
-  try { await wa.procesarWebhook(req.body); } catch (e) { console.error("webhook wa:", e); }
-});
-
-/* ---- Pedidos de WhatsApp que llegan al local (para que el POS los muestre) ---- */
-app.get("/api/whatsapp/pedidos", function (req, res) {
-  var tenant = req.query.tenant;
-  if (!tenant) return res.status(400).json({ error: "falta tenant" });
-  res.json({ pedidos: wa.pedidosDe(tenant) });
 });
 
 app.get("/api/health", function (req, res) { res.json({ ok: true, servicio: "InsightPay API" }); });
