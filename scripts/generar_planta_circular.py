@@ -115,10 +115,69 @@ text('COTAS', 1.2, 1.05, 0.20, f"R = {R:.2f}", 0, 'start')
 text('TEXTOS', perim[0][0]-0.5, perim[0][1]+0.75, 0.16, "PLINTO 1.00x1.00", 0, 'middle')
 text('TEXTOS', (perim[0][0]+perim[1][0])/2+1.1,
      (perim[0][1]+perim[1][1])/2, 0.16, "RIOSTRA e=0.20", 0, 'middle')
-text('TEXTOS', 0.0, -R_EJE_EXT-0.9, 0.30,
+# --------------------------------------------------------------------------
+# 6) MARCO + MEMBRETE (rotulo)
+# --------------------------------------------------------------------------
+def _bounds():
+    xs, ys = [], []
+    for pr in prims:
+        if pr[0] == 'line':
+            xs += [pr[2], pr[4]]; ys += [pr[3], pr[5]]
+        elif pr[0] == 'circle':
+            xs += [pr[2]-pr[4], pr[2]+pr[4]]; ys += [pr[3]-pr[4], pr[3]+pr[4]]
+        elif pr[0] == 'poly':
+            xs += [q[0] for q in pr[2]]; ys += [q[1] for q in pr[2]]
+        elif pr[0] == 'text':
+            xs.append(pr[2]); ys.append(pr[3])
+    return min(xs), max(xs), min(ys), max(ys)
+
+dxmin, dxmax, dymin, dymax = _bounds()
+
+# --- Membrete (tabla del rotulo) ---
+TW, TH = 6.00, 2.55                       # ancho / alto del membrete
+gap = 0.60
+mb_r = dxmax + 0.90                        # borde derecho
+mb_l = mb_r - TW
+mb_t = dymin - gap                         # borde superior
+mb_b = mb_t - TH
+pad = 0.14
+
+def rect(lay, x1, y1, x2, y2):
+    poly(lay, [(x1, y1), (x2, y1), (x2, y2), (x1, y2)])
+
+# caja y filas
+rect('MEMBRETE', mb_l, mb_b, mb_r, mb_t)
+tit_y = mb_t - 0.55                        # base de la barra de titulo
+rows = [mb_t - 1.05, mb_t - 1.55, mb_t - 2.05]   # lineas horizontales internas
+line('MEMBRETE', mb_l, tit_y, mb_r, tit_y)
+for ry in rows:
+    line('MEMBRETE', mb_l, ry, mb_r, ry)
+midx = mb_l + TW/2.0
+line('MEMBRETE', midx, rows[1], midx, mb_b)      # divisor filas inferiores
+t3x = mb_l + TW/3.0
+line('MEMBRETE', t3x, rows[2], t3x, mb_b)
+line('MEMBRETE', mb_l + 2*TW/3.0, rows[2], mb_l + 2*TW/3.0, mb_b)
+
+def rowtext(x, ytop, ybot, s, h=0.17):
+    text('MEMBRETE', x + pad, ybot + (ytop - ybot - h)/2.0, h, s, 0, 'start')
+
+# Titulo
+text('MEMBRETE', midx, tit_y + (0.55 - 0.24)/2.0, 0.24,
      "PLANTA DE CIMENTACION - CASA CIRCULAR", 0, 'middle')
-text('TEXTOS', 0.0, -R_EJE_EXT-1.35, 0.17,
-     f"{N} columnas perimetrales + 1 central   |   esc. real (m)", 0, 'middle')
+# Filas
+rowtext(mb_l, tit_y, rows[0], "DIBUJANTE:  John Ariel Martinez")
+rowtext(mb_l, rows[0], rows[1], "ASIGNATURA:  Planos Digitales")
+rowtext(mb_l, rows[1], rows[2], "Segundo Parcial")
+rowtext(midx, rows[1], rows[2], "CARRERA:  Ingenieria Civil")
+rowtext(mb_l, rows[2], mb_b, "FECHA: 2026-07-13")
+rowtext(t3x,  rows[2], mb_b, "ESC: indicada")
+rowtext(mb_l + 2*TW/3.0, rows[2], mb_b, "LAMINA: 01")
+
+# --- Marco de lamina ---
+bx1, by2 = dxmin - 0.90, dymax + 0.90
+bx2, by1 = mb_r, mb_b - 0.30
+rect('MARCO', bx1, by1, bx2, by2)
+rect('MARCO', bx1 + 0.10, by1 + 0.10, bx2 - 0.10, by2 - 0.10)
 
 # --------------------------------------------------------------------------
 # ESCRITURA DXF  (R12 ASCII - maxima compatibilidad)
@@ -126,6 +185,7 @@ text('TEXTOS', 0.0, -R_EJE_EXT-1.35, 0.17,
 LAYERS = {   # nombre: color ACI
     'EJES': 1, 'COLUMNAS': 7, 'PLINTOS': 2,
     'RIOSTRAS': 4, 'COTAS': 8, 'TEXTOS': 3, 'MUROS': 9,
+    'MARCO': 7, 'MEMBRETE': 7,
 }
 
 def g(code, val):        # par de grupo DXF
@@ -211,7 +271,7 @@ def Y(y): return (ymax - y + M) * SC     # flip
 
 COLS = {'EJES': '#b23b3b', 'COLUMNAS': '#222222', 'PLINTOS': '#7a6c53',
         'RIOSTRAS': '#5b7fa6', 'COTAS': '#888888', 'TEXTOS': '#222222',
-        'MUROS': '#c0c0c0'}
+        'MUROS': '#c0c0c0', 'MARCO': '#333333', 'MEMBRETE': '#333333'}
 FILL = {'PLINTOS': '#f3ede0', 'RIOSTRAS': '#c9d6e5', 'COLUMNAS': '#3a3a3a'}
 
 o = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.0f}" height="{H:.0f}" '
