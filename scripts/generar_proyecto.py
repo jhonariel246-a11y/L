@@ -30,6 +30,7 @@ EXT = 0.90    # extension de ejes
 
 MEMBRETE_BASE = dict(dib="John Ariel Martinez", asg="Planos Digitales",
                      par="Segundo Parcial", car="Ingenieria Civil", fecha="2026-07-13")
+REF_LINK = "https://drive.google.com/file/d/1zfL9muo_BWWw2PnaNCiBtKRWGQREuz5W/view"
 
 # ==========================================================================
 # Componentes reutilizables
@@ -200,6 +201,10 @@ def membrete(s, titulo, lamina):
     rt(mb_l, rows[2], mb_b, f"FECHA: {m['fecha']}")
     rt(t3,  rows[2], mb_b, "ESC: indicada")
     rt(mb_l + 2*TW/3, rows[2], mb_b, lamina)
+
+    if REF_LINK:
+        s.text('MEMBRETE', mb_l, mb_t + 0.20, 0.13,
+               f"REF. ARCHIVO ORIGINAL:  {REF_LINK}", 0, 'start')
 
     bx1, by2 = dxmin - 0.9, dymax + 0.9
     bx2, by1 = mb_r, mb_b - 0.3

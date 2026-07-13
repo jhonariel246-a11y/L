@@ -8,22 +8,19 @@
 
 ## 1. Enlace del archivo original
 
-Archivo CAD fuente (DWG/DXF) del que se desarrollan los planos estructurales:
+Archivo original del proyecto del que se desarrollan los planos estructurales:
 
-> **Enlace:** _`<<REEMPLAZAR CON EL ENLACE DEL ARCHIVO ORIGINAL>>`_
->
-> _(pegar aquí la URL del DWG/DXF alojado en Drive / OneDrive / plataforma del curso)_
+> **Enlace:** https://drive.google.com/file/d/1zfL9muo_BWWw2PnaNCiBtKRWGQREuz5W/view?usp=drivesdk
 
 | Campo | Detalle |
 |-------|---------|
-| Nombre del archivo | `planos_estructurales.dwg` |
-| Formato | DWG / DXF (AutoCAD) |
-| Versión de avance | v0.1 — propuesta de cimentación |
-| Enlace | *(por completar)* |
+| Ubicación | Google Drive |
+| Versión de avance | v1.0 — propuesta de cimentación |
+| Enlace | [Abrir archivo original](https://drive.google.com/file/d/1zfL9muo_BWWw2PnaNCiBtKRWGQREuz5W/view?usp=drivesdk) |
 
-> Nota: el repositorio versiona la **documentación del avance** y el **dibujo
-> vectorial de referencia** (`planos/planta-cimentacion.svg`). El DWG binario
-> se enlaza externamente porque no es apto para control de versiones en texto.
+> ⚠️ **Permisos:** para que el enlace sea accesible, el archivo en Drive debe
+> compartirse como **"Cualquier persona con el enlace"**. Verificar antes de la
+> entrega (al momento de este avance el enlace responde 403 / restringido).
 
 ---
 
