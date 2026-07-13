@@ -376,7 +376,7 @@ def build_cimentacion():
     s.text('TEXTOS', XS[0], YS[-1]+0.72, 0.16, "PLINTO 1.00x1.00", 0, 'middle')
     s.text('TEXTOS', (sx[0]+sx[1])/2, YS[0]-0.02, 0.15, "RIOSTRA e=0.20", 0, 'middle')
     cotas_generales(s)
-    s.text('TEXTOS', (X0+X1)/2, Y1+EXT+0.6, 0.34, "04 - PLANTA DE CIMENTACION", 0, 'middle')
+    s.text('TEXTOS', (X0+X1)/2, Y1+EXT+0.6, 0.34, "PLANTA DE CIMENTACION", 0, 'middle')
     return s
 
 # ==========================================================================
@@ -428,7 +428,7 @@ if __name__ == "__main__":
     emit(build_planta_baja, "PLANTA BAJA", "LAMINA: 01", "arq-planta-baja")
     emit(build_primer_piso, "PRIMER PISO", "LAMINA: 02", "arq-primer-piso")
     emit(build_segundo_piso, "SEGUNDO PISO", "LAMINA: 03", "arq-segundo-piso")
-    emit(build_cimentacion, "PLANTA DE CIMENTACION", "LAMINA: 04", "planta-cimentacion")
+    emit(build_cimentacion, "PLANTA DE CIMENTACION", "LAMINA: 01", "planta-cimentacion")
     emit_combinado()
     print("OK - 4 laminas individuales + 1 lamina general (proyecto-completo)")
     print(f"Casa {X1-X0:.2f} x {Y1-Y0:.2f} m | {len(XS)*len(YS)} columnas/plintos")

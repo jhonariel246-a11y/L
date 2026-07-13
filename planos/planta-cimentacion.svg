@@ -114,7 +114,7 @@
 <line x1="696.8" y1="560.0" x2="704.8" y2="560.0" stroke="#6a6a6a" stroke-width="1.0"/>
 <line x1="696.8" y1="120.0" x2="704.8" y2="120.0" stroke="#6a6a6a" stroke-width="1.0"/>
 <text x="706.4" y="343.6" font-size="7" text-anchor="start" fill="#6a6a6a">11.00</text>
-<text x="360.8" y="60.0" font-size="14" text-anchor="middle" fill="#111111">04 - PLANTA DE CIMENTACION</text>
+<text x="360.8" y="60.0" font-size="14" text-anchor="middle" fill="#111111">PLANTA DE CIMENTACION</text>
 <polygon points="486.4,790.0 742.4,790.0 742.4,688.0 486.4,688.0" fill="none" stroke="#333333" stroke-width="1.1"/>
 <line x1="486.4" y1="710.0" x2="742.4" y2="710.0" stroke="#333333" stroke-width="1.0"/>
 <line x1="486.4" y1="730.0" x2="742.4" y2="730.0" stroke="#333333" stroke-width="1.0"/>
@@ -130,7 +130,7 @@
 <text x="620.0" y="763.4" font-size="7" text-anchor="start" fill="#333333">CARRERA:  Ingenieria Civil</text>
 <text x="492.0" y="783.4" font-size="7" text-anchor="start" fill="#333333">FECHA: 2026-07-13</text>
 <text x="577.3" y="783.4" font-size="7" text-anchor="start" fill="#333333">ESC: indicada</text>
-<text x="662.7" y="783.4" font-size="7" text-anchor="start" fill="#333333">LAMINA: 04</text>
+<text x="662.7" y="783.4" font-size="7" text-anchor="start" fill="#333333">LAMINA: 01</text>
 <text x="486.4" y="680.0" font-size="5" text-anchor="start" fill="#333333">REF. ARCHIVO ORIGINAL:  https://drive.google.com/file/d/1zfL9muo_BWWw2PnaNCiBtKRWGQREuz5W/view</text>
 <polygon points="24.0,802.0 742.4,802.0 742.4,24.0 24.0,24.0" fill="none" stroke="#333333" stroke-width="1.1"/>
 <polygon points="28.0,798.0 738.4,798.0 738.4,28.0 28.0,28.0" fill="none" stroke="#333333" stroke-width="1.1"/>
