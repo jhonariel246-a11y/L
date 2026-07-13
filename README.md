@@ -5,6 +5,10 @@ de referencia (fachada). La distribución es una **propuesta**.
 
 ## Láminas
 
+**Todo en un solo archivo (referencia):**
+[`planos/proyecto-completo.dxf`](planos/proyecto-completo.dxf) ·
+[vista previa](planos/proyecto-completo.svg) — las 4 plantas en una lámina general.
+
 | Lámina | Archivo CAD | Vista previa |
 |--------|-------------|--------------|
 | 01 · Planta Baja | [`planos/arq-planta-baja.dxf`](planos/arq-planta-baja.dxf) | [svg](planos/arq-planta-baja.svg) |

@@ -209,7 +209,7 @@ def membrete(s, titulo, lamina):
 # ==========================================================================
 # LAMINA 01 - PLANTA BAJA
 # ==========================================================================
-def planta_baja():
+def build_planta_baja():
     s = Sheet()
     ejes_y_columnas(s)
     env(s)
@@ -251,14 +251,13 @@ def planta_baja():
     table(s, 9.0, 6.8, 1.8, 1.1)                     # comedor
     kitchen(s, 0.4, 6.0, 4.6, 10.4)
     cotas_generales(s)
-    membrete(s, "PLANTA BAJA", "LAMINA: 01")
-    write_dxf(s, "planos/arq-planta-baja.dxf")
-    write_svg(s, "planos/arq-planta-baja.svg")
+    s.text('TEXTOS', (X0+X1)/2, Y1+EXT+0.6, 0.34, "01 - PLANTA BAJA", 0, 'middle')
+    return s
 
 # ==========================================================================
 # LAMINA 02 - PRIMER PISO
 # ==========================================================================
-def primer_piso():
+def build_primer_piso():
     s = Sheet()
     ejes_y_columnas(s)
     env(s)
@@ -299,14 +298,13 @@ def primer_piso():
     bed(s, 9.9, 6.4, 1.7, 1.9, 'v')
     table(s, 8.6, 2.4, 1.8, 1.1)
     cotas_generales(s)
-    membrete(s, "PRIMER PISO", "LAMINA: 02")
-    write_dxf(s, "planos/arq-primer-piso.dxf")
-    write_svg(s, "planos/arq-primer-piso.svg")
+    s.text('TEXTOS', (X0+X1)/2, Y1+EXT+0.6, 0.34, "02 - PRIMER PISO", 0, 'middle')
+    return s
 
 # ==========================================================================
 # LAMINA 03 - SEGUNDO PISO
 # ==========================================================================
-def segundo_piso():
+def build_segundo_piso():
     s = Sheet()
     ejes_y_columnas(s)
     env(s)
@@ -345,14 +343,13 @@ def segundo_piso():
     bed(s, 9.6, 2.2, 1.7, 1.9, 'v')
     sofa(s, 0.6, 9.4, 3.0, 1.0)
     cotas_generales(s)
-    membrete(s, "SEGUNDO PISO", "LAMINA: 03")
-    write_dxf(s, "planos/arq-segundo-piso.dxf")
-    write_svg(s, "planos/arq-segundo-piso.svg")
+    s.text('TEXTOS', (X0+X1)/2, Y1+EXT+0.6, 0.34, "03 - SEGUNDO PISO", 0, 'middle')
+    return s
 
 # ==========================================================================
 # LAMINA 04 - PLANTA DE CIMENTACION
 # ==========================================================================
-def cimentacion():
+def build_cimentacion():
     s = Sheet()
     ejes_y_columnas(s, con_columnas=False)
     # riostras (entre caras de plinto)
@@ -374,15 +371,59 @@ def cimentacion():
     s.text('TEXTOS', XS[0], YS[-1]+0.72, 0.16, "PLINTO 1.00x1.00", 0, 'middle')
     s.text('TEXTOS', (sx[0]+sx[1])/2, YS[0]-0.02, 0.15, "RIOSTRA e=0.20", 0, 'middle')
     cotas_generales(s)
-    membrete(s, "PLANTA DE CIMENTACION", "LAMINA: 04")
-    write_dxf(s, "planos/planta-cimentacion.dxf")
-    write_svg(s, "planos/planta-cimentacion.svg")
+    s.text('TEXTOS', (X0+X1)/2, Y1+EXT+0.6, 0.34, "04 - PLANTA DE CIMENTACION", 0, 'middle')
+    return s
+
+# ==========================================================================
+# Emision de laminas individuales y lamina general combinada
+# ==========================================================================
+def emit(build, titulo, lamina, name):
+    s = build()
+    membrete(s, titulo, lamina)
+    write_dxf(s, f"planos/{name}.dxf")
+    write_svg(s, f"planos/{name}.svg")
+
+def translate(master, s, ox, oy):
+    for p in s.prims:
+        k = p[0]
+        if k == 'line':
+            master.prims.append((k, p[1], p[2]+ox, p[3]+oy, p[4]+ox, p[5]+oy))
+        elif k == 'circle':
+            master.prims.append((k, p[1], p[2]+ox, p[3]+oy, p[4]))
+        elif k == 'arc':
+            master.prims.append((k, p[1], p[2]+ox, p[3]+oy, p[4], p[5], p[6]))
+        elif k == 'poly':
+            master.prims.append((k, p[1], [(x+ox, y+oy) for x, y in p[2]], p[3]))
+        elif k == 'text':
+            master.prims.append((k, p[1], p[2]+ox, p[3]+oy, p[4], p[5], p[6], p[7]))
+        elif k == 'erase':
+            master.prims.append((k, p[1], p[2]+ox, p[3]+oy, p[4]+ox, p[5]+oy))
+
+def place(master, s, dx, dy):
+    b = s.bounds()
+    translate(master, s, dx - b[0], dy - b[2])
+
+def emit_combinado():
+    sheets = [build_planta_baja(), build_primer_piso(),
+              build_segundo_piso(), build_cimentacion()]
+    bnds = [s.bounds() for s in sheets]
+    W = max(b[1]-b[0] for b in bnds)
+    H = max(b[3]-b[2] for b in bnds)
+    gap = 2.5
+    pos = [(0, H+gap), (W+gap, H+gap), (0, 0), (W+gap, 0)]   # 2x2
+    master = Sheet()
+    for s, (dx, dy) in zip(sheets, pos):
+        place(master, s, dx, dy)
+    membrete(master, "PROYECTO: CASA 3 NIVELES", "LAMINA: 00")
+    write_dxf(master, "planos/proyecto-completo.dxf")
+    write_svg(master, "planos/proyecto-completo.svg", sc=30.0)
 
 # ==========================================================================
 if __name__ == "__main__":
-    planta_baja()
-    primer_piso()
-    segundo_piso()
-    cimentacion()
-    print("OK - 4 laminas generadas (DXF + SVG)")
+    emit(build_planta_baja, "PLANTA BAJA", "LAMINA: 01", "arq-planta-baja")
+    emit(build_primer_piso, "PRIMER PISO", "LAMINA: 02", "arq-primer-piso")
+    emit(build_segundo_piso, "SEGUNDO PISO", "LAMINA: 03", "arq-segundo-piso")
+    emit(build_cimentacion, "PLANTA DE CIMENTACION", "LAMINA: 04", "planta-cimentacion")
+    emit_combinado()
+    print("OK - 4 laminas individuales + 1 lamina general (proyecto-completo)")
     print(f"Casa {X1-X0:.2f} x {Y1-Y0:.2f} m | {len(XS)*len(YS)} columnas/plintos")
