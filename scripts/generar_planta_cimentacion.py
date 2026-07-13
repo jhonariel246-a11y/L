@@ -1,185 +1,289 @@
 #!/usr/bin/env python3
 """
-Generador de la Planta de Cimentacion (propuesta) en formato SVG.
+Planta de Cimentacion RECTANGULAR (plano tradicional).
 
-Grafica: ejes estructurales, columnas, plintos (1.00 x 1.00 m) y
-riostras (e = 0.20 m). Las dimensiones estan a escala real controlada
-por la constante ESCALA (px por metro), de modo que el dibujo puede
-verificarse midiendo directamente sobre el archivo vectorial.
+Genera una sola geometria y la escribe en dos formatos:
+  - planos/planta-cimentacion.dxf   (CAD real, abrible en AutoCAD -> .dwg)
+  - planos/planta-cimentacion.svg   (vista previa)
+
+Elementos (segun especificaciones del arquitecto):
+  - Ejes ortogonales (1-2-3 / A-B-C) con burbujas
+  - Columnas          0.30 x 0.30 m
+  - Plintos           1.00 x 1.00 m
+  - Riostras          e = 0.20 m  (malla, entre caras de plinto)
+  - Marco + membrete
 """
+import math
 
 # --------------------------------------------------------------------------
-# Datos de entrada (geometria de la estructura, en metros)
+# PARAMETROS  (metros)
 # --------------------------------------------------------------------------
-EJES_X = {"1": 0.00, "2": 4.00, "3": 8.00}          # ejes verticales
-EJES_Y = {"A": 0.00, "B": 3.50, "C": 7.00}          # ejes horizontales
+EJES_X = {"1": 0.00, "2": 4.00, "3": 8.00}     # ejes verticales
+EJES_Y = {"A": 0.00, "B": 3.50, "C": 7.00}     # ejes horizontales (A abajo)
 
-COL = 0.30          # lado de columna         (m)
-PLINTO = 1.00       # lado de plinto          (m)
-RIOSTRA = 0.20      # espesor de riostra      (m)
-
-ESCALA = 60.0       # px por metro
-MARGEN_L = 130.0    # margen izquierdo (px)
-MARGEN_T = 100.0    # margen superior  (px)
-MARGEN_R = 150.0
-MARGEN_B = 150.0
-EXT = 0.55          # extension de ejes fuera del edificio (m)
+COL     = 0.30        # lado de columna
+PLINTO  = 1.00        # lado de plinto
+RIOSTRA = 0.20        # espesor de riostra
+EXT     = 1.00        # extension de ejes fuera del edificio (burbujas)
 
 # --------------------------------------------------------------------------
-def px(x):  # metro -> pixel en X
-    return MARGEN_L + x * ESCALA
+# Primitivas  (coordenadas CAD: Y hacia arriba, unidades = m)
+# --------------------------------------------------------------------------
+prims = []
 
-def py(y):  # metro -> pixel en Y
-    return MARGEN_T + y * ESCALA
+def line(lay, x1, y1, x2, y2):   prims.append(('line', lay, x1, y1, x2, y2))
+def circle(lay, cx, cy, r):      prims.append(('circle', lay, cx, cy, r))
+def poly(lay, pts):              prims.append(('poly', lay, pts))
+def text(lay, x, y, h, s, rot=0, anchor='start'):
+    prims.append(('text', lay, x, y, h, s, rot, anchor))
 
-xs = list(EJES_X.values())
-ys = list(EJES_Y.values())
+def rect_c(cx, cy, hx, hy):
+    return [(cx-hx, cy-hy), (cx+hx, cy-hy), (cx+hx, cy+hy), (cx-hx, cy+hy)]
+
+def riostra_rect(ax, ay, bx, by, trim_a, trim_b):
+    dx, dy = bx-ax, by-ay
+    L = math.hypot(dx, dy)
+    ux, uy = dx/L, dy/L
+    nx, ny = -uy, ux
+    sx, sy = ax + ux*trim_a, ay + uy*trim_a
+    ex, ey = bx - ux*trim_b, by - uy*trim_b
+    w = RIOSTRA/2.0
+    return [(sx+nx*w, sy+ny*w), (ex+nx*w, ey+ny*w),
+            (ex-nx*w, ey-ny*w), (sx-nx*w, sy-ny*w)]
+
+xs = list(EJES_X.values()); ys = list(EJES_Y.values())
 xmin, xmax = min(xs), max(xs)
 ymin, ymax = min(ys), max(ys)
 
-ancho = px(xmax) + MARGEN_R
-alto = py(ymax) + MARGEN_B
-
-s = []
-s.append(
-    f'<svg xmlns="http://www.w3.org/2000/svg" width="{ancho:.0f}" '
-    f'height="{alto:.0f}" viewBox="0 0 {ancho:.0f} {alto:.0f}" '
-    f'font-family="Arial, Helvetica, sans-serif">'
-)
-# Fondo
-s.append(f'<rect x="0" y="0" width="{ancho:.0f}" height="{alto:.0f}" fill="#ffffff"/>')
-
 # --------------------------------------------------------------------------
-# 1) Ejes estructurales (linea eje y compas con burbuja)
+# 1) EJES + burbujas
 # --------------------------------------------------------------------------
-s.append('<g stroke="#b23b3b" stroke-width="1" stroke-dasharray="10 4 2 4" fill="none">')
-for x in xs:  # ejes verticales
-    s.append(f'<line x1="{px(x):.1f}" y1="{py(ymin)-EXT*ESCALA:.1f}" '
-             f'x2="{px(x):.1f}" y2="{py(ymax)+EXT*ESCALA:.1f}"/>')
-for y in ys:  # ejes horizontales
-    s.append(f'<line x1="{px(xmin)-EXT*ESCALA:.1f}" y1="{py(y):.1f}" '
-             f'x2="{px(xmax)+EXT*ESCALA:.1f}" y2="{py(y):.1f}"/>')
-s.append('</g>')
-
-# Burbujas de ejes
 def burbuja(cx, cy, txt):
-    s.append(f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="14" fill="#ffffff" '
-             f'stroke="#b23b3b" stroke-width="1.5"/>')
-    s.append(f'<text x="{cx:.1f}" y="{cy+5:.1f}" text-anchor="middle" '
-             f'font-size="15" font-weight="bold" fill="#b23b3b">{txt}</text>')
+    circle('EJES', cx, cy, 0.28)
+    text('EJES', cx, cy-0.09, 0.22, txt, 0, 'middle')
 
-for nombre, x in EJES_X.items():
-    burbuja(px(x), py(ymin) - EXT * ESCALA - 16, nombre)
-for nombre, y in EJES_Y.items():
-    burbuja(px(xmin) - EXT * ESCALA - 16, py(y), nombre)
-
-# --------------------------------------------------------------------------
-# 2) Riostras  (e = 0.20 m)  -> malla que conecta los plintos
-# --------------------------------------------------------------------------
-r = RIOSTRA / 2.0
-s.append('<g fill="#c9d6e5" stroke="#5b7fa6" stroke-width="0.8">')
-# riostras en direccion X (a lo largo de cada eje horizontal)
-for y in ys:
-    s.append(f'<rect x="{px(xmin):.1f}" y="{py(y)-r*ESCALA:.1f}" '
-             f'width="{(xmax-xmin)*ESCALA:.1f}" height="{RIOSTRA*ESCALA:.1f}"/>')
-# riostras en direccion Y (a lo largo de cada eje vertical)
-for x in xs:
-    s.append(f'<rect x="{px(x)-r*ESCALA:.1f}" y="{py(ymin):.1f}" '
-             f'width="{RIOSTRA*ESCALA:.1f}" height="{(ymax-ymin)*ESCALA:.1f}"/>')
-s.append('</g>')
+for n, x in EJES_X.items():                          # ejes verticales
+    line('EJES', x, ymin-EXT, x, ymax+EXT)
+    burbuja(x, ymin-EXT-0.30, n)
+for n, y in EJES_Y.items():                          # ejes horizontales
+    line('EJES', xmin-EXT, y, xmax+EXT, y)
+    burbuja(xmin-EXT-0.30, y, n)
 
 # --------------------------------------------------------------------------
-# 3) Plintos  (1.00 x 1.00 m)
+# 2) RIOSTRAS  (e = 0.20)  malla entre caras de plinto
 # --------------------------------------------------------------------------
-p = PLINTO / 2.0
-s.append('<g fill="#f3ede0" stroke="#7a6c53" stroke-width="1.4">')
+t = PLINTO/2.0
+sx = sorted(xs); sy = sorted(ys)
+for y in ys:                                         # riostras en X
+    for i in range(len(sx)-1):
+        poly('RIOSTRAS', riostra_rect(sx[i], y, sx[i+1], y, t, t))
+for x in xs:                                         # riostras en Y
+    for i in range(len(sy)-1):
+        poly('RIOSTRAS', riostra_rect(x, sy[i], x, sy[i+1], t, t))
+
+# --------------------------------------------------------------------------
+# 3) PLINTOS (1.00 x 1.00)   y   4) COLUMNAS (0.30 x 0.30)
+# --------------------------------------------------------------------------
 for x in xs:
     for y in ys:
-        s.append(f'<rect x="{px(x)-p*ESCALA:.1f}" y="{py(y)-p*ESCALA:.1f}" '
-                 f'width="{PLINTO*ESCALA:.1f}" height="{PLINTO*ESCALA:.1f}"/>')
-s.append('</g>')
-
-# --------------------------------------------------------------------------
-# 4) Columnas  (0.30 x 0.30 m)
-# --------------------------------------------------------------------------
-c = COL / 2.0
-s.append('<g fill="#3a3a3a" stroke="#000000" stroke-width="1">')
+        poly('PLINTOS', rect_c(x, y, PLINTO/2, PLINTO/2))
 for x in xs:
     for y in ys:
-        s.append(f'<rect x="{px(x)-c*ESCALA:.1f}" y="{py(y)-c*ESCALA:.1f}" '
-                 f'width="{COL*ESCALA:.1f}" height="{COL*ESCALA:.1f}"/>')
-s.append('</g>')
+        poly('COLUMNAS', rect_c(x, y, COL/2, COL/2))
 
 # --------------------------------------------------------------------------
-# 5) Cotas de vanos (dimension lines)
+# 5) COTAS (cadena de vanos)
 # --------------------------------------------------------------------------
-def cota_h(x1, x2, yline, texto):
-    s.append(f'<line x1="{px(x1):.1f}" y1="{yline:.1f}" x2="{px(x2):.1f}" '
-             f'y2="{yline:.1f}" stroke="#333" stroke-width="0.8"/>')
-    for xx in (x1, x2):
-        s.append(f'<line x1="{px(xx):.1f}" y1="{yline-5:.1f}" '
-                 f'x2="{px(xx):.1f}" y2="{yline+5:.1f}" stroke="#333" stroke-width="0.8"/>')
-    s.append(f'<text x="{(px(x1)+px(x2))/2:.1f}" y="{yline-6:.1f}" '
-             f'text-anchor="middle" font-size="12" fill="#333">{texto}</text>')
+def cota_h(x1, x2, y, s):
+    line('COTAS', x1, y, x2, y)
+    line('COTAS', x1, y-0.08, x1, y+0.08)
+    line('COTAS', x2, y-0.08, x2, y+0.08)
+    text('COTAS', (x1+x2)/2, y+0.10, 0.18, s, 0, 'middle')
 
-def cota_v(y1, y2, xline, texto):
-    s.append(f'<line x1="{xline:.1f}" y1="{py(y1):.1f}" x2="{xline:.1f}" '
-             f'y2="{py(y2):.1f}" stroke="#333" stroke-width="0.8"/>')
-    for yy in (y1, y2):
-        s.append(f'<line x1="{xline-5:.1f}" y1="{py(yy):.1f}" '
-                 f'x2="{xline+5:.1f}" y2="{py(yy):.1f}" stroke="#333" stroke-width="0.8"/>')
-    s.append(f'<text x="{xline-8:.1f}" y="{(py(y1)+py(y2))/2+4:.1f}" '
-             f'text-anchor="end" font-size="12" fill="#333">{texto}</text>')
+def cota_v(y1, y2, x, s):
+    line('COTAS', x, y1, x, y2)
+    line('COTAS', x-0.08, y1, x+0.08, y1)
+    line('COTAS', x-0.08, y2, x+0.08, y2)
+    text('COTAS', x+0.12, (y1+y2)/2-0.09, 0.18, s, 0, 'start')
 
-yb = py(ymax) + 55
-sorted_x = sorted(xs)
-for i in range(len(sorted_x) - 1):
-    d = sorted_x[i+1] - sorted_x[i]
-    cota_h(sorted_x[i], sorted_x[i+1], yb, f"{d:.2f}")
-xr = px(xmax) + 55
-sorted_y = sorted(ys)
-for i in range(len(sorted_y) - 1):
-    d = sorted_y[i+1] - sorted_y[i]
-    cota_v(sorted_y[i], sorted_y[i+1], xr, f"{d:.2f}")
+yb = ymin - EXT - 0.95
+for i in range(len(sx)-1):
+    cota_h(sx[i], sx[i+1], yb, f"{sx[i+1]-sx[i]:.2f}")
+xr = xmax + EXT + 0.95
+for i in range(len(sy)-1):
+    cota_v(sy[i], sy[i+1], xr, f"{sy[i+1]-sy[i]:.2f}")
+
+# rotulos de elementos
+text('TEXTOS', xs[0], ys[-1]+0.72, 0.16, "PLINTO 1.00x1.00", 0, 'middle')
+text('TEXTOS', (sx[0]+sx[1])/2, ys[0]-0.02, 0.15, "RIOSTRA e=0.20", 0, 'middle')
 
 # --------------------------------------------------------------------------
-# 6) Titulo y leyenda
+# 6) MARCO + MEMBRETE
 # --------------------------------------------------------------------------
-s.append(f'<text x="{MARGEN_L:.0f}" y="34" font-size="20" font-weight="bold" '
-         f'fill="#222">PLANTA DE CIMENTACION - PROPUESTA</text>')
-s.append(f'<text x="{MARGEN_L:.0f}" y="54" font-size="12" fill="#666">'
-         f'Ejes, columnas, plintos (1.00 x 1.00 m) y riostras (e = 0.20 m)</text>')
+def _bounds():
+    ax, ay = [], []
+    for pr in prims:
+        if pr[0] == 'line':
+            ax += [pr[2], pr[4]]; ay += [pr[3], pr[5]]
+        elif pr[0] == 'circle':
+            ax += [pr[2]-pr[4], pr[2]+pr[4]]; ay += [pr[3]-pr[4], pr[3]+pr[4]]
+        elif pr[0] == 'poly':
+            ax += [q[0] for q in pr[2]]; ay += [q[1] for q in pr[2]]
+        elif pr[0] == 'text':
+            ax.append(pr[2]); ay.append(pr[3])
+    return min(ax), max(ax), min(ay), max(ay)
 
-# Leyenda inferior
-lx = MARGEN_L
-ly = alto - 70
-items = [
-    ("#3a3a3a", "Columna 0.30 x 0.30 m"),
-    ("#f3ede0", "Plinto 1.00 x 1.00 m"),
-    ("#c9d6e5", "Riostra e = 0.20 m"),
-]
-s.append(f'<text x="{lx:.0f}" y="{ly-14:.0f}" font-size="12" font-weight="bold" '
-         f'fill="#333">SIMBOLOGIA</text>')
-for i, (color, txt) in enumerate(items):
-    yy = ly + i * 22
-    s.append(f'<rect x="{lx:.0f}" y="{yy-11:.0f}" width="18" height="14" '
-             f'fill="{color}" stroke="#555" stroke-width="0.8"/>')
-    s.append(f'<text x="{lx+26:.0f}" y="{yy:.0f}" font-size="12" fill="#333">{txt}</text>')
+dxmin, dxmax, dymin, dymax = _bounds()
 
-# Escala grafica (1 m)
-ex = px(xmax) - ESCALA
-ey = alto - 40
-s.append(f'<line x1="{ex:.1f}" y1="{ey:.1f}" x2="{ex+ESCALA:.1f}" y2="{ey:.1f}" '
-         f'stroke="#333" stroke-width="2"/>')
-s.append(f'<line x1="{ex:.1f}" y1="{ey-4:.1f}" x2="{ex:.1f}" y2="{ey+4:.1f}" stroke="#333" stroke-width="2"/>')
-s.append(f'<line x1="{ex+ESCALA:.1f}" y1="{ey-4:.1f}" x2="{ex+ESCALA:.1f}" y2="{ey+4:.1f}" stroke="#333" stroke-width="2"/>')
-s.append(f'<text x="{ex+ESCALA/2:.1f}" y="{ey-8:.1f}" text-anchor="middle" '
-         f'font-size="11" fill="#333">1.00 m</text>')
+TW, TH = 6.00, 2.55
+gap = 0.60
+mb_r = dxmax + 0.90
+mb_l = mb_r - TW
+mb_t = dymin - gap
+mb_b = mb_t - TH
+pad = 0.14
 
-s.append('</svg>')
+def rect(lay, x1, y1, x2, y2):
+    poly(lay, [(x1, y1), (x2, y1), (x2, y2), (x1, y2)])
 
+rect('MEMBRETE', mb_l, mb_b, mb_r, mb_t)
+tit_y = mb_t - 0.55
+rows = [mb_t - 1.05, mb_t - 1.55, mb_t - 2.05]
+line('MEMBRETE', mb_l, tit_y, mb_r, tit_y)
+for ry in rows:
+    line('MEMBRETE', mb_l, ry, mb_r, ry)
+midx = mb_l + TW/2.0
+line('MEMBRETE', midx, rows[1], midx, mb_b)
+t3x = mb_l + TW/3.0
+line('MEMBRETE', t3x, rows[2], t3x, mb_b)
+line('MEMBRETE', mb_l + 2*TW/3.0, rows[2], mb_l + 2*TW/3.0, mb_b)
+
+def rowtext(x, ytop, ybot, s, h=0.17):
+    text('MEMBRETE', x + pad, ybot + (ytop - ybot - h)/2.0, h, s, 0, 'start')
+
+text('MEMBRETE', midx, tit_y + (0.55 - 0.24)/2.0, 0.24,
+     "PLANTA DE CIMENTACION", 0, 'middle')
+rowtext(mb_l, tit_y, rows[0], "DIBUJANTE:  John Ariel Martinez")
+rowtext(mb_l, rows[0], rows[1], "ASIGNATURA:  Planos Digitales")
+rowtext(mb_l, rows[1], rows[2], "Segundo Parcial")
+rowtext(midx, rows[1], rows[2], "CARRERA:  Ingenieria Civil")
+rowtext(mb_l, rows[2], mb_b, "FECHA: 2026-07-13")
+rowtext(t3x,  rows[2], mb_b, "ESC: indicada")
+rowtext(mb_l + 2*TW/3.0, rows[2], mb_b, "LAMINA: 01")
+
+bx1, by2 = dxmin - 0.90, dymax + 0.90
+bx2, by1 = mb_r, mb_b - 0.30
+rect('MARCO', bx1, by1, bx2, by2)
+rect('MARCO', bx1 + 0.10, by1 + 0.10, bx2 - 0.10, by2 - 0.10)
+
+# --------------------------------------------------------------------------
+# ESCRITURA DXF (R12 ASCII)
+# --------------------------------------------------------------------------
+LAYERS = {
+    'EJES': 1, 'COLUMNAS': 7, 'PLINTOS': 2, 'RIOSTRAS': 4,
+    'COTAS': 8, 'TEXTOS': 3, 'MARCO': 7, 'MEMBRETE': 7,
+}
+
+def g(code, val):
+    return f"{code}\n{val}\n"
+
+def dxf():
+    o = []
+    o.append(g(0, "SECTION") + g(2, "HEADER"))
+    o.append(g(9, "$ACADVER") + g(1, "AC1009"))
+    o.append(g(9, "$INSUNITS") + g(70, 6))
+    o.append(g(0, "ENDSEC"))
+    o.append(g(0, "SECTION") + g(2, "TABLES"))
+    o.append(g(0, "TABLE") + g(2, "LTYPE") + g(70, 1))
+    o.append(g(0, "LTYPE") + g(2, "CONTINUOUS") + g(70, 0)
+             + g(3, "Solid line") + g(72, 65) + g(73, 0) + g(40, 0.0))
+    o.append(g(0, "ENDTAB"))
+    o.append(g(0, "TABLE") + g(2, "LAYER") + g(70, len(LAYERS)))
+    for name, col in LAYERS.items():
+        o.append(g(0, "LAYER") + g(2, name) + g(70, 0)
+                 + g(62, col) + g(6, "CONTINUOUS"))
+    o.append(g(0, "ENDTAB"))
+    o.append(g(0, "ENDSEC"))
+    o.append(g(0, "SECTION") + g(2, "ENTITIES"))
+    for pr in prims:
+        kind, lay = pr[0], pr[1]
+        if kind == 'line':
+            _, _, x1, y1, x2, y2 = pr
+            o.append(g(0, "LINE") + g(8, lay)
+                     + g(10, f"{x1:.4f}") + g(20, f"{y1:.4f}") + g(30, 0.0)
+                     + g(11, f"{x2:.4f}") + g(21, f"{y2:.4f}") + g(31, 0.0))
+        elif kind == 'circle':
+            _, _, cx, cy, r = pr
+            o.append(g(0, "CIRCLE") + g(8, lay)
+                     + g(10, f"{cx:.4f}") + g(20, f"{cy:.4f}") + g(30, 0.0)
+                     + g(40, f"{r:.4f}"))
+        elif kind == 'poly':
+            pts = pr[2]; n = len(pts)
+            for i in range(n):
+                x1, y1 = pts[i]; x2, y2 = pts[(i+1) % n]
+                o.append(g(0, "LINE") + g(8, lay)
+                         + g(10, f"{x1:.4f}") + g(20, f"{y1:.4f}") + g(30, 0.0)
+                         + g(11, f"{x2:.4f}") + g(21, f"{y2:.4f}") + g(31, 0.0))
+        elif kind == 'text':
+            _, _, x, y, h, sctr, rot, anchor = pr
+            just = {'start': 0, 'middle': 1, 'end': 2}[anchor]
+            e = g(0, "TEXT") + g(8, lay) \
+                + g(10, f"{x:.4f}") + g(20, f"{y:.4f}") + g(30, 0.0) \
+                + g(40, f"{h:.4f}") + g(1, sctr)
+            if rot:
+                e += g(50, f"{rot:.2f}")
+            if just:
+                e += g(72, just) + g(11, f"{x:.4f}") + g(21, f"{y:.4f}") + g(31, 0.0)
+            o.append(e)
+    o.append(g(0, "ENDSEC"))
+    o.append(g(0, "EOF"))
+    return "".join(o)
+
+with open("planos/planta-cimentacion.dxf", "w", encoding="utf-8") as f:
+    f.write(dxf())
+
+# --------------------------------------------------------------------------
+# ESCRITURA SVG (vista previa)
+# --------------------------------------------------------------------------
+SC = 46.0
+bxmin, bxmax, bymin, bymax = _bounds()
+M = 0.4
+W = (bxmax - bxmin + 2*M) * SC
+H = (bymax - bymin + 2*M) * SC
+def X(x): return (x - bxmin + M) * SC
+def Y(y): return (bymax - y + M) * SC
+
+COLS = {'EJES': '#b23b3b', 'COLUMNAS': '#222222', 'PLINTOS': '#7a6c53',
+        'RIOSTRAS': '#5b7fa6', 'COTAS': '#888888', 'TEXTOS': '#222222',
+        'MARCO': '#333333', 'MEMBRETE': '#333333'}
+FILL = {'PLINTOS': '#f3ede0', 'RIOSTRAS': '#c9d6e5', 'COLUMNAS': '#3a3a3a'}
+
+o = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.0f}" height="{H:.0f}" '
+     f'viewBox="0 0 {W:.0f} {H:.0f}" font-family="Arial, sans-serif">']
+o.append(f'<rect width="{W:.0f}" height="{H:.0f}" fill="#ffffff"/>')
+for pr in prims:
+    kind, lay = pr[0], pr[1]; c = COLS[lay]
+    if kind == 'line':
+        _, _, x1, y1, x2, y2 = pr
+        dash = ' stroke-dasharray="9 3 2 3"' if lay == 'EJES' else ''
+        o.append(f'<line x1="{X(x1):.1f}" y1="{Y(y1):.1f}" x2="{X(x2):.1f}" '
+                 f'y2="{Y(y2):.1f}" stroke="{c}" stroke-width="1"{dash}/>')
+    elif kind == 'circle':
+        _, _, cx, cy, r = pr
+        o.append(f'<circle cx="{X(cx):.1f}" cy="{Y(cy):.1f}" r="{r*SC:.1f}" '
+                 f'fill="#ffffff" stroke="{c}" stroke-width="1"/>')
+    elif kind == 'poly':
+        pts = " ".join(f"{X(x):.1f},{Y(y):.1f}" for x, y in pr[2])
+        o.append(f'<polygon points="{pts}" fill="{FILL.get(lay,"none")}" '
+                 f'stroke="{c}" stroke-width="1.2"/>')
+    elif kind == 'text':
+        _, _, x, y, h, s, rot, anchor = pr
+        o.append(f'<text x="{X(x):.1f}" y="{Y(y):.1f}" font-size="{h*SC:.0f}" '
+                 f'text-anchor="{anchor}" fill="{c}">{s}</text>')
+o.append('</svg>')
 with open("planos/planta-cimentacion.svg", "w", encoding="utf-8") as f:
-    f.write("\n".join(s))
+    f.write("\n".join(o))
 
+print("OK -> planos/planta-cimentacion.dxf")
 print("OK -> planos/planta-cimentacion.svg")
-print(f"Edificio: {xmax-xmin:.2f} x {ymax-ymin:.2f} m  |  {len(xs)*len(ys)} columnas/plintos")
+print(f"Edificio {xmax-xmin:.2f} x {ymax-ymin:.2f} m  |  {len(xs)*len(ys)} columnas/plintos")

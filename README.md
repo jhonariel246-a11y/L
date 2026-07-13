@@ -1,18 +1,16 @@
 # L — Planos Estructurales (Avance CAD)
 
 Repositorio de avance del archivo CAD de **planos estructurales** (cimentación,
-losas y cubierta).
+losas y cubierta). Proyecto de planta **rectangular** (plano tradicional).
 
 ## Contenido
 
 | Ruta | Descripción |
 |------|-------------|
-| [`planos/planta-cimentacion-circular.dxf`](planos/planta-cimentacion-circular.dxf) | **Archivo CAD (casa circular)** — ábrelo en AutoCAD y guárdalo como `.dwg`. |
-| [`planos/planta-cimentacion-circular.svg`](planos/planta-cimentacion-circular.svg) | Vista previa de la planta circular. |
-| [`docs/avance-planos-estructurales.md`](docs/avance-planos-estructurales.md) | Reporte de avance: enlace del archivo original, verificación de medidas y delineación de la propuesta. |
-| [`planos/planta-cimentacion.svg`](planos/planta-cimentacion.svg) | Propuesta previa de planta rectangular (referencia). |
-| [`scripts/generar_planta_circular.py`](scripts/generar_planta_circular.py) | Generador del DXF + SVG de la casa circular. |
-| [`scripts/generar_planta_cimentacion.py`](scripts/generar_planta_cimentacion.py) | Generador de la planta rectangular. |
+| [`planos/planta-cimentacion.dxf`](planos/planta-cimentacion.dxf) | **Archivo CAD** — ábrelo en AutoCAD y guárdalo como `.dwg`. |
+| [`planos/planta-cimentacion.svg`](planos/planta-cimentacion.svg) | Vista previa de la Planta de Cimentación. |
+| [`docs/avance-planos-estructurales.md`](docs/avance-planos-estructurales.md) | Reporte de avance: enlace del archivo original, verificación de medidas y delineación. |
+| [`scripts/generar_planta_cimentacion.py`](scripts/generar_planta_cimentacion.py) | Generador del DXF + SVG. |
 
 ## Avance incluido
 
@@ -25,16 +23,18 @@ losas y cubierta).
 El archivo CAD se entrega en formato **`.dxf`** (intercambio CAD, texto).
 Para tener el `.dwg` nativo:
 
-1. Abrir `planos/planta-cimentacion-circular.dxf` en AutoCAD / ZWCAD /
-   BricsCAD / LibreCAD.
+1. Abrir `planos/planta-cimentacion.dxf` en AutoCAD / ZWCAD / BricsCAD /
+   LibreCAD.
 2. **Archivo → Guardar como → AutoCAD `.dwg`**.
 
 Unidades del dibujo: **metros**. Capas: `EJES`, `COLUMNAS`, `PLINTOS`,
-`RIOSTRAS`, `MUROS`, `COTAS`, `TEXTOS`.
+`RIOSTRAS`, `COTAS`, `TEXTOS`, `MARCO`, `MEMBRETE`.
+
+Membrete: Dibujante *John Ariel Martínez* · Asignatura *Planos Digitales* ·
+*Segundo Parcial* · Carrera *Ingeniería Civil*.
 
 ## Regenerar los dibujos
 
 ```bash
-python3 scripts/generar_planta_circular.py       # casa circular (DXF + SVG)
-python3 scripts/generar_planta_cimentacion.py    # planta rectangular (SVG)
+python3 scripts/generar_planta_cimentacion.py    # planta rectangular (DXF + SVG)
 ```

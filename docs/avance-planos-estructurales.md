@@ -102,30 +102,31 @@ Incluye además: cotas de vanos, simbología y escala gráfica.
 
 ---
 
-## 4. Archivo CAD — Planta de Cimentación Circular (casa redonda)
+## 4. Archivo CAD — Planta de Cimentación Rectangular (plano tradicional)
 
-Se generó el archivo CAD de la propuesta con planta **circular**, según la idea
-del proyecto, manteniendo las especificaciones del arquitecto.
+Se generó el archivo CAD de la propuesta con planta **rectangular** (plano
+tradicional), manteniendo las especificaciones del arquitecto.
 
-**Archivo CAD:** [`planos/planta-cimentacion-circular.dxf`](../planos/planta-cimentacion-circular.dxf)
+**Archivo CAD:** [`planos/planta-cimentacion.dxf`](../planos/planta-cimentacion.dxf)
 (formato DXF; se abre en AutoCAD y se guarda como `.dwg`).
-**Vista previa:** [`planos/planta-cimentacion-circular.svg`](../planos/planta-cimentacion-circular.svg)
+**Vista previa:** [`planos/planta-cimentacion.svg`](../planos/planta-cimentacion.svg)
 
 | Elemento | Descripción | Especificación |
 |----------|-------------|----------------|
-| Geometría | Planta circular | Ø = 9.00 m (radio de ejes R = 4.50 m) |
-| Ejes | 8 ejes radiales (E1–E8) + eje central (C) | Espaciados 45° |
-| Columnas | 8 perimetrales + 1 central = 9 | 0.30 × 0.30 m |
+| Geometría | Planta rectangular | 8.00 × 7.00 m |
+| Ejes | 1–2–3 (X) y A–B–C (Y) | Vanos 4.00 / 3.50 m |
+| Columnas | 9 (una por intersección) | 0.30 × 0.30 m |
 | Plintos | Uno bajo cada columna | **1.00 × 1.00 m** |
-| Riostras radiales | Del plinto central a cada plinto perimetral | **e = 0.20 m** |
-| Riostras perimetrales | Anillo octogonal entre plintos perimetrales | **e = 0.20 m** |
-| Muro perimetral | Círculo de referencia (proyección) | R = 4.95 m |
+| Riostras | Malla ortogonal entre plintos | **e = 0.20 m** |
 
-**Capas del DXF:** `EJES`, `COLUMNAS`, `PLINTOS`, `RIOSTRAS`, `MUROS`, `COTAS`,
-`TEXTOS`. Unidades: metros. Validado con `ezdxf` (0 errores).
+**Membrete:** Dibujante *John Ariel Martínez* · Asignatura *Planos Digitales* ·
+*Segundo Parcial* · Carrera *Ingeniería Civil* · Fecha 2026-07-13 · Lámina 01.
 
-> Parámetros ajustables en [`scripts/generar_planta_circular.py`](../scripts/generar_planta_circular.py):
-> `R` (radio), `N` (número de columnas), `COL`, `PLINTO`, `RIOSTRA`, `R_MURO`.
+**Capas del DXF:** `EJES`, `COLUMNAS`, `PLINTOS`, `RIOSTRAS`, `COTAS`, `TEXTOS`,
+`MARCO`, `MEMBRETE`. Unidades: metros. Validado con `ezdxf` (0 errores).
+
+> Parámetros ajustables en [`scripts/generar_planta_cimentacion.py`](../scripts/generar_planta_cimentacion.py):
+> `EJES_X`, `EJES_Y`, `COL`, `PLINTO`, `RIOSTRA`.
 
 ---
 
