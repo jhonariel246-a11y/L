@@ -1,40 +1,42 @@
-# L — Planos Estructurales (Avance CAD)
+# L — Proyecto Arquitectónico y Estructural (CAD)
 
-Repositorio de avance del archivo CAD de **planos estructurales** (cimentación,
-losas y cubierta). Proyecto de planta **rectangular** (plano tradicional).
+Proyecto: **casa moderna de 3 niveles** (~12.00 × 11.00 m), basado en una imagen
+de referencia (fachada). La distribución es una **propuesta**.
 
-## Contenido
+## Láminas
 
-| Ruta | Descripción |
-|------|-------------|
-| [`planos/planta-cimentacion.dxf`](planos/planta-cimentacion.dxf) | **Archivo CAD** — ábrelo en AutoCAD y guárdalo como `.dwg`. |
-| [`planos/planta-cimentacion.svg`](planos/planta-cimentacion.svg) | Vista previa de la Planta de Cimentación. |
-| [`docs/avance-planos-estructurales.md`](docs/avance-planos-estructurales.md) | Reporte de avance: enlace del archivo original, verificación de medidas y delineación. |
-| [`scripts/generar_planta_cimentacion.py`](scripts/generar_planta_cimentacion.py) | Generador del DXF + SVG. |
+| Lámina | Archivo CAD | Vista previa |
+|--------|-------------|--------------|
+| 01 · Planta Baja | [`planos/arq-planta-baja.dxf`](planos/arq-planta-baja.dxf) | [svg](planos/arq-planta-baja.svg) |
+| 02 · Primer Piso | [`planos/arq-primer-piso.dxf`](planos/arq-primer-piso.dxf) | [svg](planos/arq-primer-piso.svg) |
+| 03 · Segundo Piso | [`planos/arq-segundo-piso.dxf`](planos/arq-segundo-piso.dxf) | [svg](planos/arq-segundo-piso.svg) |
+| 04 · Planta de Cimentación | [`planos/planta-cimentacion.dxf`](planos/planta-cimentacion.dxf) | [svg](planos/planta-cimentacion.svg) |
 
-## Avance incluido
+## Especificaciones (del arquitecto)
 
-1. **Enlace del archivo original** — sección 1 del reporte *(pendiente de completar con la URL del DWG)*.
-2. **Verificación de medidas** — plantas de cimentación, losas y cubierta (malla 8.00 × 7.00 m).
-3. **Delineación de la Planta de Cimentación** — ejes, columnas, plintos (1.00×1.00 m) y riostras (e=0.20 m).
+- Malla estructural: ejes **1-2-3-4** (X, vanos 4.00 m) y **A-B-C-D** (Y, vanos 3.50 / 3.50 / 4.00 m).
+- **16 columnas** de 0.30 × 0.30 m.
+- **Plintos** 1.00 × 1.00 m · **Riostras** e = 0.20 m.
 
 ## Cómo obtener el `.dwg`
 
-El archivo CAD se entrega en formato **`.dxf`** (intercambio CAD, texto).
-Para tener el `.dwg` nativo:
+Los archivos CAD se entregan en **`.dxf`**. Para el `.dwg` nativo: abrir el `.dxf`
+en AutoCAD / ZWCAD / BricsCAD / LibreCAD → **Archivo → Guardar como → `.dwg`**.
 
-1. Abrir `planos/planta-cimentacion.dxf` en AutoCAD / ZWCAD / BricsCAD /
-   LibreCAD.
-2. **Archivo → Guardar como → AutoCAD `.dwg`**.
+> ⚠️ Si usas **AutoCAD Web** (navegador) te abrirá en modo *solo vista* y no te
+> dejará guardar: eso es un límite de la versión gratis, no del archivo. Usa la
+> versión de escritorio (licencia educativa gratuita de Autodesk con tu correo
+> universitario) o un conversor DXF→DWG.
 
-Unidades del dibujo: **metros**. Capas: `EJES`, `COLUMNAS`, `PLINTOS`,
-`RIOSTRAS`, `COTAS`, `TEXTOS`, `MARCO`, `MEMBRETE`.
+Unidades: **metros**. Capas: `EJES`, `MUROS`, `PUERTAS`, `VENTANAS`, `ESCALERA`,
+`MOBILIARIO`, `COTAS`, `TEXTOS`, `COLUMNAS`, `PLINTOS`, `RIOSTRAS`, `MARCO`,
+`MEMBRETE`.
 
 Membrete: Dibujante *John Ariel Martínez* · Asignatura *Planos Digitales* ·
 *Segundo Parcial* · Carrera *Ingeniería Civil*.
 
-## Regenerar los dibujos
+## Regenerar todas las láminas
 
 ```bash
-python3 scripts/generar_planta_cimentacion.py    # planta rectangular (DXF + SVG)
+python3 scripts/generar_proyecto.py
 ```

@@ -38,95 +38,81 @@ cargas.
 
 | Dirección | Ejes | Vanos (m) | Longitud total (m) |
 |-----------|------|-----------|--------------------|
-| X (horizontal) | 1 – 2 – 3 | 4.00 + 4.00 | 8.00 |
-| Y (vertical)   | A – B – C | 3.50 + 3.50 | 7.00 |
+| X (horizontal) | 1 – 2 – 3 – 4 | 4.00 + 4.00 + 4.00 | 12.00 |
+| Y (vertical)   | A – B – C – D | 3.50 + 3.50 + 4.00 | 11.00 |
 
-**Área en planta:** 8.00 m × 7.00 m = **56.00 m²**
+**Área en planta:** 12.00 m × 11.00 m = **132.00 m²** por nivel (3 niveles).
 
 ### 2.2 Planta de Cimentación
 
 | Elemento | Cantidad | Dimensión | Verificación |
 |----------|----------|-----------|--------------|
-| Ejes | 3 (X) × 3 (Y) | Según malla | ✔ Coinciden con losas y cubierta |
-| Columnas | 9 | 0.30 × 0.30 m | ✔ Una por intersección de ejes |
-| Plintos | 9 | **1.00 × 1.00 m** | ✔ Centrados en columna |
-| Riostras | red perimetral e interior | **e = 0.20 m** | ✔ Conectan todos los plintos |
+| Ejes | 4 (X) × 4 (Y) | Según malla | ✔ Coinciden en los 3 niveles |
+| Columnas | 16 | 0.30 × 0.30 m | ✔ Una por intersección de ejes |
+| Plintos | 16 | **1.00 × 1.00 m** | ✔ Centrados en columna |
+| Riostras | red ortogonal | **e = 0.20 m** | ✔ Conectan todos los plintos |
 
-### 2.3 Planta de Losa (entrepiso)
+### 2.3 Plantas de Losa (entrepisos)
 
 | Elemento | Dimensión | Verificación |
 |----------|-----------|--------------|
-| Paños de losa | 4.00 × 3.50 m (×4) | ✔ Definidos por la malla de ejes |
-| Perímetro de losa | 8.00 × 7.00 m | ✔ Coincide con cimentación |
-| Ejes de vigas | Sobre ejes 1–3 / A–C | ✔ Alineados con columnas |
+| Perímetro de losa | 12.00 × 11.00 m | ✔ Coincide con cimentación |
+| Ejes de vigas | Sobre ejes 1–4 / A–D | ✔ Alineados con columnas |
 
 ### 2.4 Planta de Cubierta
 
 | Elemento | Dimensión | Verificación |
 |----------|-----------|--------------|
-| Perímetro de cubierta | 8.00 × 7.00 m | ✔ Coincide con losas y cimentación |
-| Apoyos | Sobre ejes 1–3 / A–C | ✔ Alineados con columnas |
+| Perímetro de cubierta | 12.00 × 11.00 m | ✔ Coincide con losas y cimentación |
+| Apoyos | Sobre ejes 1–4 / A–D | ✔ Alineados con columnas |
 
-**Resultado de la verificación:** las tres plantas comparten la misma malla de
-ejes (8.00 × 7.00 m) y los apoyos verticales son coincidentes en todos los
-niveles. ✔ Medidas consistentes.
+**Resultado de la verificación:** los tres niveles comparten la misma malla de
+ejes (12.00 × 11.00 m) y los apoyos verticales son coincidentes. ✔ Consistente.
 
 > ⚠️ Pendiente: confirmar contra el DWG original los valores reales de vanos y
 > secciones (aquí se documenta la malla adoptada en la propuesta de avance).
 
 ---
 
-## 3. Delineación de la propuesta — Planta de Cimentación
+## 3. Proyecto arquitectónico — Casa moderna de 3 niveles
 
-Se graficó la propuesta de Planta de Cimentación incluyendo los cuatro
-elementos solicitados. El dibujo está a escala real (1 m = 60 px), por lo que
-puede medirse directamente sobre el archivo vectorial.
+A partir de una **imagen de referencia** (fachada, casa moderna de 3 pisos con
+garaje, balcones y ventanal en arco) se desarrolló la **planta arquitectónica**
+de cada nivel. La distribución es una **propuesta** coherente con la fachada
+(las medidas internas no existen en la imagen, se adoptaron realistas).
 
-**Archivo del dibujo:** [`planos/planta-cimentacion.svg`](../planos/planta-cimentacion.svg)
+| Lámina | Archivo CAD | Ambientes principales |
+|--------|-------------|-----------------------|
+| 01 · Planta Baja | [`planos/arq-planta-baja.dxf`](../planos/arq-planta-baja.dxf) | Garaje, hall, sala, comedor, cocina, baño, escalera |
+| 02 · Primer Piso | [`planos/arq-primer-piso.dxf`](../planos/arq-primer-piso.dxf) | Sala, comedor, 2 dormitorios, baño, clóset, balcón |
+| 03 · Segundo Piso | [`planos/arq-segundo-piso.dxf`](../planos/arq-segundo-piso.dxf) | Dormitorio principal + baño/vestidor, dorm. 4, estudio, terraza, balcón |
 
-Elementos graficados:
+Cada lámina incluye: ejes, columnas, muros, puertas (con barrido), ventanas,
+escalera, mobiliario, cotas, marco y membrete.
 
-- **Ejes** — malla estructural 1·2·3 (X) y A·B·C (Y), con burbujas de eje.
-- **Columnas** — 9 columnas de 0.30 × 0.30 m en cada intersección de ejes.
-- **Plintos** — 9 plintos de **1.00 × 1.00 m**, centrados bajo cada columna.
-- **Riostras** — vigas de amarre de **e = 0.20 m** formando la red que conecta
-  todos los plintos en ambas direcciones.
-
-Incluye además: cotas de vanos, simbología y escala gráfica.
-
-> El dibujo se genera de forma reproducible con
-> [`scripts/generar_planta_cimentacion.py`](../scripts/generar_planta_cimentacion.py).
-> Para ajustar la geometría (vanos, número de ejes, secciones) se editan las
-> variables `EJES_X`, `EJES_Y`, `COL`, `PLINTO` y `RIOSTRA` y se vuelve a
-> ejecutar el script.
-
----
-
-## 4. Archivo CAD — Planta de Cimentación Rectangular (plano tradicional)
-
-Se generó el archivo CAD de la propuesta con planta **rectangular** (plano
-tradicional), manteniendo las especificaciones del arquitecto.
+## 4. Delineación estructural — Planta de Cimentación
 
 **Archivo CAD:** [`planos/planta-cimentacion.dxf`](../planos/planta-cimentacion.dxf)
-(formato DXF; se abre en AutoCAD y se guarda como `.dwg`).
-**Vista previa:** [`planos/planta-cimentacion.svg`](../planos/planta-cimentacion.svg)
+(Lámina 04) · **Vista previa:** [`planos/planta-cimentacion.svg`](../planos/planta-cimentacion.svg)
 
 | Elemento | Descripción | Especificación |
 |----------|-------------|----------------|
-| Geometría | Planta rectangular | 8.00 × 7.00 m |
-| Ejes | 1–2–3 (X) y A–B–C (Y) | Vanos 4.00 / 3.50 m |
-| Columnas | 9 (una por intersección) | 0.30 × 0.30 m |
+| Geometría | Planta rectangular | 12.00 × 11.00 m |
+| Ejes | 1–2–3–4 (X) y A–B–C–D (Y) | Vanos 4.00 / 3.50–4.00 m |
+| Columnas | 16 (una por intersección) | 0.30 × 0.30 m |
 | Plintos | Uno bajo cada columna | **1.00 × 1.00 m** |
 | Riostras | Malla ortogonal entre plintos | **e = 0.20 m** |
 
-**Membrete:** Dibujante *John Ariel Martínez* · Asignatura *Planos Digitales* ·
-*Segundo Parcial* · Carrera *Ingeniería Civil* · Fecha 2026-07-13 · Lámina 01.
+**Membrete (todas las láminas):** Dibujante *John Ariel Martínez* · Asignatura
+*Planos Digitales* · *Segundo Parcial* · Carrera *Ingeniería Civil*.
 
-**Capas del DXF:** `EJES`, `COLUMNAS`, `PLINTOS`, `RIOSTRAS`, `COTAS`, `TEXTOS`,
-`MARCO`, `MEMBRETE`. Unidades: metros. Validado con `ezdxf` (0 errores).
+**Capas del DXF:** `EJES`, `MUROS`, `PUERTAS`, `VENTANAS`, `ESCALERA`,
+`MOBILIARIO`, `COTAS`, `TEXTOS`, `COLUMNAS`, `PLINTOS`, `RIOSTRAS`, `MARCO`,
+`MEMBRETE`. Unidades: metros. Validado con `ezdxf` (0 errores).
 
-> Parámetros ajustables en [`scripts/generar_planta_cimentacion.py`](../scripts/generar_planta_cimentacion.py):
-> `EJES_X`, `EJES_Y`, `COL`, `PLINTO`, `RIOSTRA`.
+> Todas las láminas se regeneran con
+> [`scripts/generar_proyecto.py`](../scripts/generar_proyecto.py)
+> (geometría y toolkit CAD en [`scripts/lib_cad.py`](../scripts/lib_cad.py)).
 
 ---
 
