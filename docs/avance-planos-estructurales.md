@@ -102,6 +102,33 @@ Incluye además: cotas de vanos, simbología y escala gráfica.
 
 ---
 
+## 4. Archivo CAD — Planta de Cimentación Circular (casa redonda)
+
+Se generó el archivo CAD de la propuesta con planta **circular**, según la idea
+del proyecto, manteniendo las especificaciones del arquitecto.
+
+**Archivo CAD:** [`planos/planta-cimentacion-circular.dxf`](../planos/planta-cimentacion-circular.dxf)
+(formato DXF; se abre en AutoCAD y se guarda como `.dwg`).
+**Vista previa:** [`planos/planta-cimentacion-circular.svg`](../planos/planta-cimentacion-circular.svg)
+
+| Elemento | Descripción | Especificación |
+|----------|-------------|----------------|
+| Geometría | Planta circular | Ø = 9.00 m (radio de ejes R = 4.50 m) |
+| Ejes | 8 ejes radiales (E1–E8) + eje central (C) | Espaciados 45° |
+| Columnas | 8 perimetrales + 1 central = 9 | 0.30 × 0.30 m |
+| Plintos | Uno bajo cada columna | **1.00 × 1.00 m** |
+| Riostras radiales | Del plinto central a cada plinto perimetral | **e = 0.20 m** |
+| Riostras perimetrales | Anillo octogonal entre plintos perimetrales | **e = 0.20 m** |
+| Muro perimetral | Círculo de referencia (proyección) | R = 4.95 m |
+
+**Capas del DXF:** `EJES`, `COLUMNAS`, `PLINTOS`, `RIOSTRAS`, `MUROS`, `COTAS`,
+`TEXTOS`. Unidades: metros. Validado con `ezdxf` (0 errores).
+
+> Parámetros ajustables en [`scripts/generar_planta_circular.py`](../scripts/generar_planta_circular.py):
+> `R` (radio), `N` (número de columnas), `COL`, `PLINTO`, `RIOSTRA`, `R_MURO`.
+
+---
+
 ## Próximos pasos
 
 - [ ] Insertar el enlace real del archivo DWG original (sección 1).
