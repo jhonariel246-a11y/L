@@ -8,15 +8,17 @@
 
 ## 1. Enlace del archivo original
 
-Archivo original del proyecto del que se desarrollan los planos estructurales:
+Archivo CAD original (editable, fuente del proyecto) alojado en Google Drive.
+Formato **DWG (AutoCAD 2004 / AC1018)**, archivo `proyecto-completo.dwg`.
 
 > **Enlace:** https://drive.google.com/file/d/1zfL9muo_BWWw2PnaNCiBtKRWGQREuz5W/view?usp=drivesdk
 
 | Campo | Detalle |
 |-------|---------|
+| Archivo | `proyecto-completo.dwg` |
+| Formato | DWG (AutoCAD 2004 / AC1018) |
 | Ubicación | Google Drive |
-| Versión de avance | v1.0 — propuesta de cimentación |
-| Enlace | [Abrir archivo original](https://drive.google.com/file/d/1zfL9muo_BWWw2PnaNCiBtKRWGQREuz5W/view?usp=drivesdk) |
+| Enlace | [Abrir archivo CAD](https://drive.google.com/file/d/1zfL9muo_BWWw2PnaNCiBtKRWGQREuz5W/view?usp=drivesdk) |
 
 > ⚠️ **Permisos:** para que el enlace sea accesible, el archivo en Drive debe
 > compartirse como **"Cualquier persona con el enlace"**. Verificar antes de la
