@@ -1,0 +1,10 @@
+# Secretos de despliegue — NUNCA subir
+deploy/.env
+.env
+
+# Datos locales
+server/data/
+server/node_modules/
+node_modules/
+*.p12
+*.pem
