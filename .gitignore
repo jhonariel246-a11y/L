@@ -2,6 +2,9 @@
 deploy/.env
 .env
 
+# Build de Netlify
+_site/
+
 # Datos locales
 server/data/
 server/node_modules/
