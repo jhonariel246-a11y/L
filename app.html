@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Insight — Tu plataforma financiera</title>
+  <meta name="description" content="Registra tu negocio y accede a los módulos de Insight: Restaurantes, Cobros, Tributario y Nómina. Funciona sin internet." />
+  <meta name="theme-color" content="#0a1f3c" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="stylesheet" href="assets/restaurant.css" />
+  <link rel="stylesheet" href="assets/app-pos.css" />
+  <link rel="icon" href="assets/icon.svg" />
+  <link rel="apple-touch-icon" href="assets/icon.svg" />
+</head>
+<body class="pos-body">
+
+  <!-- ===================== AUTENTICACIÓN ===================== -->
+  <div id="authScreen" class="auth-screen">
+    <div class="auth-brand">
+      <a href="index.html" class="brand" style="color:#fff"><span class="brand-mark">i</span> Insight</a>
+      <h1>Cobra, paga y declara por tu negocio.<br>Y sigue funcionando aunque se caiga el internet.</h1>
+      <p>Registra tu negocio una sola vez y accede a todos los módulos: Restaurantes, Cobros, Tributario y Nómina. Los datos se guardan en tu computadora.</p>
+      <ul class="auth-points">
+        <li>✓ Un solo registro para todos los módulos</li>
+        <li>✓ Funciona sin internet (local-first)</li>
+        <li>✓ Se instala en la computadora del negocio</li>
+        <li>✓ Tú administras todo tú mismo</li>
+      </ul>
+    </div>
+
+    <div class="auth-card">
+      <div class="auth-tabs">
+        <button class="auth-switch active" data-mode="register">Crear cuenta</button>
+        <button class="auth-switch" data-mode="login">Iniciar sesión</button>
+      </div>
+
+      <div id="formRegister" class="auth-form">
+        <div class="field"><label>Nombre del negocio *</label><input id="rgName" placeholder="Ej. Cafetería La Esquina" /></div>
+        <div class="grid-2c">
+          <div class="field"><label>Tipo</label><select id="rgType"><option>Restaurante</option><option>Cafetería</option><option>Bar</option><option>Gimnasio</option><option>Academia</option><option>Otro</option></select></div>
+          <div class="field"><label>RUC (opcional)</label><input id="rgRuc" placeholder="099XXXXXXXXX001" /></div>
+        </div>
+        <div class="field"><label>WhatsApp (opcional)</label><input id="rgPhone" placeholder="+593 9XXXXXXXX" /></div>
+        <div class="field"><label>Correo *</label><input id="rgEmail" type="email" placeholder="tucorreo@ejemplo.com" /></div>
+        <div class="field"><label>Contraseña *</label><input id="rgPass" type="password" placeholder="mínimo 4 caracteres" /></div>
+        <button id="doRegister" class="btn btn-accent btn-lg" style="width:100%; justify-content:center;">Crear mi cuenta →</button>
+        <p class="auth-mini">Los datos se guardan en esta computadora. Podrás sincronizar a la nube cuando conectemos ese módulo.</p>
+      </div>
+
+      <div id="formLogin" class="auth-form" style="display:none;">
+        <div class="field"><label>Correo</label><input id="lgEmail" type="email" placeholder="tucorreo@ejemplo.com" /></div>
+        <div class="field"><label>Contraseña</label><input id="lgPass" type="password" placeholder="tu contraseña" /></div>
+        <button id="doLogin" class="btn btn-primary btn-lg" style="width:100%; justify-content:center;">Entrar</button>
+        <p class="auth-mini">¿Aún no tienes cuenta? Toca "Crear cuenta" arriba.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== HUB DE MÓDULOS ===================== -->
+  <div id="hubScreen" style="display:none;">
+    <div class="app-bar">
+      <div class="brand-mini"><span class="brand-mark">i</span> Insight</div>
+      <div class="store">
+        <span id="syncState" class="sync online"><span class="sdot"></span> En línea</span>
+        · <b id="storeName">Mi negocio</b>
+        <button id="btnLogout" class="btn btn-ghost btn-sm" style="margin-left:10px;">Salir</button>
+      </div>
+    </div>
+
+    <div class="hub">
+      <div class="hub-head">
+        <span class="eyebrow">Tus módulos</span>
+        <h2>Hola, <span id="hubName">tu negocio</span> 👋</h2>
+        <p class="muted">Elige el módulo que quieres usar. Todos comparten tu mismo login y tus datos.</p>
+      </div>
+
+      <div class="hub-grid">
+        <a href="pos.html" class="hub-card ready">
+          <div class="mod-ico ico-orange">🍽️</div>
+          <div class="hub-tag">Disponible</div>
+          <h3>Restaurantes y Cafeterías</h3>
+          <p>Pedidos en mesa, para llevar, inventario y facturación.</p>
+          <span class="hub-go">Abrir →</span>
+        </a>
+
+        <a href="cobros.html" class="hub-card ready">
+          <div class="mod-ico ico-blue">💳</div>
+          <div class="hub-tag">Disponible</div>
+          <h3>Cobros</h3>
+          <p>Mensualidades de socios/alumnos, quién pagó y quién debe.</p>
+          <span class="hub-go">Abrir →</span>
+        </a>
+
+        <a href="tributario.html" class="hub-card ready">
+          <div class="mod-ico ico-purple">🧾</div>
+          <div class="hub-tag">Disponible</div>
+          <h3>Tributario (SRI)</h3>
+          <p>Registra ventas y compras y calcula tu IVA a pagar.</p>
+          <span class="hub-go">Abrir →</span>
+        </a>
+
+        <a href="nomina.html" class="hub-card ready">
+          <div class="mod-ico ico-green">👥</div>
+          <div class="hub-tag">Disponible</div>
+          <h3>Nómina</h3>
+          <p>Rol de pagos con IESS, décimos, vacaciones y fondos.</p>
+          <span class="hub-go">Abrir →</span>
+        </a>
+      </div>
+
+      <!-- Facturación electrónica: subir certificado -->
+      <div class="fe-box" id="feBox">
+        <div class="fe-info">
+          <h3>🔐 Facturación electrónica (SRI)</h3>
+          <p id="feStatus" class="muted">Verificando estado…</p>
+        </div>
+        <div class="fe-actions">
+          <a class="btn btn-accent" id="btnConseguirFE" target="_blank" rel="noopener">💬 Conseguir firma electrónica</a>
+          <button class="btn btn-outline" id="btnActivarFE">Ya tengo mi firma (.p12)</button>
+        </div>
+      </div>
+
+      <div class="note" style="max-width:820px; margin:18px auto 0;">
+        <b>Cómo funciona:</b> para emitir facturas autorizadas por el SRI, sube una sola vez tu <b>firma electrónica (.p12)</b> y su clave. La guardamos <b>cifrada</b> en el servidor y con ella firmamos automáticamente todas tus facturas. Tu clave nunca se muestra ni se comparte.
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal activar facturación electrónica -->
+  <div class="modal-back" id="feModal">
+    <div class="modal">
+      <h3>Activar facturación electrónica</h3>
+      <div class="fe-help">
+        <b>¿No tienes tu firma electrónica todavía?</b>
+        <p>Nosotros te la conseguimos. Escríbenos por WhatsApp y gestionamos la compra por ti.</p>
+        <a class="btn btn-accent btn-sm" id="btnConseguirFE2" target="_blank" rel="noopener">💬 Conseguir firma por WhatsApp</a>
+      </div>
+      <div class="fe-sep"><span>o si ya la tienes</span></div>
+      <p class="muted" style="font-size:.9rem;">Sube tu certificado de firma electrónica (archivo <b>.p12</b>) y la clave con la que lo protegiste.</p>
+      <div class="field"><label>Archivo .p12</label><input id="feP12" type="file" accept=".p12,.pfx" /></div>
+      <div class="field"><label>Clave del certificado</label><input id="fePass" type="password" placeholder="clave de tu firma electrónica" /></div>
+      <div class="field"><label>Ambiente</label><select id="feAmb"><option value="1">Pruebas (certificación)</option><option value="2">Producción</option></select></div>
+      <p id="feResult" class="auth-mini"></p>
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:8px;">
+        <button class="btn btn-outline" id="feCancel">Cancelar</button>
+        <button class="btn btn-accent" id="feSave">Guardar certificado</button>
+      </div>
+      <p class="auth-mini">🔒 El archivo viaja cifrado por HTTPS y se guarda cifrado (AES-256) en el servidor. Solo se usa para firmar tus comprobantes.</p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="assets/config.js"></script>
+  <script src="assets/store.js"></script>
+  <script src="assets/hub.js"></script>
+</body>
+</html>

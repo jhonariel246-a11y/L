@@ -1,0 +1,23 @@
+# InsightPay — configuración de Netlify
+# Publica SOLO el frontend (no el código del servidor ni supabase/).
+# La lógica de backend irá en netlify/functions (serverless).
+
+[build]
+  # Arma una carpeta _site solo con los archivos del frontend.
+  command = "rm -rf _site && mkdir -p _site && cp *.html manifest.webmanifest sw.js _site/ && cp -r assets _site/"
+  publish = "_site"
+  functions = "netlify/functions"
+
+# La API se sirve por funciones serverless bajo /api/*
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+
+# Cabeceras de seguridad básicas
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

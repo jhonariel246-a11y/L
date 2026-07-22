@@ -1,0 +1,82 @@
+/* ==========================================================================
+   Insight POS — estilos de la app (auth, sync, ajustes móviles)
+   ========================================================================== */
+
+.pos-body { background: var(--bg); }
+
+/* ---- Pantalla de autenticación ---- */
+.auth-screen {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+}
+.auth-brand {
+  background: radial-gradient(900px 500px at 20% 0%, rgba(23,184,144,.28), transparent 55%),
+              linear-gradient(160deg, var(--brand-900), var(--brand-700));
+  color: #fff; padding: 54px clamp(24px, 5vw, 76px); display: flex; flex-direction: column; justify-content: center;
+}
+.auth-brand .brand { font-size: 1.3rem; margin-bottom: 40px; }
+.auth-brand h1 { font-size: clamp(1.7rem, 3vw, 2.6rem); line-height: 1.12; }
+.auth-brand p { color: #d7e2f2; font-size: 1.08rem; max-width: 44ch; margin-top: 10px; }
+.auth-points { list-style: none; padding: 0; margin: 28px 0 0; }
+.auth-points li { padding: 7px 0; color: #eaf1fb; font-size: 1rem; }
+
+.auth-card {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 48px clamp(22px, 4vw, 64px); background: var(--bg);
+}
+.auth-tabs { display: flex; gap: 6px; background: var(--bg-soft); padding: 6px; border-radius: 12px; margin-bottom: 24px; max-width: 420px; }
+.auth-switch { flex: 1; padding: .7em; border: none; background: transparent; border-radius: 8px; font-weight: 700; cursor: pointer; color: var(--ink-500); }
+.auth-switch.active { background: #fff; color: var(--brand-700); box-shadow: var(--shadow-sm); }
+.auth-form { max-width: 420px; }
+.auth-mini { font-size: .8rem; color: var(--ink-400); margin-top: 14px; }
+.grid-2c { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* ---- Estado de sincronización ---- */
+.sync { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: .8rem; padding: .2em .6em; border-radius: 999px; }
+.sync .sdot { width: 8px; height: 8px; border-radius: 50%; }
+.sync.online { color: #2ad0a5; } .sync.online .sdot { background: #2ad0a5; }
+.sync.offline { color: #ffcf6b; } .sync.offline .sdot { background: #ffcf6b; animation: blink 1.2s infinite; }
+
+/* La app ocupa ancho completo (no dentro de un contenedor demo) */
+#appScreen .app { border-radius: 0; min-height: 100vh; box-shadow: none; border: none; }
+#appScreen .panel { max-width: 1160px; margin: 0 auto; width: 100%; }
+.app-bar .store { display: flex; align-items: center; gap: 8px; }
+
+/* ---- Hub de módulos ---- */
+.hub { max-width: 1000px; margin: 0 auto; padding: 40px 22px 60px; }
+.hub-head { text-align: center; margin-bottom: 34px; }
+.hub-head h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); }
+.hub-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.hub-card {
+  position: relative; background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 26px; box-shadow: var(--shadow-sm); transition: transform .15s ease, box-shadow .15s ease, border-color .15s;
+  display: flex; flex-direction: column;
+}
+.hub-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--brand-400); }
+.hub-card .mod-ico { margin-bottom: 14px; }
+.hub-card h3 { font-size: 1.25rem; margin: 4px 0; }
+.hub-card p { color: var(--ink-500); font-size: .95rem; margin: 0 0 16px; }
+.hub-tag { position: absolute; top: 20px; right: 22px; font-size: .72rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--accent-600); background: rgba(23,184,144,.12); padding: .3em .7em; border-radius: 999px; }
+.hub-go { margin-top: auto; font-weight: 800; color: var(--brand-600); }
+
+.fe-box { display:flex; align-items:center; gap:18px; background:#fff; border:1px solid var(--line); border-radius: var(--radius); padding: 20px 24px; margin-top: 22px; box-shadow: var(--shadow-sm); }
+.fe-box .fe-info { flex:1; } .fe-box h3 { margin:0 0 4px; font-size:1.1rem; } .fe-box p { margin:0; font-size:.9rem; }
+.fe-actions { display:flex; gap:10px; flex-wrap:wrap; }
+.fe-help { background: rgba(23,184,144,.08); border:1px solid rgba(23,184,144,.3); border-radius: var(--radius-sm); padding:14px 16px; margin-bottom:6px; }
+.fe-help b { color: var(--accent-600); } .fe-help p { margin:.3em 0 .8em; font-size:.88rem; color: var(--ink-600, var(--ink-500)); }
+.fe-sep { display:flex; align-items:center; text-align:center; color:var(--ink-400); font-size:.8rem; margin:16px 0 10px; }
+.fe-sep::before, .fe-sep::after { content:""; flex:1; height:1px; background:var(--line); }
+.fe-sep span { padding:0 12px; }
+@media (max-width:620px){ .fe-box { flex-direction:column; align-items:stretch; } .fe-actions { flex-direction:column; } }
+
+@media (max-width: 860px) {
+  .auth-screen { grid-template-columns: 1fr; }
+  .auth-brand { padding: 40px 24px; }
+  .auth-brand h1 { font-size: 1.6rem; }
+  .auth-points { margin-top: 18px; }
+  .grid-2c { grid-template-columns: 1fr; }
+  .app-bar { flex-wrap: wrap; gap: 8px; }
+  .app-bar .store { font-size: .78rem; }
+  .hub-grid { grid-template-columns: 1fr; }
+}

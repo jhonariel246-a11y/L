@@ -1,0 +1,13 @@
+# Secretos de despliegue — NUNCA subir
+deploy/.env
+.env
+
+# Build de Netlify
+_site/
+
+# Datos locales
+server/data/
+server/node_modules/
+node_modules/
+*.p12
+*.pem

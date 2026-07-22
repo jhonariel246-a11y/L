@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Insight · Restaurante (POS)</title>
+  <meta name="theme-color" content="#0a1f3c" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="stylesheet" href="assets/restaurant.css" />
+  <link rel="stylesheet" href="assets/app-pos.css" />
+  <link rel="icon" href="assets/icon.svg" />
+</head>
+<body class="pos-body">
+  <div id="appScreen">
+    <div class="app" id="app">
+      <div class="app-bar">
+        <a href="app.html" class="btn btn-ghost btn-sm">← Módulos</a>
+        <div class="brand-mini" style="margin-left:8px;"><span class="brand-mark">i</span> Restaurante</div>
+        <div class="store">
+          <span id="syncState" class="sync online"><span class="sdot"></span> En línea</span>
+          · <b id="storeName">Mi restaurante</b>
+          <button id="btnLogout" class="btn btn-ghost btn-sm" style="margin-left:10px;">Salir</button>
+        </div>
+      </div>
+
+      <div class="tabs" id="tabs">
+        <button class="tab active" data-tab="mesas">🍽️ Mesas</button>
+        <button class="tab" data-tab="inventario">📦 Menú e inventario</button>
+        <button class="tab" data-tab="facturacion">🧾 Facturación</button>
+        <button class="tab" data-tab="reportes">📊 Reportes</button>
+      </div>
+
+      <div class="panel active" data-panel="mesas">
+        <div class="panel-head">
+          <h3 id="mesasTitle">Mesas del local</h3>
+          <div class="spacer"></div>
+          <button class="btn btn-accent btn-sm" id="btnParaLlevar">🛍️ Para llevar</button>
+          <button class="btn btn-outline btn-sm" id="btnResetDemo">↺ Reiniciar datos</button>
+        </div>
+        <div id="tablesView"><div class="tables-grid" id="tablesGrid"></div></div>
+        <div id="orderView" style="display:none;">
+          <div class="panel-head">
+            <button class="btn btn-outline btn-sm" id="btnBackTables">← Mesas</button>
+            <h3 id="orderTitle" style="margin-left:6px;">Mesa 1</h3>
+          </div>
+          <div class="order-layout">
+            <div>
+              <div class="menu-cats" id="menuCats"></div>
+              <div class="menu-items" id="menuItems"></div>
+            </div>
+            <div class="ticket">
+              <h4 id="ticketTitle">Cuenta</h4>
+              <div class="ticket-sub" id="ticketSub">Toca un plato para agregarlo</div>
+              <div class="ticket-lines" id="ticketLines"></div>
+              <div class="ticket-totals">
+                <div class="row"><span>Subtotal</span><span id="tSub">$0.00</span></div>
+                <div class="row"><span>IVA 15%</span><span id="tIva">$0.00</span></div>
+                <div class="row grand"><span>Total</span><span id="tTotal">$0.00</span></div>
+              </div>
+              <div class="ticket-actions">
+                <button class="btn btn-outline" id="btnKitchen">👨‍🍳 A cocina</button>
+                <button class="btn btn-accent" id="btnBill">🧾 Cobrar y facturar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" data-panel="inventario">
+        <div class="panel-head">
+          <h3>Menú e inventario</h3>
+          <div class="spacer"></div>
+          <button class="btn btn-primary btn-sm" id="btnAddItem">+ Agregar producto</button>
+        </div>
+        <div class="stat-row" id="invStats"></div>
+        <div class="table-wrap">
+          <table class="data">
+            <thead><tr><th>Producto</th><th>Categoría</th><th class="num">Precio</th><th class="num">Stock</th><th>Acciones</th></tr></thead>
+            <tbody id="invBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel" data-panel="facturacion">
+        <div class="panel-head">
+          <h3>Facturación</h3>
+          <div class="spacer"></div>
+          <span class="muted" style="font-size:.88rem;">Facturas: <b id="invCount">0</b></span>
+        </div>
+        <div class="grid-2">
+          <div class="table-wrap">
+            <table class="data"><thead><tr><th>N° Factura</th><th>Origen</th><th>Cliente</th><th class="num">Total</th></tr></thead><tbody id="billBody"></tbody></table>
+          </div>
+          <div id="invoicePreview"><div class="invoice-view"><p class="muted center" style="padding:30px 0;">Aquí verás el detalle de la factura seleccionada.</p></div></div>
+        </div>
+      </div>
+
+      <div class="panel" data-panel="reportes">
+        <div class="panel-head"><h3>Reportes</h3></div>
+        <div class="stat-row" id="repStats"></div>
+        <div class="grid-2">
+          <div><h4>Platos más vendidos</h4><div class="table-wrap"><table class="data"><thead><tr><th>Plato</th><th class="num">Vendidos</th><th class="num">Ingreso</th></tr></thead><tbody id="repTop"></tbody></table></div></div>
+          <div><h4>Ventas por canal</h4><div class="table-wrap"><table class="data"><thead><tr><th>Canal</th><th class="num">Órdenes</th><th class="num">Total</th></tr></thead><tbody id="repChannel"></tbody></table></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-back" id="modalBack">
+    <div class="modal">
+      <h3 id="itemModalTitle">Agregar producto al menú</h3>
+      <input type="hidden" id="fId" />
+      <div class="field"><label>Nombre del plato</label><input id="fName" placeholder="Ej. Bolón mixto" /></div>
+      <div class="field"><label>Categoría</label><select id="fCat"><option>Desayunos</option><option>Platos fuertes</option><option>Bebidas</option><option>Postres</option><option>Snacks</option></select></div>
+      <div class="grid-2c">
+        <div class="field"><label>Precio (USD)</label><input id="fPrice" type="number" step="0.25" min="0" placeholder="3.50" /></div>
+        <div class="field"><label>Stock</label><input id="fStock" type="number" min="0" placeholder="20" /></div>
+      </div>
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:8px;">
+        <button class="btn btn-outline" id="btnCancelItem">Cancelar</button>
+        <button class="btn btn-primary" id="btnSaveItem">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-back" id="billBack">
+    <div class="modal">
+      <h3>Emitir factura</h3>
+      <div class="field"><label>Tipo de cliente</label><select id="bType"><option value="final">Consumidor final</option><option value="ruc">Con RUC / Cédula</option></select></div>
+      <div class="field" id="bIdField" style="display:none;"><label>RUC / Cédula</label><input id="bId" placeholder="099XXXXXXXXX" /></div>
+      <div class="field" id="bNameField" style="display:none;"><label>Nombre / Razón social</label><input id="bName" placeholder="Nombre del cliente" /></div>
+      <div class="field"><label>Forma de pago</label><select id="bPay"><option>Efectivo</option><option>Tarjeta</option><option>Transferencia</option></select></div>
+      <div class="ticket-totals" style="background:var(--bg-soft); padding:14px; border-radius:12px;">
+        <div class="row"><span>Subtotal</span><span id="bSub">$0.00</span></div>
+        <div class="row"><span>IVA 15%</span><span id="bIva">$0.00</span></div>
+        <div class="row grand"><span>Total a cobrar</span><span id="bTotal">$0.00</span></div>
+      </div>
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:16px;">
+        <button class="btn btn-outline" id="btnCancelBill">Cancelar</button>
+        <button class="btn btn-accent" id="btnConfirmBill">Emitir y cobrar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="assets/store.js"></script>
+  <script src="assets/gate.js"></script>
+  <script src="assets/pos-app.js"></script>
+</body>
+</html>

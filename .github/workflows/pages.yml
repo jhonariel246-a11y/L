@@ -1,0 +1,42 @@
+name: Publicar sitio en GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+      - claude/restaurant-cafe-billing-system-kvy5sk
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Solo un despliegue a la vez
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Pages (lo habilita si aún no lo está)
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Subir el sitio (todo el repositorio)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Desplegar a GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

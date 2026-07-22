@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Insight · Cobros</title>
+  <meta name="theme-color" content="#0a1f3c" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="stylesheet" href="assets/restaurant.css" />
+  <link rel="stylesheet" href="assets/app-pos.css" />
+  <link rel="icon" href="assets/icon.svg" />
+</head>
+<body class="pos-body">
+  <div class="app">
+    <div class="app-bar">
+      <a href="app.html" class="btn btn-ghost btn-sm">← Módulos</a>
+      <div class="brand-mini" style="margin-left:8px;"><span class="brand-mark">i</span> Cobros</div>
+      <div class="store">
+        <span id="syncState" class="sync online"><span class="sdot"></span> En línea</span>
+        · <b id="storeName">Mi negocio</b>
+        <button id="btnLogout" class="btn btn-ghost btn-sm" style="margin-left:10px;">Salir</button>
+      </div>
+    </div>
+
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-tab="panel">📊 Panel</button>
+      <button class="tab" data-tab="socios">👤 Socios / alumnos</button>
+      <button class="tab" data-tab="historial">🧾 Pagos</button>
+    </div>
+
+    <!-- PANEL -->
+    <div class="panel active" data-panel="panel">
+      <div class="panel-head"><h3 id="panelTitle">Cobros del mes</h3><div class="spacer"></div>
+        <button class="btn btn-outline btn-sm" id="btnRemind">🔔 Recordar a morosos</button>
+      </div>
+      <div class="stat-row" id="cobStats"></div>
+      <h4>Estado de socios este mes</h4>
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>Socio</th><th>Plan</th><th class="num">Mensualidad</th><th>Estado</th><th>Acción</th></tr></thead>
+          <tbody id="statusBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SOCIOS -->
+    <div class="panel" data-panel="socios">
+      <div class="panel-head"><h3>Socios / alumnos</h3><div class="spacer"></div>
+        <button class="btn btn-primary btn-sm" id="btnAddMember">+ Agregar socio</button>
+      </div>
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>Nombre</th><th>Plan</th><th class="num">Mensualidad</th><th class="num">Día de cobro</th><th>WhatsApp</th><th>Acciones</th></tr></thead>
+          <tbody id="membersBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- HISTORIAL -->
+    <div class="panel" data-panel="historial">
+      <div class="panel-head"><h3>Pagos registrados</h3></div>
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>Fecha</th><th>Socio</th><th>Concepto</th><th class="num">Monto</th></tr></thead>
+          <tbody id="payBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal socio -->
+  <div class="modal-back" id="memberModal">
+    <div class="modal">
+      <h3 id="memberModalTitle">Agregar socio</h3>
+      <input type="hidden" id="mId" />
+      <div class="field"><label>Nombre completo</label><input id="mName" placeholder="Ej. Juan Pérez" /></div>
+      <div class="grid-2c">
+        <div class="field"><label>Plan</label><input id="mPlan" placeholder="Ej. Mensual full" /></div>
+        <div class="field"><label>Mensualidad (USD)</label><input id="mAmount" type="number" step="0.5" min="0" placeholder="30" /></div>
+      </div>
+      <div class="grid-2c">
+        <div class="field"><label>Día de cobro</label><input id="mDay" type="number" min="1" max="28" placeholder="5" /></div>
+        <div class="field"><label>WhatsApp</label><input id="mPhone" placeholder="+593 9XXXXXXXX" /></div>
+      </div>
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:8px;">
+        <button class="btn btn-outline" id="btnCancelMember">Cancelar</button>
+        <button class="btn btn-primary" id="btnSaveMember">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="assets/store.js"></script>
+  <script src="assets/gate.js"></script>
+  <script src="assets/cobros.js"></script>
+</body>
+</html>
