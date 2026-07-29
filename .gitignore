@@ -1,0 +1,4 @@
+vbaProject.bin
+workbook_tmp.xlsx
+__pycache__/
+*.pyc
