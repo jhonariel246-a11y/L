@@ -1,50 +1,39 @@
-# Ordenamiento de Datos en Excel (con macro VBA)
+# Ejercicio Práctico – Unidad 1: Paquetes Contables y Tributarios
 
-Libro de Excel habilitado para macros que contiene una tabla de datos de
-ejemplo y un macro **VBA para el ordenamiento de datos**.
+Resolución del ejercicio de la hoja **Instrucciones** (empresa de ejemplo
+*LOS INTELECTUALES S.A.* – Reporte de Ventas, Primer Trimestre 2026).
 
-## Contenido del repositorio
+## Archivos
 
 | Archivo | Descripción |
 |---|---|
-| `Ordenamiento_de_Datos.xlsm` | Libro de Excel listo para usar, con los datos y el macro ya integrado. |
-| `modOrdenamiento.bas` | Código fuente del macro VBA (por si desea revisarlo o importarlo). |
-| `tools/` | Scripts de Python usados para generar el `vbaProject.bin` e integrar el macro en el `.xlsm`. |
+| `Reporte_Ventas_Jhon_Martinez.xlsx` | Ejercicio resuelto (entregable). |
+| `archivo_original.xlsx` | Archivo original recibido, sin modificar. |
+| `scripts/resolver.py` | Script de Python (openpyxl) que genera el resuelto. |
 
-## El libro `Ordenamiento_de_Datos.xlsm`
+## Lo que se resolvió (pasos de la página 1)
 
-- **Hoja "Datos"**: tabla de ejemplo con 10 registros y las columnas
-  `ID`, `Nombre`, `Departamento`, `Edad`, `Salario` y `Fecha Ingreso`
-  (los datos vienen desordenados a propósito para probar el macro).
-- **Hoja "Instrucciones"**: guía rápida de uso dentro del propio archivo.
-- **Módulo VBA `modOrdenamiento`**: el macro de ordenamiento.
+1. **Formato + encabezado** en la hoja `Ventas`: título de la empresa,
+   *REPORTE DE VENTAS* y *PRIMER TRIMESTRE 2026*, tabla con estilos y
+   números en formato moneda.
+2. **Fórmulas**:
+   - `Subtotal = Cantidad × Precio Unitario`
+   - `IVA = Subtotal × $B$4` (referencia **absoluta** a la tasa de IVA 15 %)
+   - `Total Venta = Subtotal + IVA`
+   - Fila de **TOTALES** con `SUMA`.
+3. **Formato condicional** en `Total Venta`: verde si > $500, rojo si < $200.
+4. **Lista desplegable** en la columna `Categoría`
+   (Papelería, Tecnología, Oficina).
+5. **Gráfico de columnas**: ventas totales por mes (hoja `Gráficos`).
+6. **Gráfico circular**: ventas por categoría (hoja `Gráficos`).
+7. **Análisis Categoría × Mes** con `SUMIFS` (hoja `Análisis`), equivalente a
+   la tabla dinámica; incluye la guía para crear la tabla dinámica real y el
+   segmentador (slicer) por producto directamente en Excel.
 
-## Cómo usar el macro
-
-1. Abra `Ordenamiento_de_Datos.xlsm` en Excel.
-2. Si Excel lo pide, pulse **Habilitar contenido / macros**.
-3. Pulse **ALT + F8** para ver la lista de macros y ejecute el que necesite.
-   (También puede abrir el editor con **ALT + F11** para ver el código.)
-
-### Macros disponibles
-
-- **`OrdenarAscendente`** — pregunta el número de columna y ordena de menor a mayor.
-- **`OrdenarDescendente`** — pregunta el número de columna y ordena de mayor a menor.
-- **`OrdenarPorID`** — restaura el orden original ordenando por la columna `ID`.
-- **`OrdenarPorColumna(indice, ascendente)`** — rutina base reutilizable.
-- **`OrdenarArregloBurbuja(arr, ascendente)`** — ejemplo didáctico del
-  algoritmo de la burbuja aplicado a un arreglo.
-
-El macro detecta automáticamente el rango de datos (encabezados en la fila 1)
-y usa el motor de ordenamiento nativo de Excel, respetando la fila de títulos.
-
-## Regenerar el archivo (opcional)
-
-El `.xlsm` se puede reconstruir con las herramientas de la carpeta `tools/`:
+## Regenerar
 
 ```bash
 pip install openpyxl
-cd tools
-python build_bin.py      # genera vbaProject.bin desde modOrdenamiento.bas
-python build_xlsm.py     # arma Ordenamiento_de_Datos.xlsm
+cd scripts
+python resolver.py   # lee archivo_original.xlsx y genera el resuelto
 ```
