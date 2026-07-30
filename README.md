@@ -26,14 +26,16 @@ Resolución del ejercicio de la hoja **Instrucciones** (empresa de ejemplo
    (Papelería, Tecnología, Oficina).
 5. **Gráfico de columnas**: ventas totales por mes (hoja `Gráficos`).
 6. **Gráfico circular**: ventas por categoría (hoja `Gráficos`).
-7. **Análisis Categoría × Mes** con `SUMIFS` (hoja `Análisis`), equivalente a
-   la tabla dinámica; incluye la guía para crear la tabla dinámica real y el
-   segmentador (slicer) por producto directamente en Excel.
+7. **Tabla dinámica real + segmentador (slicer)** en la hoja `TablaDinamica`:
+   Categoría en filas, Mes en columnas, *Suma de Total Venta* en valores, y un
+   segmentador por **Producto** para filtrar dinámicamente. Además se deja la
+   hoja `Análisis` con el mismo cálculo por `SUMIFS` como respaldo.
 
 ## Regenerar
 
 ```bash
 pip install openpyxl
 cd scripts
-python resolver.py   # lee archivo_original.xlsx y genera el resuelto
+python resolver.py       # lee archivo_original.xlsx y genera el resuelto
+python inject_pivot.py   # inyecta la tabla dinámica + segmentador (partes OOXML)
 ```

@@ -85,8 +85,8 @@ def construir():
     rate.border = BORDE
 
     # --- Encabezados de la tabla (fila 5) ---
-    headers = ['Mes', 'Producto', 'Categoría', 'Cantidad\nVendida',
-               'Precio\nUnitario', 'Subtotal', 'IVA', 'Total\nVenta']
+    headers = ['Mes', 'Producto', 'Categoría', 'Cantidad Vendida',
+               'Precio Unitario', 'Subtotal', 'IVA', 'Total Venta']
     HR = 5
     for c, h in enumerate(headers, start=1):
         cell = ws.cell(HR, c, h)
@@ -304,6 +304,16 @@ def construir():
             "análisis calculado con SUMIFS.")
     wa.cell(r + 3, 1, nota).alignment = Alignment(wrap_text=True, vertical='top')
     wa.merge_cells(start_row=r + 3, start_column=1, end_row=r + 6, end_column=tot_col)
+
+    # ================= HOJA TABLA DINAMICA (paso 7) =================
+    wp = wb.create_sheet('TablaDinamica')
+    wp.sheet_view.showGridLines = False
+    wp.cell(1, 1, 'TABLA DINÁMICA – Ventas por Categoría y Mes').font = Font(
+        bold=True, size=14, color=azul)
+    wp.cell(2, 1, 'Segmentador (slicer) por Producto a la derecha →').font = Font(
+        italic=True, color='595959')
+    for c in range(1, 6):
+        wp.column_dimensions[get_column_letter(c)].width = 15
 
     # orden de hojas
     wb.move_sheet('Ventas', -wb.sheetnames.index('Ventas'))
