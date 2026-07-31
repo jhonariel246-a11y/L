@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LISI // SE VIENE ALGO GRANDE EN GUAYAQUIL</title>
+    <meta name="description" content="Se viene algo grande en Guayaquil. LISI está llegando.">
+    <meta property="og:title" content="SE VIENE ALGO GRANDE EN GUAYAQUIL. LISI ESTÁ LLEGANDO.">
+    <meta property="og:description" content="Acceso anticipado. Descarga la app y prepárate.">
+    <style>
+        :root {
+            --bg: #050607;
+            --fg: #00ff41;
+            --fg-dim: #0a8f2c;
+            --accent: #ff003c;
+            --scan: rgba(0, 255, 65, 0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            background: var(--bg);
+            color: var(--fg);
+            font-family: 'Courier New', Courier, monospace;
+            min-height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem 1.25rem;
+            position: relative;
+        }
+
+        /* ---- CRT scanlines overlay ---- */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 50;
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent 0,
+                transparent 2px,
+                var(--scan) 3px,
+                var(--scan) 3px
+            );
+        }
+
+        /* ---- flicker vignette ---- */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 49;
+            background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.85) 100%);
+            animation: flicker 4s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 0.9; }
+            48% { opacity: 0.88; }
+            50% { opacity: 0.72; }
+            52% { opacity: 0.9; }
+            70% { opacity: 0.85; }
+        }
+
+        /* ---- falling matrix rain ---- */
+        #matrix {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            opacity: 0.25;
+        }
+
+        .wrap {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 880px;
+            text-align: center;
+        }
+
+        .terminal-bar {
+            font-size: 0.8rem;
+            color: var(--fg-dim);
+            text-align: left;
+            border: 1px solid var(--fg-dim);
+            border-bottom: none;
+            padding: 0.5rem 0.9rem;
+            border-radius: 6px 6px 0 0;
+            background: rgba(0, 20, 5, 0.6);
+            letter-spacing: 1px;
+        }
+
+        .terminal {
+            border: 1px solid var(--fg-dim);
+            border-radius: 0 0 6px 6px;
+            background: rgba(0, 12, 3, 0.72);
+            padding: 2.5rem 1.5rem 3rem;
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.12), inset 0 0 60px rgba(0,0,0,0.6);
+            backdrop-filter: blur(1px);
+        }
+
+        .boot {
+            text-align: left;
+            font-size: 0.85rem;
+            color: var(--fg-dim);
+            min-height: 5.5em;
+            margin-bottom: 1.5rem;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 0.6em;
+            height: 1.1em;
+            background: var(--fg);
+            vertical-align: text-bottom;
+            animation: blink 1s steps(2) infinite;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* ---- GLITCH TITLE ---- */
+        h1 {
+            font-size: clamp(1.4rem, 5.2vw, 3.1rem);
+            line-height: 1.15;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            color: var(--fg);
+            text-shadow: 0 0 12px rgba(0,255,65,0.55);
+            margin: 0.5rem auto 1.6rem;
+            max-width: 20ch;
+        }
+
+        .glitch {
+            position: relative;
+            display: inline-block;
+        }
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            overflow: hidden;
+        }
+        .glitch::before {
+            color: var(--accent);
+            z-index: -1;
+            animation: glitch-1 2.4s infinite linear alternate-reverse;
+        }
+        .glitch::after {
+            color: #00e5ff;
+            z-index: -2;
+            animation: glitch-2 3.1s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-1 {
+            0%   { clip-path: inset(0 0 85% 0); transform: translate(-2px, -1px); }
+            20%  { clip-path: inset(40% 0 40% 0); transform: translate(3px, 1px); }
+            40%  { clip-path: inset(70% 0 10% 0); transform: translate(-3px, 0); }
+            60%  { clip-path: inset(10% 0 60% 0); transform: translate(2px, -2px); }
+            80%  { clip-path: inset(55% 0 20% 0); transform: translate(-1px, 1px); }
+            100% { clip-path: inset(30% 0 45% 0); transform: translate(2px, 0); }
+        }
+        @keyframes glitch-2 {
+            0%   { clip-path: inset(20% 0 55% 0); transform: translate(2px, 1px); }
+            25%  { clip-path: inset(65% 0 12% 0); transform: translate(-3px, -1px); }
+            50%  { clip-path: inset(35% 0 45% 0); transform: translate(3px, 2px); }
+            75%  { clip-path: inset(80% 0 5% 0); transform: translate(-2px, 0); }
+            100% { clip-path: inset(15% 0 70% 0); transform: translate(1px, -1px); }
+        }
+
+        .sub {
+            color: var(--fg-dim);
+            font-size: clamp(0.85rem, 2.6vw, 1.05rem);
+            letter-spacing: 3px;
+            margin-bottom: 2.2rem;
+        }
+
+        /* ---- DOWNLOAD BUTTON ---- */
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            color: var(--bg);
+            background: var(--fg);
+            font-weight: 900;
+            font-size: clamp(1rem, 3vw, 1.25rem);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 1rem 2.4rem;
+            border: 2px solid var(--fg);
+            border-radius: 4px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            box-shadow: 0 0 18px rgba(0,255,65,0.5);
+            animation: pulse 2.2s infinite;
+        }
+        .btn:hover {
+            background: transparent;
+            color: var(--fg);
+            box-shadow: 0 0 32px rgba(0,255,65,0.9);
+            transform: translateY(-2px);
+        }
+        .btn:active { transform: translateY(0); }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 18px rgba(0,255,65,0.5); }
+            50% { box-shadow: 0 0 34px rgba(0,255,65,0.95); }
+        }
+
+        .btn-note {
+            margin-top: 1rem;
+            font-size: 0.72rem;
+            color: var(--fg-dim);
+            letter-spacing: 1px;
+        }
+
+        footer {
+            position: relative;
+            z-index: 10;
+            margin-top: 2.5rem;
+            font-size: 0.7rem;
+            color: var(--fg-dim);
+            letter-spacing: 2px;
+            opacity: 0.7;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation: none !important; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix"></canvas>
+
+    <div class="wrap">
+        <div class="terminal-bar">root@lisi:~# ./iniciar_secuencia.sh</div>
+        <div class="terminal">
+            <div class="boot" id="boot"></div>
+
+            <h1>
+                <span class="glitch" data-text="SE VIENE ALGO GRANDE EN GUAYAQUIL.">SE VIENE ALGO GRANDE EN GUAYAQUIL.</span><br>
+                <span class="glitch" data-text="LISI ESTÁ LLEGANDO.">LISI ESTÁ LLEGANDO.</span>
+            </h1>
+
+            <p class="sub">[ ACCESO ANTICIPADO // CLASIFICADO ]</p>
+
+            <a class="btn" href="https://github.com/jhonariel246-a11y/lisi-web/releases/latest/download/lisi-acceso.apk" download="lisi-acceso.apk">&gt;_ DESCARGAR ACCESO</a>
+            <div class="btn-note">// lisi-acceso.apk &mdash; instala desde orígenes desconocidos</div>
+        </div>
+    </div>
+
+    <footer>GUAYAQUIL // 2026 &nbsp;·&nbsp; LISI_SYSTEM v0.1</footer>
+
+    <script>
+        /* ---- Terminal boot typing effect ---- */
+        const lines = [
+            "> conectando a la red de guayaquil...",
+            "> [OK] nodo localizado",
+            "> descifrando transmision...",
+            "> [WARN] senal interceptada",
+            "> objetivo: LISI",
+            "> estado: INMINENTE_",
+        ];
+        const boot = document.getElementById('boot');
+        let li = 0, ci = 0;
+        function type() {
+            if (li >= lines.length) {
+                boot.innerHTML = boot.textContent + '<span class="cursor"></span>';
+                return;
+            }
+            const line = lines[li];
+            boot.textContent += line[ci] || '';
+            ci++;
+            if (ci >= line.length) {
+                boot.textContent += "\n";
+                li++; ci = 0;
+                setTimeout(type, 320);
+            } else {
+                setTimeout(type, 22 + Math.random() * 30);
+            }
+        }
+        type();
+
+        /* ---- Matrix rain ---- */
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        let cols, drops;
+        const glyphs = "アカサタナLISI01011010ハマヤラワ$#@%".split("");
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            cols = Math.floor(canvas.width / 16);
+            drops = Array(cols).fill(1);
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        function draw() {
+            ctx.fillStyle = "rgba(5,6,7,0.08)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#00ff41";
+            ctx.font = "14px monospace";
+            for (let i = 0; i < drops.length; i++) {
+                const text = glyphs[Math.floor(Math.random() * glyphs.length)];
+                ctx.fillText(text, i * 16, drops[i] * 16);
+                if (drops[i] * 16 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!reduce) setInterval(draw, 55);
+    </script>
+</body>
+</html>
