@@ -1,0 +1,350 @@
+<!doctype html><html lang=es><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>Plan Ad Mavericks One</title>
+<style>
+  :root{
+    /* LIGHT (default) */
+    --ground:#f4f5f2;        /* Fog */
+    --surface:#ffffff;
+    --surface-2:#eef2ee;
+    --ink:#17362a;
+    --ink-soft:#4c5852;      /* green-biased neutral */
+    --line:#d7ddd8;
+    --forest:#22392f;
+    --deep:#17281f;
+    --signal:#00a100;
+    --signal-ink:#07140e;
+    --signal-dk:#007d00;
+    --sky:#4b9eff;
+    --amber:#f4bc3b;
+    --coral:#ff735c;
+    --supa:#2f9e6f;
+    --aws:#c9760a;
+    --now-bg:#fff3ef; --now-line:#ffc7b8; --now-ink:#8a4638; --now-tag-bg:#ffe1d8; --now-tag-ink:#a13b31;
+    --fut-bg:#eff9ef; --fut-line:#a9d9aa; --fut-ink:#2c4a38; --fut-tag-bg:#d7f0d7; --fut-tag-ink:#126728;
+    --hero-1:#17281f; --hero-2:#22392f; --hero-3:#24596a;
+    --hero-text:#ffffff; --hero-sub:#c9d3cd;
+    --shadow:0 10px 30px rgba(31,53,43,.08);
+    --press:0 5px 0 var(--signal-dk);
+    --sans:"Nunito Sans","Avenir Next","Segoe UI",system-ui,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --maxw:1080px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#12201a;
+      --surface:#1b2c23;
+      --surface-2:#213629;
+      --ink:#eaf1ec;
+      --ink-soft:#a9b8b0;
+      --line:#2c4436;
+      --forest:#2b4a3b;
+      --signal:#22c55e;
+      --signal-ink:#07140e;
+      --signal-dk:#0f7a3f;
+      --supa:#3ecf8e;
+      --aws:#ff9900;
+      --now-bg:#33211c; --now-line:#5a3128; --now-ink:#f0c3b6; --now-tag-bg:#4a271f; --now-tag-ink:#ff9d86;
+      --fut-bg:#183324; --fut-line:#2c5a3b; --fut-ink:#bfe6c6; --fut-tag-bg:#1f4a30; --fut-tag-ink:#7be29a;
+      --hero-1:#0e1c15; --hero-2:#17281f; --hero-3:#1c4150;
+      --hero-text:#ffffff; --hero-sub:#b8c6bd;
+      --shadow:0 12px 34px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#12201a; --surface:#1b2c23; --surface-2:#213629;
+    --ink:#eaf1ec; --ink-soft:#a9b8b0; --line:#2c4436; --forest:#2b4a3b;
+    --signal:#22c55e; --signal-ink:#07140e; --signal-dk:#0f7a3f; --supa:#3ecf8e; --aws:#ff9900;
+    --now-bg:#33211c; --now-line:#5a3128; --now-ink:#f0c3b6; --now-tag-bg:#4a271f; --now-tag-ink:#ff9d86;
+    --fut-bg:#183324; --fut-line:#2c5a3b; --fut-ink:#bfe6c6; --fut-tag-bg:#1f4a30; --fut-tag-ink:#7be29a;
+    --hero-1:#0e1c15; --hero-2:#17281f; --hero-3:#1c4150; --hero-text:#ffffff; --hero-sub:#b8c6bd;
+    --shadow:0 12px 34px rgba(0,0,0,.4);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--ground);color:var(--ink);
+    font-family:var(--sans);font-size:16px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;} *{transition:none!important;}}
+  a{color:inherit;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px;}
+
+  /* NAV */
+  .nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--ground) 86%,transparent);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  .nav .row{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px;}
+  .wm{font-weight:900;letter-spacing:.05em;font-size:16px;color:var(--ink);white-space:nowrap;}
+  .wm .one{background:var(--signal);color:var(--signal-ink);padding:2px 8px;border-radius:8px;font-size:11px;margin-left:5px;}
+  .nav nav{display:flex;gap:20px;}
+  .nav nav a{font-size:13.5px;font-weight:800;text-decoration:none;color:var(--ink-soft);}
+  .nav nav a:hover{color:var(--signal-dk);}
+  @media(max-width:760px){.nav nav{display:none;}}
+
+  /* HERO */
+  .hero{position:relative;overflow:hidden;color:var(--hero-text);
+    background:linear-gradient(120deg,var(--hero-1),var(--hero-2) 56%,var(--hero-3));}
+  .hero::after{content:"";position:absolute;width:460px;height:460px;right:-160px;top:-230px;
+    border:1px solid rgba(255,255,255,.14);border-radius:50%;box-shadow:0 0 0 40px rgba(255,255,255,.04);}
+  .hero .wrap{padding:64px 22px 60px;position:relative;z-index:1;}
+  .eyebrow{display:inline-block;font-size:12px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;color:var(--signal);}
+  .hero h1{font-size:clamp(32px,6vw,58px);line-height:1.02;letter-spacing:-.03em;font-weight:900;
+    margin:14px 0 16px;max-width:16ch;text-wrap:balance;}
+  .hero p.lead{font-size:clamp(16px,2.3vw,20px);color:var(--hero-sub);max-width:60ch;margin:0;}
+  .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;}
+  .chip{display:inline-flex;align-items:center;gap:8px;border-radius:24px;padding:8px 15px;
+    font-weight:800;font-size:13.5px;color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);}
+  .chip i{width:10px;height:10px;border-radius:50%;display:inline-block;}
+  .livenote{margin-top:24px;font-size:13.5px;color:var(--hero-sub);}
+  .livenote a{color:#fff;font-weight:800;text-decoration:underline;text-underline-offset:3px;}
+
+  /* SECTION */
+  section{padding:56px 0;border-top:1px solid var(--line);}
+  section:first-of-type{border-top:none;}
+  .kicker{font-size:12px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:var(--signal-dk);}
+  h2{font-size:clamp(24px,3.4vw,36px);line-height:1.05;letter-spacing:-.025em;font-weight:900;margin:8px 0 10px;text-wrap:balance;}
+  .sub{color:var(--ink-soft);max-width:64ch;margin:0 0 26px;font-size:15.5px;}
+
+  .grid{display:grid;gap:18px;}
+  .g2{grid-template-columns:1fr 1fr;}
+  .g3{grid-template-columns:repeat(3,1fr);}
+  .g4{grid-template-columns:repeat(2,1fr);}
+  @media(max-width:820px){.g2,.g3{grid-template-columns:1fr;}}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:var(--shadow);}
+  .card h3{margin:0 0 8px;font-size:19px;font-weight:900;letter-spacing:-.01em;}
+  .card p{margin:0;color:var(--ink-soft);font-size:15px;}
+  ul.clean{list-style:none;margin:6px 0 0;padding:0;}
+  ul.clean li{position:relative;padding-left:22px;margin:11px 0;font-size:15px;line-height:1.45;}
+  ul.clean li::before{content:"";position:absolute;left:2px;top:9px;width:8px;height:8px;border-radius:50%;background:var(--signal);}
+
+  .tag{display:inline-block;font-size:10.5px;font-weight:900;letter-spacing:.08em;padding:5px 12px;border-radius:24px;text-transform:uppercase;}
+  .ba-now{background:var(--now-bg);border-color:var(--now-line);}
+  .ba-now .tag{background:var(--now-tag-bg);color:var(--now-tag-ink);}
+  .ba-now ul.clean li{color:var(--now-ink);} .ba-now ul.clean li::before{background:var(--coral);}
+  .ba-fut{background:var(--fut-bg);border-color:var(--fut-line);}
+  .ba-fut .tag{background:var(--fut-tag-bg);color:var(--fut-tag-ink);}
+  .ba-fut ul.clean li{color:var(--fut-ink);}
+
+  .num{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:22px;color:#fff;margin-bottom:14px;}
+  .n-sig{background:var(--signal);color:var(--signal-ink);} .n-sky{background:var(--sky);} .n-amb{background:var(--amber);color:#3f2a00;} .n-forest{background:var(--forest);}
+  .n-coral{background:var(--coral);}
+
+  /* console */
+  .steps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;align-items:stretch;}
+  @media(max-width:820px){.steps{grid-template-columns:1fr;}}
+  .step{background:var(--surface-2);border:1px solid var(--line);border-radius:16px;padding:20px;text-align:center;}
+  .step .num{margin:0 auto 12px;width:46px;height:46px;font-size:20px;border-radius:12px;}
+  .step h3{font-size:16px;margin:0 0 6px;} .step p{font-size:13.5px;}
+  .console{margin-top:18px;display:grid;grid-template-columns:1.4fr 1fr;gap:16px;}
+  @media(max-width:820px){.console{grid-template-columns:1fr;}}
+  .mock{background:var(--surface-2);border:1px solid var(--line);border-radius:16px;padding:20px;}
+  .mock .field{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 13px;color:var(--ink-soft);font-size:14px;margin:8px 0;}
+  .mock .actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:6px;}
+  .btn{display:inline-block;background:var(--signal);color:var(--signal-ink);font-weight:900;
+    border-radius:11px;padding:10px 18px;font-size:14px;box-shadow:var(--press);border:none;}
+  .code{font-family:var(--mono);background:var(--deep);color:#8ff0b6;border-radius:10px;padding:10px 14px;font-weight:700;font-size:13.5px;letter-spacing:.04em;}
+
+  /* stack */
+  .stack{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  @media(max-width:820px){.stack{grid-template-columns:1fr;}}
+  .stack .card{padding:22px;}
+  .badge{display:inline-block;font-size:11px;font-weight:900;padding:3px 10px;border-radius:24px;margin-right:6px;}
+  .b-supa{background:color-mix(in srgb,var(--supa) 18%,transparent);color:var(--supa);}
+  .b-aws{background:color-mix(in srgb,var(--aws) 20%,transparent);color:var(--aws);}
+  .rowline{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line);}
+  .rowline:last-child{border-bottom:none;}
+  .rowline b{font-size:14.5px;} .rowline span{color:var(--ink-soft);font-size:14px;}
+  .rowdot{width:9px;height:9px;border-radius:50%;margin-top:7px;flex:0 0 auto;}
+
+  /* timeline */
+  .phases{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  @media(max-width:820px){.phases{grid-template-columns:1fr 1fr;}}
+  @media(max-width:520px){.phases{grid-template-columns:1fr;}}
+  .phase{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow);}
+  .phase h3{font-size:16px;margin:12px 0 6px;} .phase p{font-size:13.5px;color:var(--ink-soft);margin:0 0 12px;}
+  .weeks{display:inline-block;font-size:11.5px;font-weight:900;color:var(--signal-dk);background:color-mix(in srgb,var(--signal) 15%,transparent);padding:4px 10px;border-radius:24px;}
+  .tl{display:flex;border-radius:12px;overflow:hidden;margin-top:22px;border:1px solid var(--line);}
+  .tl span{padding:11px 6px;text-align:center;font-weight:900;font-size:12px;color:#fff;}
+  .note{color:var(--ink-soft);font-size:14px;font-style:italic;margin-top:12px;}
+
+  /* gold rule */
+  .gold{margin-top:8px;display:flex;gap:18px;align-items:center;background:var(--deep);color:#fff;border-radius:18px;padding:22px 24px;}
+  .gold .num{margin:0;flex:0 0 auto;}
+  .gold h3{color:#fff;margin:0 0 4px;font-size:18px;}
+  .gold p{color:var(--hero-sub);margin:0;font-size:14.5px;}
+
+  footer{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--ink-soft);font-size:13px;}
+</style>
+
+</head><body><header class="nav">
+  <div class="wrap row">
+    <div class="wm">AD MAVERICKS <span class="one">ONE</span></div>
+    <nav>
+      <a href="#hoy">Hoy vs. mañana</a>
+      <a href="#reforzar">Qué reforzamos</a>
+      <a href="#consola">Consola de alta</a>
+      <a href="#fases">Fases</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Plan de evolución · Agosto 2026</span>
+    <h1>Qué vamos a hacer con Ad Mavericks One.</h1>
+    <p class="lead">De una demostración a un producto real, seguro y multiempresa — listo para atender a clientes que pagan, sin cambiar lo que ya funciona en pantalla.</p>
+    <div class="chips">
+      <span class="chip"><i style="background:var(--signal)"></i>Seguro</span>
+      <span class="chip"><i style="background:var(--sky)"></i>Multiempresa</span>
+      <span class="chip"><i style="background:var(--amber)"></i>Listo para cobrar</span>
+    </div>
+    <p class="livenote">La aplicación en vivo hoy está en <a href="https://one.ad-mavericks.com" target="_blank" rel="noopener">one.ad-mavericks.com</a>. Esta página explica el plan: dónde está y qué construiremos.</p>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <section id="hoy">
+    <span class="kicker">El punto de partida</span>
+    <h2>Dónde estamos hoy y a dónde vamos</h2>
+    <p class="sub">La plataforma actual es perfecta para mostrar. Aún no es apta para abrir a clientes externos ni mover dinero. Esto es lo que cambia.</p>
+    <div class="grid g2">
+      <div class="card ba-now">
+        <span class="tag">Hoy · maqueta</span>
+        <h3 style="margin-top:12px">Sirve para mostrar</h3>
+        <ul class="clean">
+          <li>El acceso depende de un sistema prestado, no de una cuenta propia y segura.</li>
+          <li>La información vive medio suelta; difícil de proteger y de crecer.</li>
+          <li>Se aprueba un plan en pantalla, pero no hay compra real ni factura.</li>
+          <li>Un solo usuario por empresa; sin roles ni respaldos probados.</li>
+        </ul>
+      </div>
+      <div class="card ba-fut">
+        <span class="tag">Mañana · producto real</span>
+        <h3 style="margin-top:12px">Sirve para operar y cobrar</h3>
+        <ul class="clean">
+          <li>Cada cliente entra con su propia cuenta corporativa segura, por invitación.</li>
+          <li>Toda la información ordenada, protegida y con historial.</li>
+          <li>Reservas, órdenes, facturas y auditoría: compra vinculante de verdad.</li>
+          <li>Varias personas por empresa, cada una con su rol; respaldos y alertas.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="reforzar">
+    <span class="kicker">Los cimientos</span>
+    <h2>Qué vamos a reforzar</h2>
+    <p class="sub">No cambiamos las pantallas. Reforzamos tres cimientos sobre Supabase (datos y acceso) e infraestructura AWS.</p>
+    <div class="grid g3">
+      <div class="card"><div class="num n-sig">1</div><h3>Entrada segura</h3><p>Cada empresa entra con su cuenta, por invitación, con roles y permisos. Nadie entra por la puerta de atrás.</p></div>
+      <div class="card"><div class="num n-sky">2</div><h3>Base sólida</h3><p>Todos los datos en una base robusta y ordenada (Supabase). Cada cliente aislado: nunca ve datos de otro.</p></div>
+      <div class="card"><div class="num n-amb">3</div><h3>Escudo permanente</h3><p>Protección contra ataques, respaldos automáticos y vigilancia para detectar problemas a tiempo (AWS).</p></div>
+    </div>
+  </section>
+
+  <section id="consola">
+    <span class="kicker">La pieza que pediste</span>
+    <h2>Una consola simple para dar de alta a tus clientes</h2>
+    <p class="sub">Solo para tu equipo, pensada para personas que no saben nada de programación. Escriben el nombre del cliente y el sistema hace el resto.</p>
+    <div class="steps">
+      <div class="step"><div class="num n-sig">1</div><h3>Escriben el nombre</h3><p>Ingresan el nombre del cliente y unos pocos datos (empresa, correo, nº de usuarios).</p></div>
+      <div class="step"><div class="num n-sig">2</div><h3>Se genera el código</h3><p>Con un clic, el sistema crea al cliente y genera un código único de registro.</p></div>
+      <div class="step"><div class="num n-sig">3</div><h3>El cliente queda listo</h3><p>Se comparte el código; el cliente entra y aparece en su propia cuenta, aislada.</p></div>
+    </div>
+    <div class="console">
+      <div class="mock">
+        <div style="font-weight:900;margin-bottom:6px;">Así se vería (borrador)</div>
+        <div class="field">Nombre del cliente:&nbsp; Cervecería del Litoral</div>
+        <div class="field">Dominio de correo:&nbsp; @cresa.com.ec</div>
+        <div class="field">Usuarios / asientos:&nbsp; 5</div>
+        <div class="actions">
+          <span class="btn">Generar cliente →</span>
+          <span class="code">AMK-2026-CRESA-7F3Q</span>
+        </div>
+      </div>
+      <div class="card ba-fut" style="box-shadow:none">
+        <h3 style="font-size:16px">Por qué así (recomendación)</h3>
+        <ul class="clean">
+          <li>Sin tocar la base a mano — el propio programa registra por ellos.</li>
+          <li>Acceso solo para personal autorizado de Ad Mavericks.</li>
+          <li>Queda registro de quién dio de alta a quién y cuándo (auditoría).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="seguridad">
+    <span class="kicker">Tranquilidad</span>
+    <h2>Su información, protegida y respaldada</h2>
+    <p class="sub">Cuatro garantías desde el primer día, para ustedes y para sus clientes.</p>
+    <div class="grid g4">
+      <div class="card"><h3>Aislamiento por cliente</h3><p>Cada empresa en su propio “cuarto”. Nunca puede ver ni buscar datos de otra (RLS de Supabase).</p></div>
+      <div class="card"><h3>Respaldos probados</h3><p>Copias automáticas y recuperación a un punto en el tiempo, verificadas periódicamente.</p></div>
+      <div class="card"><h3>Escudo contra ataques</h3><p>Protección WAF y control de abuso sobre la infraestructura AWS.</p></div>
+      <div class="card"><h3>Datos honestos</h3><p>Nunca se inventa una cifra: si un dato no está verificado, se marca “pendiente de homologación”.</p></div>
+    </div>
+  </section>
+
+  <section id="stack">
+    <span class="kicker">Con qué se construye</span>
+    <h2>El stack: Supabase + AWS</h2>
+    <p class="sub">Económico, confiable y de primer nivel. Se conserva la app visual actual (Next.js / React); el cambio es de cimientos.</p>
+    <div class="stack">
+      <div class="card">
+        <div style="margin-bottom:6px"><span class="badge b-supa">Supabase</span> datos, acceso y archivos</div>
+        <div class="rowline"><span class="rowdot" style="background:var(--supa)"></span><div><b>Postgres</b> — <span>fuente de verdad de planes, clientes, reservas y órdenes.</span></div></div>
+        <div class="rowline"><span class="rowdot" style="background:var(--supa)"></span><div><b>RLS</b> — <span>aislamiento por cliente garantizado por la base.</span></div></div>
+        <div class="rowline"><span class="rowdot" style="background:var(--supa)"></span><div><b>Auth</b> — <span>login por invitación, roles, SSO y MFA.</span></div></div>
+        <div class="rowline"><span class="rowdot" style="background:var(--supa)"></span><div><b>Storage</b> — <span>archivos privados con enlaces firmados.</span></div></div>
+      </div>
+      <div class="card">
+        <div style="margin-bottom:6px"><span class="badge b-aws">AWS</span> infraestructura</div>
+        <div class="rowline"><span class="rowdot" style="background:var(--aws)"></span><div><b>Hosting</b> — <span>publica la web y las APIs (Amplify / ECS).</span></div></div>
+        <div class="rowline"><span class="rowdot" style="background:var(--aws)"></span><div><b>SES</b> — <span>correo transaccional económico y confiable.</span></div></div>
+        <div class="rowline"><span class="rowdot" style="background:var(--aws)"></span><div><b>CloudFront + WAF</b> — <span>rapidez global y escudo.</span></div></div>
+        <div class="rowline"><span class="rowdot" style="background:var(--aws)"></span><div><b>S3</b> — <span>respaldos y almacenamiento de objetos.</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="fases">
+    <span class="kicker">La ruta</span>
+    <h2>Cómo lo haremos: 4 fases</h2>
+    <p class="sub">Vamos por partes; cada fase entrega algo concreto. Primero los cimientos, después las compras reales.</p>
+    <div class="phases">
+      <div class="phase"><div class="num n-forest">0</div><h3>Preparación</h3><p>Herramientas y entornos listos; decisiones confirmadas.</p><span class="weeks">1–2 sem</span></div>
+      <div class="phase"><div class="num n-sig">1</div><h3>Seguridad + Consola</h3><p>Login, roles, aislamiento y la Consola de Alta de Clientes.</p><span class="weeks">4–6 sem</span></div>
+      <div class="phase"><div class="num n-sky">2</div><h3>Catálogo y cotización</h3><p>Proveedores, tarifas, cotizaciones y reservas reales.</p><span class="weeks">5–7 sem</span></div>
+      <div class="phase"><div class="num n-amb">3</div><h3>Órdenes, cobro y móvil</h3><p>Compra vinculante, facturación, cobro y app móvil.</p><span class="weeks">6–10 sem</span></div>
+    </div>
+    <div class="tl">
+      <span style="flex:1.5;background:var(--forest)">Fase 0</span>
+      <span style="flex:5;background:var(--signal);color:var(--signal-ink)">Fase 1</span>
+      <span style="flex:6;background:var(--sky)">Fase 2</span>
+      <span style="flex:8;background:var(--amber);color:#3f2a00">Fase 3</span>
+    </div>
+    <p class="note">Total aproximado: 4–6 meses (equipo de 2 personas). Las fases 2 y 3 pueden solaparse.</p>
+  </section>
+
+  <section id="siguiente">
+    <span class="kicker">El siguiente paso</span>
+    <h2>Qué necesitamos para arrancar</h2>
+    <p class="sub">Confirmar unas pocas decisiones y entregarnos los primeros accesos (Supabase, AWS, dominio y repositorio). Con eso arrancamos la Fase 1: seguridad, cuentas y la Consola de Alta de Clientes.</p>
+    <div class="gold">
+      <div class="num n-sig">!</div>
+      <div>
+        <h3>Regla de oro</h3>
+        <p>No se abre a clientes externos ni se cobra un solo dólar hasta tener la seguridad lista y el motor de reservas funcionando.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">Ad Mavericks One · Plan de evolución · Documento de trabajo — la disponibilidad y las condiciones comerciales se confirman antes de una compra vinculante.</div>
+</footer>
+</body></html>
